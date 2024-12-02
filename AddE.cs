@@ -33,31 +33,34 @@ namespace Agent
         }
         void checkEnable()
         {
-            var count = 0;
-            if (textBoxSurname.Text.Length > 0)
-                count++;
-            if (textBoxName.Text.Length > 0)
-                count++;
-            if (textBoxPatronomic.Text.Length > 0)
-                count++;
-            if (textBoxAdress.Text.Length > 0)
-                count++;
-            if (maskedTextBoxPhoneNumber.Text.Length >= 18)
-                count++;
-            if (textBoxLogin.Text.Length > 0)
-                count++;
-            if (textBoxPwd.Text.Length > 0)
-                count++;
-            if (comboBoxPost.SelectedIndex != -1)
-                count++;
+            if (flag == 1)
+            {
+                var count = 0;
+                if (textBoxSurname.Text.Length > 0)
+                    count++;
+                if (textBoxName.Text.Length > 0)
+                    count++;
+                if (textBoxPatronomic.Text.Length > 0)
+                    count++;
+                if (textBoxAdress.Text.Length > 0)
+                    count++;
+                if (maskedTextBoxPhoneNumber.MaskFull)
+                    count++;
+                if (textBoxLogin.Text.Length > 0)
+                    count++;
+                if (textBoxPwd.Text.Length > 0)
+                    count++;
+                if (comboBoxPost.SelectedIndex != -1)
+                    count++;
 
-            if (count == 8)
-            {
-                buttonAddS.Enabled = true;
-            }
-            else
-            {
-                buttonAddS.Enabled = false;
+                if (count == 8)
+                {
+                    buttonAddS.Enabled = true;
+                }
+                else
+                {
+                    buttonAddS.Enabled = false;
+                }
             }
         }
         void checkEnableUpdate()
@@ -325,13 +328,7 @@ namespace Agent
 
         private void maskedTextBoxPhoneNumber_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
-            if (empoyIds == 0)
-                checkEnable();
-            else
-            {
-                checkEnableUpdate();
-                checkEnable();
-            }
+            
         }
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
@@ -428,6 +425,17 @@ namespace Agent
         private void AddE_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void maskedTextBoxPhoneNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (empoyIds == 0)
+                checkEnable();
+            else
+            {
+                checkEnableUpdate();
+                checkEnable();
+            }
         }
     }
 }

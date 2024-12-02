@@ -147,6 +147,7 @@
             this.maskedTextBoxPhoneNumber.Size = new System.Drawing.Size(230, 34);
             this.maskedTextBoxPhoneNumber.TabIndex = 115;
             this.maskedTextBoxPhoneNumber.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskedTextBoxPhoneNumber_MaskInputRejected);
+            this.maskedTextBoxPhoneNumber.TextChanged += new System.EventHandler(this.maskedTextBoxPhoneNumber_TextChanged);
             // 
             // label4
             // 

@@ -65,35 +65,40 @@ namespace Agent
         }
         void checkEnable()
         {
-            var count = 0;
-            if (textBoxAdress.Text.Length > 0)
-                count++;
-            if (textBoxCond.Text.Length > 0)
-                count++;
-            if (textBoxObz.Text.Length > 0)
-                count++;
-            if (textBoxSalaryBefore.Text.Length > 0)
-                count++;
-            if (textBoxSalaryBy.Text.Length > 0)
-                count++;
-            if (textBoxTreb.Text.Length > 0)
-                count++;
-            if (comboBoxProfessioin.SelectedIndex != -1)
-                count++;
+            if (flag == 1)
+            {
+                var count = 0;
+                if (textBoxAdress.Text.Length > 0)
+                    count++;
+                if (textBoxCond.Text.Length > 0)
+                    count++;
+                if (textBoxObz.Text.Length > 0)
+                    count++;
+                if (textBoxSalaryBefore.Text.Length > 0)
+                    count++;
+                if (textBoxSalaryBy.Text.Length > 0)
+                    count++;
+                if (textBoxTreb.Text.Length > 0)
+                    count++;
+                if (comboBoxProfessioin.SelectedIndex != -1)
+                    count++;
 
-            if (count == 7)
-            {
-                buttonAddS.Enabled = true;
-            }
-            else
-            {
-                buttonAddS.Enabled = false;
+                if (count == 7)
+                {
+                    buttonAddS.Enabled = true;
+                }
+                else
+                {
+                    buttonAddS.Enabled = false;
+                }
             }
         }
         private void AddV_Load(object sender, EventArgs e)
         {
+
             MySqlConnection connection = new MySqlConnection(Connection.con);
             connection.Open();
+
             string find = $"SELECT name FROM profession;";
             MySqlCommand com = new MySqlCommand(find, connection);
             MySqlDataReader reader = com.ExecuteReader();
@@ -104,6 +109,9 @@ namespace Agent
                     comboBoxProfessioin.Items.Add(reader[0].ToString());
             }
             connection.Close();
+            comboBoxProfessioin.MaxDropDownItems = 5;
+            comboBoxProfessioin.DropDownWidth = 400;
+            
             if (vacancyIDS != 0)
             {
                 buttonAddS.Text = "Изменить";
@@ -235,6 +243,16 @@ namespace Agent
         {
             if (vacancyIDS == 0)
             {
+                int salaryBy = Convert.ToInt32(textBoxSalaryBy.Text);
+                int salaryBefor = Convert.ToInt32(textBoxSalaryBefore.Text);
+                if (salaryBy > salaryBefor)
+                {
+                    textBoxSalaryBefore.Text = salaryBy.ToString();
+                    textBoxSalaryBy.Text = salaryBefor.ToString();
+                }
+                
+                    
+
                 DialogResult result = MessageBox.Show(
                 "Добавить вакансию?",
                 "Подтверждение",
@@ -378,6 +396,11 @@ namespace Agent
         private void AddV_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void comboBoxProfessioin_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

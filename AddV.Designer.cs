@@ -63,7 +63,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(52, 72);
+            this.label9.Location = new System.Drawing.Point(12, 73);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(118, 27);
             this.label9.TabIndex = 133;
@@ -78,17 +78,20 @@
             this.comboBoxProfessioin.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold);
             this.comboBoxProfessioin.ForeColor = System.Drawing.Color.Black;
             this.comboBoxProfessioin.FormattingEnabled = true;
-            this.comboBoxProfessioin.Location = new System.Drawing.Point(243, 69);
+            this.comboBoxProfessioin.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.comboBoxProfessioin.ItemHeight = 27;
+            this.comboBoxProfessioin.Location = new System.Drawing.Point(142, 70);
             this.comboBoxProfessioin.Name = "comboBoxProfessioin";
-            this.comboBoxProfessioin.Size = new System.Drawing.Size(230, 35);
+            this.comboBoxProfessioin.Size = new System.Drawing.Size(316, 35);
             this.comboBoxProfessioin.TabIndex = 132;
             this.comboBoxProfessioin.SelectedIndexChanged += new System.EventHandler(this.comboBoxProfessioin_SelectedIndexChanged_1);
+            this.comboBoxProfessioin.TextChanged += new System.EventHandler(this.comboBoxProfessioin_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(52, 226);
+            this.label2.Location = new System.Drawing.Point(9, 224);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(130, 27);
             this.label2.TabIndex = 135;
@@ -102,11 +105,11 @@
             this.textBoxObz.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxObz.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxObz.ForeColor = System.Drawing.Color.Black;
-            this.textBoxObz.Location = new System.Drawing.Point(243, 204);
+            this.textBoxObz.Location = new System.Drawing.Point(142, 205);
             this.textBoxObz.MaxLength = 80;
             this.textBoxObz.Multiline = true;
             this.textBoxObz.Name = "textBoxObz";
-            this.textBoxObz.Size = new System.Drawing.Size(230, 63);
+            this.textBoxObz.Size = new System.Drawing.Size(316, 63);
             this.textBoxObz.TabIndex = 134;
             this.textBoxObz.TextChanged += new System.EventHandler(this.textBoxObz_TextChanged);
             this.textBoxObz.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxObz_KeyPress);
@@ -115,7 +118,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(49, 138);
+            this.label3.Location = new System.Drawing.Point(9, 139);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 27);
             this.label3.TabIndex = 137;
@@ -129,10 +132,10 @@
             this.textBoxTreb.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxTreb.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxTreb.ForeColor = System.Drawing.Color.Black;
-            this.textBoxTreb.Location = new System.Drawing.Point(243, 137);
+            this.textBoxTreb.Location = new System.Drawing.Point(142, 138);
             this.textBoxTreb.MaxLength = 80;
             this.textBoxTreb.Name = "textBoxTreb";
-            this.textBoxTreb.Size = new System.Drawing.Size(230, 34);
+            this.textBoxTreb.Size = new System.Drawing.Size(316, 34);
             this.textBoxTreb.TabIndex = 136;
             this.textBoxTreb.TextChanged += new System.EventHandler(this.textBoxTreb_TextChanged);
             this.textBoxTreb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTreb_KeyPress);
@@ -141,7 +144,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(62, 291);
+            this.label4.Location = new System.Drawing.Point(12, 292);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 27);
             this.label4.TabIndex = 139;
@@ -155,10 +158,10 @@
             this.textBoxCond.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxCond.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxCond.ForeColor = System.Drawing.Color.Black;
-            this.textBoxCond.Location = new System.Drawing.Point(243, 291);
+            this.textBoxCond.Location = new System.Drawing.Point(142, 292);
             this.textBoxCond.MaxLength = 80;
             this.textBoxCond.Name = "textBoxCond";
-            this.textBoxCond.Size = new System.Drawing.Size(230, 34);
+            this.textBoxCond.Size = new System.Drawing.Size(316, 34);
             this.textBoxCond.TabIndex = 138;
             this.textBoxCond.TextChanged += new System.EventHandler(this.textBoxCond_TextChanged);
             this.textBoxCond.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCond_KeyPress);
@@ -167,7 +170,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(528, 72);
+            this.label5.Location = new System.Drawing.Point(477, 73);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 27);
             this.label5.TabIndex = 141;
@@ -181,10 +184,10 @@
             this.textBoxSalaryBy.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxSalaryBy.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxSalaryBy.ForeColor = System.Drawing.Color.Black;
-            this.textBoxSalaryBy.Location = new System.Drawing.Point(674, 70);
-            this.textBoxSalaryBy.MaxLength = 80;
+            this.textBoxSalaryBy.Location = new System.Drawing.Point(612, 71);
+            this.textBoxSalaryBy.MaxLength = 7;
             this.textBoxSalaryBy.Name = "textBoxSalaryBy";
-            this.textBoxSalaryBy.Size = new System.Drawing.Size(230, 34);
+            this.textBoxSalaryBy.Size = new System.Drawing.Size(277, 34);
             this.textBoxSalaryBy.TabIndex = 140;
             this.textBoxSalaryBy.TextChanged += new System.EventHandler(this.textBoxSalaryBy_TextChanged);
             this.textBoxSalaryBy.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSalaryBy_KeyPress);
@@ -193,7 +196,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(528, 137);
+            this.label7.Location = new System.Drawing.Point(477, 139);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(129, 27);
             this.label7.TabIndex = 143;
@@ -207,10 +210,10 @@
             this.textBoxSalaryBefore.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxSalaryBefore.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxSalaryBefore.ForeColor = System.Drawing.Color.Black;
-            this.textBoxSalaryBefore.Location = new System.Drawing.Point(674, 135);
-            this.textBoxSalaryBefore.MaxLength = 80;
+            this.textBoxSalaryBefore.Location = new System.Drawing.Point(612, 136);
+            this.textBoxSalaryBefore.MaxLength = 7;
             this.textBoxSalaryBefore.Name = "textBoxSalaryBefore";
-            this.textBoxSalaryBefore.Size = new System.Drawing.Size(230, 34);
+            this.textBoxSalaryBefore.Size = new System.Drawing.Size(277, 34);
             this.textBoxSalaryBefore.TabIndex = 142;
             this.textBoxSalaryBefore.TextChanged += new System.EventHandler(this.textBoxSalaryBefore_TextChanged);
             this.textBoxSalaryBefore.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSalaryBefore_KeyPress);
@@ -219,7 +222,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(515, 211);
+            this.label8.Location = new System.Drawing.Point(464, 224);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(142, 27);
             this.label8.TabIndex = 145;
@@ -233,11 +236,11 @@
             this.textBoxAdress.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxAdress.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxAdress.ForeColor = System.Drawing.Color.Black;
-            this.textBoxAdress.Location = new System.Drawing.Point(674, 204);
-            this.textBoxAdress.MaxLength = 80;
+            this.textBoxAdress.Location = new System.Drawing.Point(612, 205);
+            this.textBoxAdress.MaxLength = 200;
             this.textBoxAdress.Multiline = true;
             this.textBoxAdress.Name = "textBoxAdress";
-            this.textBoxAdress.Size = new System.Drawing.Size(230, 63);
+            this.textBoxAdress.Size = new System.Drawing.Size(277, 63);
             this.textBoxAdress.TabIndex = 144;
             this.textBoxAdress.TextChanged += new System.EventHandler(this.textBoxAdress_TextChanged);
             this.textBoxAdress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAdress_KeyPress);
@@ -252,9 +255,9 @@
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
-            this.buttonAddS.Location = new System.Drawing.Point(520, 281);
+            this.buttonAddS.Location = new System.Drawing.Point(480, 282);
             this.buttonAddS.Name = "buttonAddS";
-            this.buttonAddS.Size = new System.Drawing.Size(168, 44);
+            this.buttonAddS.Size = new System.Drawing.Size(185, 44);
             this.buttonAddS.TabIndex = 146;
             this.buttonAddS.Text = "Добавить";
             this.buttonAddS.UseVisualStyleBackColor = false;
@@ -267,7 +270,7 @@
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(707, 281);
+            this.exit.Location = new System.Drawing.Point(692, 282);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(197, 44);
             this.exit.TabIndex = 147;

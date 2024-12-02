@@ -63,9 +63,9 @@
             this.comboBoxGender.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold);
             this.comboBoxGender.ForeColor = System.Drawing.Color.Black;
             this.comboBoxGender.FormattingEnabled = true;
-            this.comboBoxGender.Location = new System.Drawing.Point(629, 248);
+            this.comboBoxGender.Location = new System.Drawing.Point(615, 248);
             this.comboBoxGender.Name = "comboBoxGender";
-            this.comboBoxGender.Size = new System.Drawing.Size(230, 35);
+            this.comboBoxGender.Size = new System.Drawing.Size(244, 35);
             this.comboBoxGender.TabIndex = 8;
             this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
             // 
@@ -79,7 +79,7 @@
             this.textBoxName.Location = new System.Drawing.Point(148, 258);
             this.textBoxName.MaxLength = 20;
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(230, 34);
+            this.textBoxName.Size = new System.Drawing.Size(251, 34);
             this.textBoxName.TabIndex = 2;
             this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
             this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxName_KeyPress);
@@ -94,7 +94,7 @@
             this.textBoxSurname.Location = new System.Drawing.Point(148, 200);
             this.textBoxSurname.MaxLength = 20;
             this.textBoxSurname.Name = "textBoxSurname";
-            this.textBoxSurname.Size = new System.Drawing.Size(230, 34);
+            this.textBoxSurname.Size = new System.Drawing.Size(251, 34);
             this.textBoxSurname.TabIndex = 1;
             this.textBoxSurname.TextChanged += new System.EventHandler(this.textBoxSurname_TextChanged);
             this.textBoxSurname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSurname_KeyPress);
@@ -109,7 +109,7 @@
             this.textBoxPatronomic.Location = new System.Drawing.Point(148, 321);
             this.textBoxPatronomic.MaxLength = 20;
             this.textBoxPatronomic.Name = "textBoxPatronomic";
-            this.textBoxPatronomic.Size = new System.Drawing.Size(230, 34);
+            this.textBoxPatronomic.Size = new System.Drawing.Size(251, 34);
             this.textBoxPatronomic.TabIndex = 3;
             this.textBoxPatronomic.TextChanged += new System.EventHandler(this.textBoxPatronomic_TextChanged);
             this.textBoxPatronomic.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPatronomic_KeyPress);
@@ -171,10 +171,10 @@
             this.textBoxAdress.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxAdress.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxAdress.ForeColor = System.Drawing.Color.Black;
-            this.textBoxAdress.Location = new System.Drawing.Point(629, 80);
+            this.textBoxAdress.Location = new System.Drawing.Point(615, 80);
             this.textBoxAdress.MaxLength = 80;
             this.textBoxAdress.Name = "textBoxAdress";
-            this.textBoxAdress.Size = new System.Drawing.Size(230, 34);
+            this.textBoxAdress.Size = new System.Drawing.Size(244, 34);
             this.textBoxAdress.TabIndex = 5;
             this.textBoxAdress.TextChanged += new System.EventHandler(this.textBoxAdress_TextChanged);
             this.textBoxAdress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAdress_KeyPress);
@@ -188,9 +188,10 @@
             this.maskedTextBoxPhoneNumber.Location = new System.Drawing.Point(148, 371);
             this.maskedTextBoxPhoneNumber.Mask = "+7 (999) 000-00-00";
             this.maskedTextBoxPhoneNumber.Name = "maskedTextBoxPhoneNumber";
-            this.maskedTextBoxPhoneNumber.Size = new System.Drawing.Size(230, 34);
+            this.maskedTextBoxPhoneNumber.Size = new System.Drawing.Size(251, 34);
             this.maskedTextBoxPhoneNumber.TabIndex = 4;
             this.maskedTextBoxPhoneNumber.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskedTextBoxPhoneNumber_MaskInputRejected);
+            this.maskedTextBoxPhoneNumber.TextChanged += new System.EventHandler(this.maskedTextBoxPhoneNumber_TextChanged);
             // 
             // label6
             // 
@@ -209,11 +210,11 @@
             this.dateTimePicker1.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
             this.dateTimePicker1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold);
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(629, 136);
+            this.dateTimePicker1.Location = new System.Drawing.Point(615, 136);
             this.dateTimePicker1.MaxDate = new System.DateTime(2006, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(230, 34);
+            this.dateTimePicker1.Size = new System.Drawing.Size(244, 34);
             this.dateTimePicker1.TabIndex = 6;
             this.dateTimePicker1.Value = new System.DateTime(2006, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
@@ -255,9 +256,9 @@
             this.buttonImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonImage.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonImage.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonImage.Location = new System.Drawing.Point(629, 192);
+            this.buttonImage.Location = new System.Drawing.Point(615, 192);
             this.buttonImage.Name = "buttonImage";
-            this.buttonImage.Size = new System.Drawing.Size(230, 36);
+            this.buttonImage.Size = new System.Drawing.Size(244, 36);
             this.buttonImage.TabIndex = 7;
             this.buttonImage.Text = "Выбрать";
             this.buttonImage.UseVisualStyleBackColor = false;

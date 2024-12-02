@@ -177,5 +177,10 @@ namespace Agent
             exportToWord(dataTable);
             this.Close();
         }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePicker3.MaxDate = dateTimePicker1.Value;
+        }
     }
 }

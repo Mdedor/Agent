@@ -76,6 +76,7 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(182, 34);
             this.dateTimePicker1.TabIndex = 31;
             this.dateTimePicker1.Value = new System.DateTime(2024, 11, 30, 0, 0, 0, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label2
             // 

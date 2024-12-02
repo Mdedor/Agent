@@ -29,7 +29,7 @@ namespace Agent
 
             string Symbol = e.KeyChar.ToString();
 
-            if (!Regex.Match(Symbol, @"[а-яА-Я]|[\b]|[-]|[\s]|[.]|[,]").Success)
+            if (!Regex.Match(Symbol, @"[а-яА-Я]|[\b]|[-]|[\s]|[.]|[,]|[0-9]").Success)
             {
                 e.Handled = true;
             }

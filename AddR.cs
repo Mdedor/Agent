@@ -35,27 +35,30 @@ namespace Agent
         }
         void checkEnable()
         {
-            var count = 0;
-            if (textBoxEducation.Text.Length > 0)
-                count++;
-            if (textBoxSalary.Text.Length > 0)
-                count++;
-            if (textBoxPers.Text.Length > 0)
-                count++;
-            if (textBoxLang.Text.Length > 0)
-                count++;
-            if (comboBoxProfessioin.SelectedIndex != -1)
-                count++;
-            if (textBoxExp.Text.Length > 0)
-                count++;
+            if (flag == 1)
+            {
+                var count = 0;
+                if (textBoxEducation.Text.Length > 0)
+                    count++;
+                if (textBoxSalary.Text.Length > 0)
+                    count++;
+                if (textBoxPers.Text.Length > 0)
+                    count++;
+                if (textBoxLang.Text.Length > 0)
+                    count++;
+                if (comboBoxProfessioin.SelectedIndex != -1)
+                    count++;
+                if (textBoxExp.Text.Length > 0)
+                    count++;
 
-            if (count == 6)
-            {
-                buttonAddS.Enabled = true;
-            }
-            else
-            {
-                buttonAddS.Enabled = false;
+                if (count == 6)
+                {
+                    buttonAddS.Enabled = true;
+                }
+                else
+                {
+                    buttonAddS.Enabled = false;
+                }
             }
         }
         void checkEnableUpdate()
@@ -88,6 +91,7 @@ namespace Agent
         }
         private void AddR_Load(object sender, EventArgs e)
         {
+            
             MySqlConnection connection = new MySqlConnection(Connection.con);
             connection.Open();
             string find = $"SELECT name FROM profession;";
@@ -100,6 +104,8 @@ namespace Agent
                     comboBoxProfessioin.Items.Add(reader[0].ToString());
             }
             connection.Close();
+            comboBoxProfessioin.MaxDropDownItems = 5;
+            comboBoxProfessioin.DropDownWidth = 400;
             if (resumeId != 0)
             {
                 buttonAddS.Text = "Изменить";
@@ -195,7 +201,7 @@ namespace Agent
                 );
                 if (result == DialogResult.Yes)
                 {
-                    string searchIn = $@"UPDATE resume SET resume_profession = '{comboBoxProfessioin.SelectedIndex + 1}', salary = '{Convert.ToInt32(textBoxSalary.Text)}', resume_education = '{textBoxEducation.Text}', resume_work_experience = '{textBoxExp.Text}', resume_knowledge_of_languages = '{textBoxLang.Text}', resume_personal_qualities = '{textBoxPers.Text}';";
+                    string searchIn = $@"UPDATE resume SET resume_profession = '{comboBoxProfessioin.SelectedIndex + 1}', salary = '{Convert.ToInt32(textBoxSalary.Text)}', resume_education = '{textBoxEducation.Text}', resume_work_experience = '{textBoxExp.Text}', resume_knowledge_of_languages = '{textBoxLang.Text}', resume_personal_qualities = '{textBoxPers.Text}' WHERE  id = {resumeId};";
                     try
                     {
                         func.direction(searchIn);
@@ -321,7 +327,7 @@ namespace Agent
 
         private void textBoxExp_KeyPress(object sender, KeyPressEventArgs e)
         {
-           func.keyPressRuPlus(e);
+           func.rus_end(e);
         }
 
         private void textBoxLang_KeyPress(object sender, KeyPressEventArgs e)
