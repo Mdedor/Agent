@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
+using System.Configuration;
 
 
 namespace Agent
@@ -21,6 +22,7 @@ namespace Agent
         string loginBD;
         string passwordBD;
         int empId;
+        
         public Auntification()
         {
             InitializeComponent();
@@ -34,8 +36,10 @@ namespace Agent
         
         private void button1_Click(object sender, EventArgs e)
         {
+            string loginAdmin = ConfigurationManager.AppSettings[login].ToString();
+            string pwdAdmin = ConfigurationManager.AppSettings[login].ToString();
             if(string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPwd.Text))
-    {
+            {
                 string message = string.IsNullOrEmpty(textBoxLogin.Text) ? "Введите логин" : "Введите пароль";
                 MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; 

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using MySql.Data.MySqlClient;
+using System.Configuration;
+
 namespace Agent
 {
     public partial class AddE : Form
