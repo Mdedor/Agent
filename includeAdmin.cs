@@ -68,18 +68,30 @@ namespace Agent
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show(
+                "Востановить бд?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information
+                );
+            if (result == DialogResult.Yes)
+            {
+                filePath = "copy\\Резервная_копия (1).sql";
+                string cons = $"server={server}; uid={user}; pwd={pwd}";
+                string readText = File.ReadAllText(filePath);
+                MySqlConnection con = new MySqlConnection(cons);
+                con.Open();
 
-            filePath = "copy\\Резервная_копия (1).sql";
-            string cons = $"server={server}; uid={user}; pwd={pwd}";
-            string readText = File.ReadAllText(filePath);
-            MySqlConnection con = new MySqlConnection(cons);
-            con.Open();
+                MySqlCommand cmd = new MySqlCommand(readText, con);
+                int resulst = cmd.ExecuteNonQuery();
 
-            MySqlCommand cmd = new MySqlCommand(readText, con);
-            int result = cmd.ExecuteNonQuery();
+                con.Close();
+                load();
+            }
 
-            con.Close();
-            load();
+               
+        
+            
         }
     }
 }
