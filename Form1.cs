@@ -30,14 +30,15 @@ namespace Agent
 
         private void Auntification_Load(object sender, EventArgs e)
         {
-           
+            textBoxLogin.Text = "admin";
+            textBoxPwd.Text = "admin";
             
         }
         
         private void button1_Click(object sender, EventArgs e)
         {
-            string loginAdmin = ConfigurationManager.AppSettings[login].ToString();
-            string pwdAdmin = ConfigurationManager.AppSettings[login].ToString();
+            string loginAdmin = ConfigurationManager.AppSettings["loginAdmin"].ToString();
+            string pwdAdmin = ConfigurationManager.AppSettings["paswordAdmin"].ToString();
             if(string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPwd.Text))
             {
                 string message = string.IsNullOrEmpty(textBoxLogin.Text) ? "Введите логин" : "Введите пароль";
@@ -47,8 +48,16 @@ namespace Agent
             
                 login = textBoxLogin.Text;
                 password = textBoxPwd.Text;
+            if(login == loginAdmin && password == pwdAdmin)
+            {
+                includeAdmin includeAdmin = new includeAdmin();
+                includeAdmin.Show();
+                this.Hide();
+            }
+            else
+            {
                 passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
-            if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
+                if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
                 {
                     string post = func.search($"SELECT employe_post FROM employe WHERE employe_login = '{login}'");
                     empId = Convert.ToInt32(func.search($"SELECT id FROM employe WHERE employe_login = '{login}'"));
@@ -79,8 +88,7 @@ namespace Agent
                     textBoxLogin.Text = "";
                     textBoxPwd.Text = "";
                 }
-            
-        
+            }
         }
 
         private void exit_Click(object sender, EventArgs e)

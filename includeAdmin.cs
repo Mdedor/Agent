@@ -26,5 +26,19 @@ namespace Agent
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dataImport dataImport = new dataImport();
+            dataImport.Show();
+            this.Close();
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
+        }
     }
 }

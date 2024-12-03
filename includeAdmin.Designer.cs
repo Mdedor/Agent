@@ -48,6 +48,7 @@ namespace Agent
             this.exit.TabIndex = 85;
             this.exit.Text = "Назад";
             this.exit.UseVisualStyleBackColor = true;
+            this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
             // label6
             // 
@@ -73,6 +74,7 @@ namespace Agent
             this.button4.TabIndex = 86;
             this.button4.Text = "Импорт данных";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button1
             // 
