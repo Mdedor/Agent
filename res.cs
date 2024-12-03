@@ -55,7 +55,7 @@ namespace Agent
 
         private void res_Load(object sender, EventArgs e)
         {
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             MySqlCommand command = new MySqlCommand(searchIn, connection);
 

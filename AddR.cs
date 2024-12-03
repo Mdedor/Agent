@@ -92,7 +92,7 @@ namespace Agent
         private void AddR_Load(object sender, EventArgs e)
         {
             
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT name FROM profession;";
             MySqlCommand com = new MySqlCommand(find, connection);
@@ -110,7 +110,7 @@ namespace Agent
             {
                 buttonAddS.Text = "Изменить";
                 label1.Text = "Редактирование резюме";
-                MySqlConnection con = new MySqlConnection(Connection.con);
+                MySqlConnection con = new MySqlConnection(Connection.connect());
                 con.Open();
                 string search = $"SELECT * FROM resume WHERE id = {resumeId};";
                 MySqlCommand comm = new MySqlCommand(search, con);

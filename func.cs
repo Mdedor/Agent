@@ -81,7 +81,7 @@ namespace Agent
         static public void load(DataGridView gridView, string search)
         {
             
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             MySqlCommand command = new MySqlCommand(search, connection);
             command.ExecuteNonQuery();
@@ -94,7 +94,7 @@ namespace Agent
         
         public static string search(string com)
         {
-            MySqlConnection conn = new MySqlConnection(Connection.con);
+            MySqlConnection conn = new MySqlConnection(Connection.connect());
             conn.Open();
             MySqlCommand command = new MySqlCommand(com, conn);
             command.ExecuteScalar();
@@ -113,7 +113,7 @@ namespace Agent
         }
         public static void direction(string search)
         {
-            MySqlConnection con = new MySqlConnection(Connection.con);
+            MySqlConnection con = new MySqlConnection(Connection.connect());
             con.Open();
             MySqlCommand com = new MySqlCommand(search, con);
 

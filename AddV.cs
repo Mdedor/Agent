@@ -96,7 +96,7 @@ namespace Agent
         private void AddV_Load(object sender, EventArgs e)
         {
 
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
 
             string find = $"SELECT name FROM profession;";
@@ -117,7 +117,7 @@ namespace Agent
                 buttonAddS.Text = "Изменить";
                 label1.Text = "Редактирование вакансии";
 
-                MySqlConnection con = new MySqlConnection(Connection.con);
+                MySqlConnection con = new MySqlConnection(Connection.connect());
                 con.Open();
                 string search = $"SELECT * FROM vacancy WHERE id = {vacancyIDS};";
                 MySqlCommand comm = new MySqlCommand(search, con);

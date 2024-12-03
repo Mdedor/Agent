@@ -36,7 +36,7 @@ namespace Agent
 
         private void dataImport_Load(object sender, EventArgs e)
         {
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
 
             string find = "USE agent;SHOW tables;";
@@ -70,13 +70,12 @@ namespace Agent
 
         private void buttonAddS_Click_1(object sender, EventArgs e)
         {
-            string[] readText = File.ReadAllLines(filePath); // array lines from files
+            string[] readText = File.ReadAllLines(filePath); 
             string[] valField;
-            string[] titleField = readText[0].Split(';'); // first line - Title
+            string[] titleField = readText[0].Split(';'); 
             string strCmd = $"INSERT INTO {comboBoxTables.SelectedItem}({String.Join(",", titleField)}) VALUES ";
 
-            // INSERT ... VALUES (...,..., ...), (...,..., ...), .... (...,..., ...); 
-            foreach (string str in readText.Skip(1).ToArray())// skip first row in CSV files
+            foreach (string str in readText.Skip(1).ToArray())
             {
                 valField = str.Split(';');
                 strCmd += "(";
@@ -89,7 +88,7 @@ namespace Agent
                 strCmd += "),";
             }
             strCmd = strCmd.Substring(0, strCmd.Length - 1) + ";";
-            MySqlConnection con = new MySqlConnection(Connection.con);
+            MySqlConnection con = new MySqlConnection(Connection.connect());
             con.Open();
 
             MySqlCommand cmd = new MySqlCommand(strCmd, con);

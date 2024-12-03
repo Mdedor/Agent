@@ -106,7 +106,7 @@ namespace Agent
             {
                 buttonAddS.Text = "Изменить";
                 label1.Text = "Редактирование резюме";
-                MySqlConnection connection = new MySqlConnection(Connection.con);
+                MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
                 string find = $"SELECT * FROM employe WHERE id = {empoyIds};";
                 MySqlCommand com = new MySqlCommand(find, connection);

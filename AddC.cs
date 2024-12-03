@@ -89,7 +89,7 @@ namespace Agent
             {
                 buttonAddS.Text = "Изменить";
                 label1.Text = "Редактирование компании";
-                MySqlConnection con = new MySqlConnection(Connection.con);
+                MySqlConnection con = new MySqlConnection(Connection.connect());
                 con.Open();
                 string search = $"SELECT * FROM company WHERE id = {componys};";
                 MySqlCommand comm = new MySqlCommand(search, con);

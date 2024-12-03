@@ -75,7 +75,7 @@ namespace Agent
             comboBox1.Items.Add("По возрастанию зарплаты");
             comboBox1.Items.Add("По убыванию зарплаты");
             List<string> list = new List<string>();
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT name FROM profession;";
             MySqlCommand com = new MySqlCommand(find, connection);

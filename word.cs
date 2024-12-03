@@ -33,7 +33,7 @@ namespace Agent
         }
         public System.Data.DataTable returnDate(string query, System.Data.DataTable dataTable)
         {
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataAdapter adapter = new MySqlDataAdapter(command);

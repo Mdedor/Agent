@@ -148,7 +148,7 @@ namespace Agent
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
             comboBox2.Items.Add("Без фильтра");
             List<string> list = new List<string>();
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT name FROM profession;";
             MySqlCommand com = new MySqlCommand(find, connection);

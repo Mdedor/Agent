@@ -317,7 +317,7 @@ namespace Agent
                 buttonAddS.Text = "Изменить";
                 label1.Text = "Редактирование соискателя";
 
-                MySqlConnection connection = new MySqlConnection(Connection.con);
+                MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
                 string find = $"SELECT * FROM applicant WHERE applicant_id = {aplicantIds};";
                 MySqlCommand com = new MySqlCommand(find, connection);

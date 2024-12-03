@@ -30,7 +30,7 @@ namespace Agent
 
         private void enter_Click(object sender, EventArgs e)
         {
-            MySqlConnection connection = new MySqlConnection(Connection.con);
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT * FROM direction WHERE id = {dirs};";
             MySqlCommand com = new MySqlCommand(find, connection);

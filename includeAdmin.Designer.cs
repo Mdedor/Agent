@@ -33,6 +33,7 @@ namespace Agent
             this.label6 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // exit
@@ -88,8 +89,13 @@ namespace Agent
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(311, 44);
             this.button1.TabIndex = 87;
-            this.button1.Text = "Востановление базы данны";
+            this.button1.Text = "Востановление базы данных";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // includeAdmin
             // 
@@ -118,5 +124,6 @@ namespace Agent
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

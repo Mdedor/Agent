@@ -14,7 +14,14 @@ namespace Agent
         static string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString.ToString();
         static string user = ConfigurationManager.ConnectionStrings["user"].ConnectionString.ToString();
         static string pwd = ConfigurationManager.ConnectionStrings["pwd"].ConnectionString.ToString();
-
-        public static string con = $"server={server}; uid={user}; pwd={pwd}; database={db}";
+        public static string connect()
+        {
+         string con = $"server={server}; uid={user}; pwd={pwd}";
+            if (db != string.Empty)
+            {
+                con += $"; database={db}";
+            }
+            return con;
+        } 
     }
 }
