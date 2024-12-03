@@ -106,6 +106,12 @@
       <DependentUpon>AdminS.cs</DependentUpon>
     </Compile>
     <Compile Include="Connection.cs" />
+    <Compile Include="dataImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dataImport.Designer.cs">
+      <DependentUpon>dataImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="DirectionStatus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="func.cs" />
+    <Compile Include="includeAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="includeAdmin.Designer.cs">
+      <DependentUpon>includeAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,11 +218,17 @@
     <EmbeddedResource Include="AdminS.resx">
       <DependentUpon>AdminS.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="dataImport.resx">
+      <DependentUpon>dataImport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DirectionStatus.resx">
       <DependentUpon>DirectionStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="includeAdmin.resx">
+      <DependentUpon>includeAdmin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuAdmin.resx">
       <DependentUpon>MenuAdmin.cs</DependentUpon>

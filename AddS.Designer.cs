@@ -202,6 +202,7 @@
             this.label6.Size = new System.Drawing.Size(188, 27);
             this.label6.TabIndex = 41;
             this.label6.Text = "Адрес проживания";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // dateTimePicker1
             // 
