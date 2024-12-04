@@ -32,7 +32,7 @@ namespace Agent
         TextBox textBoxCaptcha = new TextBox();
         Label labelPods = new Label();
         Random Random = new Random();
-
+        string capcha;
         public Auntification()
         {
             InitializeComponent();
@@ -49,6 +49,24 @@ namespace Agent
         {
             edit();
         }
+        void auntification()
+        {
+            string post = func.search($"SELECT employe_post FROM employe WHERE employe_login = '{login}'");
+            empId = Convert.ToInt32(func.search($"SELECT id FROM employe WHERE employe_login = '{login}'"));
+            port.empIds = empId;
+            if (post == "1")
+            {
+                MenuAdmin admin = new MenuAdmin();
+                admin.Show();
+                this.Hide();
+            }
+            else if (post == "2")
+            {
+                MenuManager manager = new MenuManager();
+                manager.Show();
+                this.Hide();
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string loginAdmin = ConfigurationManager.AppSettings["loginAdmin"].ToString();
@@ -63,83 +81,120 @@ namespace Agent
             
                 login = textBoxLogin.Text;
                 password = textBoxPwd.Text;
-            if(login == loginAdmin && password == pwdAdmin)
+            if (!nextCaptcha)
             {
-                includeAdmin includeAdmin = new includeAdmin();
-                includeAdmin.Show();
-                this.Hide();
-            }
-            else
-            {
-                passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
-                if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
+                if (login == loginAdmin && password == pwdAdmin)
                 {
-                    string post = func.search($"SELECT employe_post FROM employe WHERE employe_login = '{login}'");
-                    empId = Convert.ToInt32(func.search($"SELECT id FROM employe WHERE employe_login = '{login}'"));
-                    port.empIds = empId;
-                    if (post == "1")
-                    {
-                        MenuAdmin admin = new MenuAdmin();
-                        admin.Show();
-                        this.Hide();
-                    }
-                    else if (post == "2")
-                    {
-                        MenuManager manager = new MenuManager();
-                        manager.Show();
-                        this.Hide();
-                    }
-
-                }else if (nextCaptcha)
-                {
-                    MessageBox.Show("Capcha");
+                    includeAdmin includeAdmin = new includeAdmin();
+                    includeAdmin.Show();
+                    this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "Авторизация не пройдена. Ошибка в логине или пароле.",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation
+                    passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
+                    if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
+                    {
+                        auntification();
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Авторизация не пройдена. Ошибка в логине или пароле.",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation
 
-                        );
-                    textBoxLogin.Text = "";
-                    textBoxPwd.Text = "";
-                    nextCaptcha = true;
-                    pbWidth = textBoxLogin.Width;
-                    pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
-                    pb.Size = new Size(pbWidth, pbHeight);
-                    updateCaptcha.Size = new Size(enter.Width, enter.Height);
-                    textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
-                    pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
-                    buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
-                    this.Width += this.Width;
-                    pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
-                    textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
-                    labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
+                            );
+                        textBoxLogin.Text = "";
+                        textBoxPwd.Text = "";
+                        nextCaptcha = true;
+                        pbWidth = textBoxLogin.Width;
+                        pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
+                        pb.Size = new Size(pbWidth, pbHeight);
+                        updateCaptcha.Size = new Size(enter.Width, enter.Height);
+                        textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
+                        pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
+                        buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
+                        this.Width += this.Width;
+                        pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
+                        textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
+                        labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
 
-                    textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
-                    textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
-                    labelPods.Width = pbWidth;
-                    labelPods.Text = "Введите текст, изображенный на картинке";
-                    updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
-                    updateCaptcha.Text = "Обновить";
-                    updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
-                    updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
-                    updateCaptcha.ForeColor = Color.White;
-                    updateCaptcha.FlatStyle = FlatStyle.Flat;
-                    updateCaptcha.Cursor = new Cursor(Handle);
-                    pb.Name = "pictureBox2";
-                    this.Controls.Add(pb);
-                    this.Controls.Add(textBoxCaptcha);
-                    this.Controls.Add(updateCaptcha);
-                    this.Controls.Add(labelPods);
-                    edit();
+                        textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
+                        textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
+                        labelPods.Width = pbWidth;
+                        labelPods.Text = "Введите текст, изображенный на картинке";
+                        updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
+                        updateCaptcha.Text = "Обновить";
+                        updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
+                        updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
+                        updateCaptcha.ForeColor = Color.White;
+                        updateCaptcha.FlatStyle = FlatStyle.Flat;
+                        updateCaptcha.Cursor = new Cursor(Handle);
+                        pb.Name = "pictureBox2";
+                        this.Controls.Add(pb);
+                        this.Controls.Add(textBoxCaptcha);
+                        this.Controls.Add(updateCaptcha);
+                        this.Controls.Add(labelPods);
+                        edit();
+                    }
                 }
             }
+            else
+            {
+                if (textBoxCaptcha.Text != "")
+                {
+                    passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
+                    if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text == capcha)
+                    {
+                        auntification();
+                    }else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
+                    {
+                        MessageBox.Show(
+                                "Капча не пройдена",
+                                "Ошибка",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation
+
+                                );
+                        edit();
+                    }
+                    else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
+                        {
+                            includeAdmin includeAdmin = new includeAdmin();
+                            includeAdmin.Show();
+                            this.Hide();
+                    }
+                    else 
+                    {
+                        MessageBox.Show(
+                            "Авторизация не пройдена.",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation
+                            );
+                        edit();
+                    }
+                 }
+                else
+                {
+                    MessageBox.Show(
+                           "Введите капчу",
+                           "Ошибка",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Exclamation
+
+                           );
+                }
+
+
+
+            }
+            
         }
         void edit()
         {
+            capcha = "";
             string alfEng = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
             char[] masAlf = alfEng.ToCharArray();
             using (Bitmap bitmap = new Bitmap(((Point)textBoxLogin.Size).X,200))
@@ -166,13 +221,23 @@ namespace Agent
                             Pen pen = new Pen(Color.Gray, 1);
                             for (int i = 0; i < Random.Next(4,6); i++)
                             {
-                                graphics.DrawString($"{masAlf[Random.Next(0, masAlf.Length-1)]}", font, brush, new PointF(x, y));
+                                char mas = masAlf[Random.Next(0, masAlf.Length - 1)];
+                                graphics.DrawString($"{mas}", font, brush, new PointF(x, y));
                                 x += Random.Next(24,60);
                                 y = Random.Next(0, pbHeight - 40);
-                                graphics.DrawLine(pen, new PointF(0, y), new PointF(x, y));
+
+                                capcha += mas.ToString();
                             }
-                            
-                            
+                            for (int i = 0;i < pbHeight; i +=5)
+                            {
+                                graphics.DrawLine(pen, new PointF(0, i), new PointF(pbWidth, i));
+                            }
+                            for (int i = 0; i < pbWidth; i += 5)
+                            {
+                                graphics.DrawLine(pen, new PointF(i, 0), new PointF(i, pbHeight));
+                            }
+                            graphics.DrawLine(pen, new PointF(0, 0), new PointF(pbWidth, pbHeight));
+                            graphics.DrawLine(pen, new PointF(0, pbHeight), new PointF(pbWidth,0));
 
                         }
                     }
