@@ -23,6 +23,16 @@ namespace Agent
         string passwordBD;
         int empId;
         bool nextCaptcha;
+        int pbWidth;
+        int pbHeight;
+        int pictureX;
+        int buttonX;
+        PictureBox pb = new PictureBox();
+        Button updateCaptcha = new Button();
+        TextBox textBoxCaptcha = new TextBox();
+        Label labelPods = new Label();
+        Random Random = new Random();
+
         public Auntification()
         {
             InitializeComponent();
@@ -30,11 +40,15 @@ namespace Agent
 
         private void Auntification_Load(object sender, EventArgs e)
         {
-            textBoxLogin.Text = "admin";
+            textBoxLogin.Text = "admins";
             textBoxPwd.Text = "admin";
+            updateCaptcha.Click += buttonClicl;
             
         }
-        
+        private void buttonClicl(object sender, EventArgs eventArgs)
+        {
+            edit();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string loginAdmin = ConfigurationManager.AppSettings["loginAdmin"].ToString();
@@ -92,13 +106,83 @@ namespace Agent
                     textBoxLogin.Text = "";
                     textBoxPwd.Text = "";
                     nextCaptcha = true;
+                    pbWidth = textBoxLogin.Width;
+                    pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
+                    pb.Size = new Size(pbWidth, pbHeight);
+                    updateCaptcha.Size = new Size(enter.Width, enter.Height);
+                    textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
+                    pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
+                    buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
+                    this.Width += this.Width;
+                    pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
+                    textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
+                    labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
+
+                    textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
+                    textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
+                    labelPods.Width = pbWidth;
+                    labelPods.Text = "Введите текст, изображенный на картинке";
+                    updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
+                    updateCaptcha.Text = "Обновить";
+                    updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
+                    updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
+                    updateCaptcha.ForeColor = Color.White;
+                    updateCaptcha.FlatStyle = FlatStyle.Flat;
+                    updateCaptcha.Cursor = new Cursor(Handle);
+                    pb.Name = "pictureBox2";
+                    this.Controls.Add(pb);
+                    this.Controls.Add(textBoxCaptcha);
+                    this.Controls.Add(updateCaptcha);
+                    this.Controls.Add(labelPods);
                     edit();
                 }
             }
         }
         void edit()
         {
-            
+            string alfEng = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+            char[] masAlf = alfEng.ToCharArray();
+            using (Bitmap bitmap = new Bitmap(((Point)textBoxLogin.Size).X,200))
+            {
+                // Создаем графику из изображения
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    // Заполняем фон белым цветом
+                    graphics.Clear(Color.Gold);
+
+                    // Рисуем красный прямоугольник
+                    using (Brush brush = new SolidBrush(Color.Red))
+                    {
+                        graphics.FillRectangle(brush, pbWidth, pbHeight, pbWidth, pbHeight);
+                    }
+
+                    // Рисуем текст
+                    using (Font font = new Font("Comic Sans MS", 24))
+                    {
+                        using (Brush brush = new SolidBrush(Color.Black))
+                        {
+                            int x = 10;
+                            int y = 10;
+                            Pen pen = new Pen(Color.Gray, 1);
+                            for (int i = 0; i < Random.Next(4,6); i++)
+                            {
+                                graphics.DrawString($"{masAlf[Random.Next(0, masAlf.Length-1)]}", font, brush, new PointF(x, y));
+                                x += Random.Next(24,60);
+                                y = Random.Next(0, pbHeight - 40);
+                                graphics.DrawLine(pen, new PointF(0, y), new PointF(x, y));
+                            }
+                            
+                            
+
+                        }
+                    }
+                }
+
+
+                pb.Image = (Bitmap)bitmap.Clone();
+            }
+
+           
         }
         private void exit_Click(object sender, EventArgs e)
         {
