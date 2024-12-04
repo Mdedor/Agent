@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Configuration;
-
+using System.Threading.Tasks;
 
 namespace Agent
 {
@@ -27,6 +27,7 @@ namespace Agent
         int pbHeight;
         int pictureX;
         int buttonX;
+        int countEr;
         PictureBox pb = new PictureBox();
         Button updateCaptcha = new Button();
         TextBox textBoxCaptcha = new TextBox();
@@ -48,6 +49,28 @@ namespace Agent
         private void buttonClicl(object sender, EventArgs eventArgs)
         {
             edit();
+        }
+        private void SetControlsEnabled(Control control, bool enabled)
+        {
+            foreach (Control c in control.Controls)
+            {
+                c.Enabled = enabled;
+                // Если есть вложенные элементы управления, рекурсивно отключаем/включаем их
+                if (c.HasChildren)
+                {
+                    SetControlsEnabled(c, enabled);
+                }
+            }
+        }
+        void sleep()
+        {
+            SetControlsEnabled(this, false);
+
+            // Ждем 10 секунд
+            System.Threading.Thread.Sleep(10000);
+
+            // Включаем все элементы управления обратно
+            SetControlsEnabled(this, true);
         }
         void auntification()
         {
@@ -142,6 +165,7 @@ namespace Agent
             }
             else
             {
+                countEr++;
                 if (textBoxCaptcha.Text != "")
                 {
                     passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
@@ -186,9 +210,11 @@ namespace Agent
 
                            );
                 }
-
-
-
+                enter.Enabled = false;
+                sleep();
+                enter.Enabled = true;
+                textBoxLogin.Text = "";
+                textBoxPwd.Text = "";
             }
             
         }
