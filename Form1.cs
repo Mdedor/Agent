@@ -22,7 +22,7 @@ namespace Agent
         string loginBD;
         string passwordBD;
         int empId;
-        
+        bool nextCaptcha;
         public Auntification()
         {
             InitializeComponent();
@@ -43,8 +43,9 @@ namespace Agent
             {
                 string message = string.IsNullOrEmpty(textBoxLogin.Text) ? "Введите логин" : "Введите пароль";
                 MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nextCaptcha = true;
                 return; 
-            }
+            }//добавить сообщение о незаполненности capcha
             
                 login = textBoxLogin.Text;
                 password = textBoxPwd.Text;
@@ -75,6 +76,9 @@ namespace Agent
                         this.Hide();
                     }
 
+                }else if (nextCaptcha)
+                {
+                    MessageBox.Show("Capcha");
                 }
                 else
                 {
@@ -87,10 +91,15 @@ namespace Agent
                         );
                     textBoxLogin.Text = "";
                     textBoxPwd.Text = "";
+                    nextCaptcha = true;
+                    edit();
                 }
             }
         }
-
+        void edit()
+        {
+            
+        }
         private void exit_Click(object sender, EventArgs e)
         {
             DialogResult results = MessageBox.Show(
