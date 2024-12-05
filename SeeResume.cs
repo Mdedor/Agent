@@ -49,7 +49,7 @@ namespace Agent
                     comboBox2.Visible = true;
                     label1.Visible = true;
                     label2.Visible = true;
-                    label2.Text = $"{countRecords} / {countRecordsBD}";
+                    label2.Text = $"{countRecords} из {countRecordsBD}";
                 }
             }else if (roleEmp == "1") 
             { 
@@ -185,7 +185,7 @@ namespace Agent
                 basis += $"ORDER BY resume.salary DESC";
             }
             countRecords = func.records(searchNowCount);
-            label2.Text = $"{countRecords} / {countRecordsBD}";
+            label2.Text = $"{countRecords} из {countRecordsBD}";
             return basis;
         }
         void click_to(object sender, EventArgs e)

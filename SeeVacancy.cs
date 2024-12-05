@@ -23,6 +23,7 @@ namespace Agent
         int applicantId;
         int countRecordsBD;
         int countRecords;
+        int page = 1;
         string searchNowCount;
         //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume=0, string profession = "")
@@ -47,8 +48,9 @@ namespace Agent
                     comboBox2.Visible = true;
                     label1.Visible = true;
                     label2.Visible = true;
-                    
-                    label2.Text = $"{countRecords} / {countRecordsBD}";
+                    label3.Visible = true;
+                    label4.Visible = true;
+                    label2.Text = $"{countRecords} из  {countRecordsBD}";
                 }
                 else
                 {
@@ -96,7 +98,7 @@ namespace Agent
                 basis += $"ORDER BY vacancy.vacancy_salary_by DESC";
             }
             countRecords = func.records(searchNowCount);
-            label2.Text = $"{countRecords} / {countRecordsBD}";
+            label2.Text = $"{countRecords} из {countRecordsBD}";
             return basis;
         }
         void load_load()
@@ -181,34 +183,32 @@ namespace Agent
 
             comboBox1.Items.Add("По возрастанию зарплаты");
             comboBox1.Items.Add("По убыванию зарплаты");
-            load_load();
-        }
 
-        private void exit_Click(object sender, EventArgs e)
+            load_load();
+            editPage();
+
+        }
+        void editPage()
         {
-            if (roleEmp == "2")
+            dataGridView1.CurrentCell = null;
+
+            int countRow = 20;
+            int startRow = 20 * (page - 1);
+            int endRow = startRow + countRow;
+
+            for (int i = 0; i < countRecords; i++)
             {
-                if (resume == 0)
+                if (i < startRow || i > endRow)
                 {
-                    MenuManager menuManager = new MenuManager();
-                    menuManager.Show();
-                    this.Close();
+                    dataGridView1.Rows[i].Visible = false;
                 }
                 else
                 {
-                    res res = new res(0, resume);
-                    res.Show();
-                    this.Close();
+                    dataGridView1.Rows[i].Visible = true;
                 }
+
             }
-            else
-            {
-                MenuAdmin menuA = new MenuAdmin();
-                menuA.Show();
-                this.Close();
-            }
-            
-            
+
         }
         void change()
         {
@@ -396,6 +396,44 @@ namespace Agent
         private void SeeVacancy_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            page++;
+            editPage();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            if(page >1)
+                page--;
+            editPage();
+        }
+
+        private void exit_Click_1(object sender, EventArgs e)
+        {
+            if (roleEmp == "2")
+            {
+                if (resume == 0)
+                {
+                    MenuManager menuManager = new MenuManager();
+                    menuManager.Show();
+                    this.Close();
+                }
+                else
+                {
+                    res res = new res(0, resume);
+                    res.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                MenuAdmin menuA = new MenuAdmin();
+                menuA.Show();
+                this.Close();
+            }
         }
     }
 }
