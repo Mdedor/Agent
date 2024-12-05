@@ -38,7 +38,8 @@ namespace Agent
             searchIn = $@"SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия',   CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты', vacancy.vacancy_address as 'Адресс работы', vacancy.vacancy_delete_status as 'Status', companyc_linq as 'Cсылка'   
                         FROM vacancy 
                         INNER JOIN company ON vacancy.vacancy_company = company.id 
-                        INNER JOIN profession ON vacancy.vacancy_profession = profession.id";
+                        INNER JOIN profession ON vacancy.vacancy_profession = profession.id
+                        where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
             if (roleEmp == "2" ) 
             {
                 if (resume == 0)
@@ -55,7 +56,7 @@ namespace Agent
                 else
                 {
                     applicantId = Convert.ToInt32(func.search($"SELECT resume_applicant FROM resume WHERE id = {idResume}"));
-                    searchIn += $" WHERE profession.name = '{profession}' ";
+                    searchIn += $" AND (profession.name = '{profession}') ";
                 }
                 
             }
@@ -68,26 +69,19 @@ namespace Agent
             string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
                             "FROM vacancy " +
                             "INNER JOIN company ON vacancy.vacancy_company = company.id " +
-                            "INNER JOIN profession ON vacancy.vacancy_profession = profession.id ";
-            if ((comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0)&& resume==0)
-            {
-                basis += "WHERE ";
-
-            }
+                            "INNER JOIN profession ON vacancy.vacancy_profession = profession.id " +
+                            "where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4) ";
+            
             if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
             {
-                basis += $"(profession.name = '{comboBox2.SelectedItem}')";
+                basis += $" AND (profession.name = '{comboBox2.SelectedItem}')";
                 searchNowCount += $" AND (profession.name = '{comboBox2.SelectedItem}')";
             }
             if (textBoxSearch.Text.Length > 0)
             {
-                if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
-                {
-                    basis += " AND ";
+                
                     
-                }
-                    
-                basis += $"(company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
+                basis += $" AND (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
                 searchNowCount += $" and (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
             }
             if (comboBox1.SelectedIndex == 0)
@@ -200,7 +194,10 @@ namespace Agent
             {
                 if (i < startRow || i > endRow)
                 {
+                    
                     dataGridView1.Rows[i].Visible = false;
+                    
+
                 }
                 else
                 {

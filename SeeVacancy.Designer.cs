@@ -52,6 +52,7 @@ namespace Agent
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -125,7 +126,7 @@ namespace Agent
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(222, 710);
+            this.label2.Location = new System.Drawing.Point(246, 924);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 26);
             this.label2.TabIndex = 129;
@@ -136,7 +137,7 @@ namespace Agent
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(17, 710);
+            this.label1.Location = new System.Drawing.Point(32, 924);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(199, 26);
             this.label1.TabIndex = 128;
@@ -177,7 +178,7 @@ namespace Agent
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView2.EnableHeadersVisualStyles = false;
             this.dataGridView2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.dataGridView2.Location = new System.Drawing.Point(360, 710);
+            this.dataGridView2.Location = new System.Drawing.Point(360, 944);
             this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -197,7 +198,7 @@ namespace Agent
             this.dataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView2.RowTemplate.Height = 35;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(1209, 79);
+            this.dataGridView2.Size = new System.Drawing.Size(1209, 62);
             this.dataGridView2.TabIndex = 127;
             this.dataGridView2.Visible = false;
             // 
@@ -208,7 +209,7 @@ namespace Agent
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(1578, 727);
+            this.exit.Location = new System.Drawing.Point(1578, 944);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(202, 44);
             this.exit.TabIndex = 126;
@@ -268,16 +269,16 @@ namespace Agent
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewCellStyle10.Font = new System.Drawing.Font("Comic Sans MS", 10F);
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridView1.RowTemplate.Height = 30;
+            this.dataGridView1.RowTemplate.Height = 33;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1758, 651);
+            this.dataGridView1.Size = new System.Drawing.Size(1758, 868);
             this.dataGridView1.TabIndex = 125;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(61, 740);
+            this.label3.Location = new System.Drawing.Point(28, 957);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 49);
             this.label3.TabIndex = 130;
@@ -289,7 +290,7 @@ namespace Agent
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(151, 740);
+            this.label4.Location = new System.Drawing.Point(158, 957);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 49);
             this.label4.TabIndex = 131;
@@ -303,19 +304,31 @@ namespace Agent
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(95, 755);
+            this.textBox1.Location = new System.Drawing.Point(59, 972);
             this.textBox1.MaxLength = 20;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(22, 30);
             this.textBox1.TabIndex = 132;
             this.textBox1.Visible = false;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(119, 976);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 26);
+            this.label5.TabIndex = 133;
+            this.label5.Text = "15";
+            this.label5.Visible = false;
+            // 
             // SeeVacancy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1804, 807);
+            this.ClientSize = new System.Drawing.Size(1804, 1024);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -359,5 +372,6 @@ namespace Agent
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label5;
     }
 }
