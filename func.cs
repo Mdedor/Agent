@@ -121,6 +121,11 @@ namespace Agent
             
             con.Close();
         }
-        
+        public static int records(string search) // написать try catch
+        {
+            int count = Convert.ToInt32(func.search(search));
+            return count;
+        }
+
     }
 }

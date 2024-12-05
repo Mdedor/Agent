@@ -19,11 +19,20 @@ namespace Agent
         int idVacancy;
         string searcIn;
         string roleEmp;
-        public SeeResume(string profession = " ", int VacancyID = 0)
+        int countRecords;
+        string searchNowCount;
+        int countRecordsBD;
+        public SeeResume(string profession = " ", int VacancyID = 0) // ИЗМЕНИТЬ РАЗМЕР СТРАНИЦЫ!!!!!!!!!!!!!
         {
             professions = profession;
             InitializeComponent();
             idVacancy = VacancyID;
+            searchNowCount = @"SELECT Count(*) FROM agent.resume 
+                        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                        INNER JOIN profession ON resume.resume_profession = profession.id
+                        WHERE (applicant_delete_status is null or applicant_delete_status = 4);";
+            countRecords = func.records(searchNowCount);
+            countRecordsBD = func.records(searchNowCount);
             roleEmp = func.search($"SELECT employe_post FROM employe WHERE id = {port.empIds}");
             searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
                         FROM resume  
@@ -38,6 +47,9 @@ namespace Agent
                     textBoxSearch.Visible = true;
                     comboBox1.Visible = true;
                     comboBox2.Visible = true;
+                    label1.Visible = true;
+                    label2.Visible = true;
+                    label2.Text = $"{countRecords} / {countRecordsBD}";
                 }
             }else if (roleEmp == "1") 
             { 
@@ -144,6 +156,9 @@ namespace Agent
         }
         string Search()
         {
+            string searchNowCount = @"SELECT Count(*) FROM agent.resume INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                        INNER JOIN profession ON resume.resume_profession = profession.id
+                        WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
             string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status' FROM resume  INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id INNER JOIN profession ON resume.resume_profession = profession.id  "; ;
             if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0)
             {
@@ -152,12 +167,14 @@ namespace Agent
             if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
             {
                 basis += $"(profession.name = '{comboBox2.SelectedItem}')";
+                searchNowCount += $" and (profession.name = '{comboBox2.SelectedItem}')";
             }
             if (textBoxSearch.Text.Length > 0)
             {
                 if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
                     basis += " AND ";
                 basis += $"(CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
+                searchNowCount += $" and (CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
             }
             if (comboBox1.SelectedIndex == 0)
             {
@@ -167,6 +184,8 @@ namespace Agent
             {
                 basis += $"ORDER BY resume.salary DESC";
             }
+            countRecords = func.records(searchNowCount);
+            label2.Text = $"{countRecords} / {countRecordsBD}";
             return basis;
         }
         void click_to(object sender, EventArgs e)

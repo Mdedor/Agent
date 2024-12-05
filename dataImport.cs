@@ -17,7 +17,7 @@ namespace Agent
         int buttonChek = 0;
         public dataImport()
         {
-            InitializeComponent();
+            InitializeComponent(); // Код переписать, сделать проверку на уникальность!!!!
         }
 
         void change()

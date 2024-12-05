@@ -21,12 +21,16 @@ namespace Agent
         int resume;
         string profession;
         int applicantId;
-        
-        //Добавить возможность у администратора редактировать и удалять вакансии при нажатии на правую кнопку мыши
+        int countRecordsBD;
+        int countRecords;
+        string searchNowCount;
+        //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume=0, string profession = "")
         {
             InitializeComponent();
-
+            searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
+            countRecords = func.records(searchNowCount);
+            countRecordsBD = func.records(searchNowCount);
             resume = idResume;
             roleEmp = func.search($"SELECT employe_post FROM employe WHERE id = {port.empIds}");
 
@@ -41,6 +45,10 @@ namespace Agent
                     textBoxSearch.Visible = true;
                     comboBox1.Visible = true;
                     comboBox2.Visible = true;
+                    label1.Visible = true;
+                    label2.Visible = true;
+                    
+                    label2.Text = $"{countRecords} / {countRecordsBD}";
                 }
                 else
                 {
@@ -51,8 +59,10 @@ namespace Agent
             }
             
         }
+          
         string Search()
         {
+            string searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
             string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
                             "FROM vacancy " +
                             "INNER JOIN company ON vacancy.vacancy_company = company.id " +
@@ -60,16 +70,23 @@ namespace Agent
             if ((comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0)&& resume==0)
             {
                 basis += "WHERE ";
+
             }
             if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
             {
                 basis += $"(profession.name = '{comboBox2.SelectedItem}')";
+                searchNowCount += $" AND (profession.name = '{comboBox2.SelectedItem}')";
             }
             if (textBoxSearch.Text.Length > 0)
             {
                 if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
+                {
                     basis += " AND ";
+                    
+                }
+                    
                 basis += $"(company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
+                searchNowCount += $" and (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
             }
             if (comboBox1.SelectedIndex == 0)
             {
@@ -78,6 +95,8 @@ namespace Agent
             {
                 basis += $"ORDER BY vacancy.vacancy_salary_by DESC";
             }
+            countRecords = func.records(searchNowCount);
+            label2.Text = $"{countRecords} / {countRecordsBD}";
             return basis;
         }
         void load_load()

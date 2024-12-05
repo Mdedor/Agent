@@ -38,11 +38,11 @@ namespace Agent
         {
             InitializeComponent();
         }
-
+        // сделать проверку на подключение и проверку на наличиие базы данных !!
         private void Auntification_Load(object sender, EventArgs e)
         {
-            textBoxLogin.Text = "admins";
-            textBoxPwd.Text = "admin";
+            textBoxLogin.Text = "2";
+            textBoxPwd.Text = "2";
             updateCaptcha.Click += buttonClicl;
             
         }
