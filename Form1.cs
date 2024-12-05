@@ -175,13 +175,18 @@ namespace Agent
                     }else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
                     {
                         MessageBox.Show(
-                                "Капча не пройдена",
+                                "Капча не пройдена. Программа заблокируется на 10 секунд",
                                 "Ошибка",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation
 
                                 );
                         edit();
+                        textBoxCaptcha.Text = "";
+                        enter.Enabled = false;
+                        sleep();
+                        enter.Enabled = true;
+                        
                     }
                     else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
                         {
@@ -192,12 +197,16 @@ namespace Agent
                     else 
                     {
                         MessageBox.Show(
-                            "Авторизация не пройдена.",
+                            "Авторизация не пройдена. Программа заблокируется на 10 секунд",
                             "Ошибка",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Exclamation
                             );
                         edit();
+                        textBoxCaptcha.Text = "";
+                        enter.Enabled = false;
+                        sleep();
+                        enter.Enabled = true;
                     }
                  }
                 else
@@ -210,11 +219,8 @@ namespace Agent
 
                            );
                 }
-                enter.Enabled = false;
-                sleep();
-                enter.Enabled = true;
-                textBoxLogin.Text = "";
-                textBoxPwd.Text = "";
+                
+                
             }
             
         }
@@ -244,26 +250,33 @@ namespace Agent
                         {
                             int x = 10;
                             int y = 10;
+                            int xx;
+                            int yy;
                             Pen pen = new Pen(Color.Gray, 1);
+                            Pen pena = new Pen(Color.Gray, 4);
                             for (int i = 0; i < Random.Next(4,6); i++)
                             {
                                 char mas = masAlf[Random.Next(0, masAlf.Length - 1)];
                                 graphics.DrawString($"{mas}", font, brush, new PointF(x, y));
+                                
+                                xx = x+5;
+                                yy = y+25;
                                 x += Random.Next(24,60);
                                 y = Random.Next(0, pbHeight - 40);
+                                graphics.DrawLine(pena, new PointF(xx, yy), new PointF(x+5, y+25));
+
 
                                 capcha += mas.ToString();
                             }
-                            for (int i = 0;i < pbHeight; i +=5)
-                            {
-                                graphics.DrawLine(pen, new PointF(0, i), new PointF(pbWidth, i));
-                            }
-                            for (int i = 0; i < pbWidth; i += 5)
-                            {
-                                graphics.DrawLine(pen, new PointF(i, 0), new PointF(i, pbHeight));
-                            }
-                            graphics.DrawLine(pen, new PointF(0, 0), new PointF(pbWidth, pbHeight));
-                            graphics.DrawLine(pen, new PointF(0, pbHeight), new PointF(pbWidth,0));
+                            //for (int i = 0; i < pbHeight; i += 5)
+                            //{
+                            //    graphics.DrawLine(pen, new PointF(0, i), new PointF(pbWidth, i));
+                            //}
+                            //for (int i = 0; i < pbWidth; i += 5)
+                            //{
+                            //    graphics.DrawLine(pen, new PointF(i, 0), new PointF(i, pbHeight));
+                            //}
+                           
 
                         }
                     }

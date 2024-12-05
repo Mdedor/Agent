@@ -21,6 +21,7 @@ namespace Agent
         int resume;
         string profession;
         int applicantId;
+        
         //Добавить возможность у администратора редактировать и удалять вакансии при нажатии на правую кнопку мыши
         public SeeVacancy(int idResume=0, string profession = "")
         {
@@ -136,9 +137,6 @@ namespace Agent
                 dataGridView2.Columns["Знание языков"].Width = 208;
                 dataGridView2.Columns["Личностные качества"].Width = 300;
                 dataGridView2.Columns["Зарплата"].Width = 140;
-
-
-
 
                 dataGridView2.Visible = true;
             }
