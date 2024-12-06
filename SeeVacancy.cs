@@ -21,10 +21,11 @@ namespace Agent
         int resume;
         string profession;
         int applicantId;
-        int countRecordsBD;
-        int countRecords;
+        double countRecordsBD;
+        double countRecords;
         int page = 1;
         string searchNowCount;
+        double allPageCount;
         //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume=0, string profession = "")
         {
@@ -51,6 +52,9 @@ namespace Agent
                     label2.Visible = true;
                     label3.Visible = true;
                     label4.Visible = true;
+                    label5.Visible = true;
+                    label6.Visible = true;
+                    textBox1.Visible = true;
                     label2.Text = $"{countRecords} из  {countRecordsBD}";
                 }
                 else
@@ -93,6 +97,9 @@ namespace Agent
             }
             countRecords = func.records(searchNowCount);
             label2.Text = $"{countRecords} из {countRecordsBD}";
+            page = 1;
+            allPageCount = Math.Ceiling(countRecords / 20);
+            label5.Text = allPageCount.ToString();
             return basis;
         }
         void load_load()
@@ -114,16 +121,7 @@ namespace Agent
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
-            manager.SuspendBinding();
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                string status = row.Cells["Status"].Value.ToString();
-                if (status == "1" || status == "2")
-                    row.Visible = false;
-
-            }
-            manager.ResumeBinding();
+            
             foreach (DataGridViewRow r in dataGridView1.Rows)
             {
                 if (System.Uri.IsWellFormedUriString(r.Cells["Cсылка"].Value.ToString(), UriKind.Absolute))
@@ -137,6 +135,7 @@ namespace Agent
         }
         private void SeeVacancy_Load(object sender, EventArgs e)
         {
+            
             if (resume != 0)
             {
                 string searcNow = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
@@ -177,10 +176,21 @@ namespace Agent
 
             comboBox1.Items.Add("По возрастанию зарплаты");
             comboBox1.Items.Add("По убыванию зарплаты");
-
             load_load();
-            editPage();
+            if (resume == 0)
+            {
 
+                allPageCount = Math.Ceiling(countRecords / 20);
+                editPage();
+                label5.Text = allPageCount.ToString();
+                if (allPageCount > 10)
+                    textBox1.MaxLength = 2;
+                if (allPageCount > 100)
+                    textBox1.MaxLength = 3;
+                else
+                    textBox1.MaxLength = 4;
+            }
+            
         }
         void editPage()
         {
@@ -205,6 +215,12 @@ namespace Agent
                 }
 
             }
+            double nowCount = 20;
+            if (page*20 > countRecords)
+                nowCount = -1*(20*(page-1)-countRecords);
+            label2.Text = $"{nowCount} из  {countRecordsBD}";
+            label5.Text = allPageCount.ToString();
+            textBox1.Text = page.ToString();
 
         }
         void change()
@@ -247,7 +263,7 @@ namespace Agent
 
 
             change();
-            
+            editPage();
 
         }
 
@@ -255,14 +271,14 @@ namespace Agent
         {
             func.load(dataGridView1, Search());
             change();
-            
+            editPage();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             func.load(dataGridView1, Search());
             change();
-            
+            editPage();
         }
         void menu(object sender, MouseEventArgs e)
         {
@@ -396,8 +412,9 @@ namespace Agent
         }
 
         private void label4_Click(object sender, EventArgs e)
-        {
-            page++;
+        { 
+            if (countRecords>page*20)
+                page++;
             editPage();
         }
 
@@ -431,6 +448,11 @@ namespace Agent
                 menuA.Show();
                 this.Close();
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

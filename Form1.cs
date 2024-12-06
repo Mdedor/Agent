@@ -268,15 +268,15 @@ namespace Agent
 
                                 capcha += mas.ToString();
                             }
-                            //for (int i = 0; i < pbHeight; i += 5)
-                            //{
-                            //    graphics.DrawLine(pen, new PointF(0, i), new PointF(pbWidth, i));
-                            //}
-                            //for (int i = 0; i < pbWidth; i += 5)
-                            //{
-                            //    graphics.DrawLine(pen, new PointF(i, 0), new PointF(i, pbHeight));
-                            //}
-                           
+                            for (int i = 0; i < pbHeight; i += 5)
+                            {
+                                graphics.DrawLine(pen, new PointF(0, i), new PointF(pbWidth, i));
+                            }
+                            for (int i = 0; i < pbWidth; i += 5)
+                            {
+                                graphics.DrawLine(pen, new PointF(i, 0), new PointF(i, pbHeight));
+                            }
+
 
                         }
                     }
