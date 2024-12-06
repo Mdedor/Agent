@@ -36,7 +36,7 @@ namespace Agent
             resume = idResume;
             roleEmp = func.search($"SELECT employe_post FROM employe WHERE id = {port.empIds}");
 
-            searchIn = $@"SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия',   CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты', vacancy.vacancy_address as 'Адресс работы', vacancy.vacancy_delete_status as 'Status', companyc_linq as 'Cсылка'   
+            searchIn = $@"SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия',   CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты ₽', vacancy.vacancy_address as 'Адресс работы', vacancy.vacancy_delete_status as 'Status', companyc_linq as 'Cсылка'   
                         FROM vacancy 
                         INNER JOIN company ON vacancy.vacancy_company = company.id 
                         INNER JOIN profession ON vacancy.vacancy_profession = profession.id
@@ -110,7 +110,7 @@ namespace Agent
             dataGridView1.Columns["Обязанности"].Width = 340;
             dataGridView1.Columns["Требования"].Width = 270;
             dataGridView1.Columns["Условия"].Width = 270;
-            dataGridView1.Columns["Размер зарплаты"].Width = 150;
+            dataGridView1.Columns["Размер зарплаты ₽"].Width = 150;
             dataGridView1.Columns["Адресс работы"].Width = 310;
             dataGridView1.Columns["id"].Visible = false;
 
