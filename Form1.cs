@@ -41,8 +41,8 @@ namespace Agent
         // сделать проверку на подключение и проверку на наличиие базы данных !!
         private void Auntification_Load(object sender, EventArgs e)
         {
-            textBoxLogin.Text = "2";
-            textBoxPwd.Text = "2";
+            textBoxLogin.Text = "1";
+            textBoxPwd.Text = "1";
             updateCaptcha.Click += buttonClicl;
             
         }

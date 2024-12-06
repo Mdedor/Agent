@@ -28,7 +28,7 @@ namespace Agent
             resume = res;
             if (!resume)
             {
-                searchStering = "SELECT  applicant_id,CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', applicant.applicant_phone_number as 'Номер телефона', applicant.applicant_address as 'Адресс', applicant.applicant_date_of_birth as 'Дата рождения', applicant.applicant_image, gender.genders as 'Пол', applicant.applicant_delete_status as 'Status'" +
+                searchStering = "SELECT  applicant_id,CONCAT(applicant.applicant_surname, ' ',LEFT(applicant.applicant_name,1), '.', LEFT(applicant.applicant_patronymic,1),'.') as 'Соискатель', applicant.applicant_phone_number as 'Номер телефона', applicant.applicant_address as 'Адресс', applicant.applicant_image, applicant.applicant_delete_status as 'Status' " +
                                                 "FROM applicant " +
                                                 "INNER JOIN gender ON applicant.applicant_gender = gender.id";
             }
@@ -50,6 +50,7 @@ namespace Agent
             {           
                 if (resume == false)
                 {
+                    contextMenu.MenuItems.Add(new MenuItem("Посмотреть подробную информацию", see));
                     contextMenu.MenuItems.Add(new MenuItem("Редактировать соискателя", update));
                     contextMenu.MenuItems.Add(new MenuItem("Удалить соискателя", delete));
 
@@ -79,6 +80,14 @@ namespace Agent
             addS.Show();
             this.Close();
            
+        }
+        void see(object sender, EventArgs e)
+        {
+            applicantID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["applicant_id"].Value.ToString());
+            AddS addS = new AddS(applicantID,1);
+            addS.Show();
+            this.Close();
+
         }
         void resum(object sender, EventArgs e)
         {
@@ -154,6 +163,8 @@ namespace Agent
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string status = row.Cells["Status"].Value.ToString();
+                row.Cells["Адресс"].Value = row.Cells["Адресс"].Value.ToString().Split(',')[0];
+                row.Cells["Номер телефона"].Value = row.Cells["Номер телефона"].Value.ToString().Substring(0, 2)+"******" +row.Cells["Номер телефона"].Value.ToString().Substring(13, 5);
                 if (status == "1" || status == "3")
                     row.Visible = false;
             }
@@ -165,9 +176,15 @@ namespace Agent
             dataGridView1.Columns["Соискатель"].Width = 340;
             dataGridView1.Columns["Номер телефона"].Width = 200;
             dataGridView1.Columns["Адресс"].Width = 400;
-            dataGridView1.Columns["Дата рождения"].Width = 140;
+            if (resume)
+            {
+                dataGridView1.Columns["Пол"].Width = 120;
+                dataGridView1.Columns["Дата рождения"].Width = 140;
+            }
+
+            
             dataGridView1.Columns["Изображение"].Width = 250;
-            dataGridView1.Columns["Пол"].Width = 120;
+            
             
         }
 

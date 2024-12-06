@@ -31,12 +31,26 @@ namespace Agent
         string bdPhoto;
         int flag;
         int aplicantIds;
+        int sees;
         Random Random = new Random();
-        public AddS(int aplicantId)
+        public AddS(int aplicantId, int see=0)
         {
             InitializeComponent();
             aplicantIds = aplicantId;
-            
+            sees = see;
+            if (sees != 0)
+            {
+                textBoxName.Enabled = false;
+                textBoxSurname.Enabled = false;
+                textBoxPatronomic.Enabled = false;
+                textBoxAdress.Enabled = false;
+                maskedTextBoxPhoneNumber.Enabled = false;
+                comboBoxGender.Enabled = false;
+                dateTimePicker1.Enabled = false;
+                buttonImage.Visible = false;
+                buttonAddS.Visible = false;
+                label1.Text = "Подробная информация";
+            }
 
         }
         string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -313,9 +327,13 @@ namespace Agent
                 pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             }
             else
-            {
-                buttonAddS.Text = "Изменить";
-                label1.Text = "Редактирование соискателя";
+            {   
+                if (sees == 0)
+                {
+                    buttonAddS.Text = "Изменить";
+                    label1.Text = "Редактирование соискателя";
+                }
+                
 
                 MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
