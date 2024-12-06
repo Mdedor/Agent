@@ -377,7 +377,7 @@ namespace Agent
         }
         private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
         {
-            menu(sender, e);
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -453,6 +453,11 @@ namespace Agent
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_MouseDown_1(object sender, MouseEventArgs e)
+        {
+            menu(sender, e);
         }
     }
 }

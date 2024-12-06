@@ -57,7 +57,13 @@ namespace Agent
                     row.Cells["Статус"].Style.ForeColor = Color.FromArgb(218, 165, 32);
                     if (status_delete == "1")
                         row.Visible = false;
+                }else if(status == "Принято")
+                {
+                    row.Cells["Статус"].Style.ForeColor = Color.Green;
+                    if (status_delete == "1")
+                        row.Visible = false;
                 }
+
             }
         }
         private void seeDirection_Load(object sender, EventArgs e)

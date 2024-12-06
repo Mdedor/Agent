@@ -38,8 +38,14 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.buttonAddS = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // labelFIO
@@ -152,12 +158,56 @@
             this.pictureBox1.TabIndex = 122;
             this.pictureBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(305, 905);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(204, 18);
+            this.label1.TabIndex = 129;
+            this.label1.Text = "Статус направления \"Принято\"";
+            this.label1.UseWaitCursor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(305, 934);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(213, 18);
+            this.label2.TabIndex = 130;
+            this.label2.Text = "Статус направления \"Ожидание\"";
+            this.label2.UseWaitCursor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Green;
+            this.pictureBox2.Location = new System.Drawing.Point(278, 905);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(21, 18);
+            this.pictureBox2.TabIndex = 131;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Goldenrod;
+            this.pictureBox3.Location = new System.Drawing.Point(278, 934);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(21, 18);
+            this.pictureBox3.TabIndex = 132;
+            this.pictureBox3.TabStop = false;
+            // 
             // seeDirection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1094, 961);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonAddS);
             this.Controls.Add(this.labelFIO);
@@ -173,6 +223,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.seeDirection_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +237,9 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button buttonAddS;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

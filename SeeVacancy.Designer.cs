@@ -274,6 +274,7 @@ namespace Agent
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1758, 868);
             this.dataGridView1.TabIndex = 125;
+            this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown_1);
             // 
             // label3
             // 
