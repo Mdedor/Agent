@@ -318,6 +318,7 @@
             this.Text = "AddV";
             this.Load += new System.EventHandler(this.AddV_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AddV_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AddV_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

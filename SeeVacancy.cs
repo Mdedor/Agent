@@ -26,6 +26,7 @@ namespace Agent
         int page = 1;
         string searchNowCount;
         double allPageCount;
+        int move;
         //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume=0, string profession = "")
         {
@@ -66,7 +67,25 @@ namespace Agent
             }
             
         }
-          
+        private async void StartTimer()
+        {
+
+            TimeSpan ts = new TimeSpan(0, 0, 10);
+            while (ts > TimeSpan.Zero)
+            {
+                await Task.Delay(1000);
+                ts -= TimeSpan.FromSeconds(1);
+                if (move == 1)
+                {
+                    ts = new TimeSpan(0, 0, 10);
+                    move = 0;
+                }
+            }
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
+
+        }
         string Search()
         {
             string searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
@@ -132,6 +151,7 @@ namespace Agent
 
                 }
             }
+           
         }
         private void SeeVacancy_Load(object sender, EventArgs e)
         {
@@ -190,7 +210,7 @@ namespace Agent
                 else
                     textBox1.MaxLength = 4;
             }
-            
+            StartTimer();
         }
         void editPage()
         {
@@ -258,6 +278,8 @@ namespace Agent
         }
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
+            move = 1;
+
             func.load(dataGridView1, Search());
             dataGridView1.ClearSelection();
 
@@ -269,6 +291,8 @@ namespace Agent
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            move = 1;
+
             func.load(dataGridView1, Search());
             change();
             editPage();
@@ -276,12 +300,16 @@ namespace Agent
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            move = 1;
+
             func.load(dataGridView1, Search());
             change();
             editPage();
         }
         void menu(object sender, MouseEventArgs e)
         {
+            move = 1;
+
             ContextMenu contextMenu = new ContextMenu();
             this.currentColumnIndex = dataGridView1.HitTest(e.X, e.Y).ColumnIndex;
             this.currentRowIndex = dataGridView1.HitTest(e.X, e.Y).RowIndex;
@@ -458,6 +486,16 @@ namespace Agent
         private void dataGridView1_MouseDown_1(object sender, MouseEventArgs e)
         {
             menu(sender, e);
+        }
+
+        private void SeeVacancy_MouseMove(object sender, MouseEventArgs e)
+        {
+            move=1;
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            move = 1;
         }
     }
 }

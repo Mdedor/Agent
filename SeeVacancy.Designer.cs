@@ -275,6 +275,7 @@ namespace Agent
             this.dataGridView1.Size = new System.Drawing.Size(1758, 868);
             this.dataGridView1.TabIndex = 125;
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown_1);
+            this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
             // 
             // label3
             // 
@@ -365,6 +366,7 @@ namespace Agent
             this.Text = "SeeVacancy";
             this.Load += new System.EventHandler(this.SeeVacancy_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SeeVacancy_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SeeVacancy_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

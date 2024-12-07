@@ -138,6 +138,7 @@ namespace Agent
 
         private void buttonAddS_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
             {
                 DialogResult result = MessageBox.Show(
@@ -236,6 +237,7 @@ namespace Agent
 
         private void textBoxSalary_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -250,6 +252,7 @@ namespace Agent
 
         private void comboBoxProfessioin_SelectedIndexChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -261,6 +264,7 @@ namespace Agent
 
         private void textBoxExp_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -272,6 +276,7 @@ namespace Agent
 
         private void textBoxLang_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -283,6 +288,7 @@ namespace Agent
 
         private void textBoxPers_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -294,6 +300,7 @@ namespace Agent
 
         private void textBoxEducation_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (resumeId == 0)
                 checkEnable();
             else
@@ -305,7 +312,8 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            if(resumeId == 0)
+            port.move = 1;
+            if (resumeId == 0)
             {
                 SeeS see = new SeeS(true);
                 see.Show();
