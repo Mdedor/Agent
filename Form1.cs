@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Threading.Tasks;
 
+
 namespace Agent
 {
     public partial class Auntification : Form
@@ -92,6 +93,7 @@ namespace Agent
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             string loginAdmin = ConfigurationManager.AppSettings["loginAdmin"].ToString();
             string pwdAdmin = ConfigurationManager.AppSettings["paswordAdmin"].ToString();
             if(string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPwd.Text))

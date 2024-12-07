@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Configuration;
 namespace Agent
 {
 
@@ -25,8 +25,9 @@ namespace Agent
         }
         private async void StartTimer()
         {
-
-            TimeSpan ts = new TimeSpan(0, 0, 5);
+            int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
+            int currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
+            TimeSpan ts = new TimeSpan(0, currentValue, currentValue2);
             while (ts > TimeSpan.Zero)
             {
                 await Task.Delay(1000);

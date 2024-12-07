@@ -19,6 +19,8 @@ namespace Agent
         static string user = ConfigurationManager.ConnectionStrings["user"].ConnectionString.ToString();
         static string pwd = ConfigurationManager.ConnectionStrings["pwd"].ConnectionString.ToString();
         string filePath;
+        int currentValue;
+        int currentValue2;
         public includeAdmin()
         {
             InitializeComponent();
@@ -50,6 +52,11 @@ namespace Agent
         private void includeAdmin_Load(object sender, EventArgs e)
         {
             load();
+            currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
+            currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
+
+            int timr = currentValue * 60 + currentValue2;
+            textBox2.Text = timr.ToString();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -61,9 +68,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -92,6 +97,62 @@ namespace Agent
                
         
             
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+            if (textBox2.Text.Length > 0)
+                button3.Enabled = true;
+        }
+        public static void UpdateAppSettings(string key, string value)
+        {
+            // Получаем конфигурацию приложения
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Проверяем, существует ли ключ
+            if (config.AppSettings.Settings[key] != null)
+            {
+                // Если существует, обновляем значение
+                config.AppSettings.Settings[key].Value = value;
+            }
+            else
+            {
+                // Если не существует, добавляем новый ключ
+                config.AppSettings.Settings.Add(key, value);
+            }
+
+            // Сохраняем изменения
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            double time = Convert.ToInt32(textBox2.Text);
+            double min = Math.Round(time/60);
+
+            double second = time - min * 60;
+            UpdateAppSettings("minut", $"{min}");
+            UpdateAppSettings("secund", $"{second}");
+
+            MessageBox.Show("Время изменено");
+            
+        }
+
+        private void exit_Click_1(object sender, EventArgs e)
+        {
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
         }
     }
 }
