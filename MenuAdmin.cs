@@ -13,7 +13,7 @@ namespace Agent
 
     public partial class MenuAdmin : Form
     {
-        int move;
+
         public MenuAdmin()
         {
             InitializeComponent();
