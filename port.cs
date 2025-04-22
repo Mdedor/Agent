@@ -12,5 +12,6 @@ namespace Agent
         public static string status;
         public static string haveStatus;
         public static int empIds;
+        public static int move;
     }
 }

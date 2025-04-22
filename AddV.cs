@@ -147,6 +147,7 @@ namespace Agent
 
         private void comboBoxProfessioin_SelectedIndexChanged_1(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -158,6 +159,7 @@ namespace Agent
 
         private void textBoxTreb_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -169,6 +171,7 @@ namespace Agent
 
         private void textBoxObz_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -180,6 +183,7 @@ namespace Agent
 
         private void textBoxCond_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -191,6 +195,7 @@ namespace Agent
 
         private void textBoxSalaryBy_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -202,6 +207,7 @@ namespace Agent
 
         private void textBoxSalaryBefore_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -213,6 +219,7 @@ namespace Agent
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
                 checkEnable();
             else
@@ -224,6 +231,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
             {
                 AdminC adminC = new AdminC();
@@ -241,6 +249,7 @@ namespace Agent
 
         private void buttonAddS_Click_1(object sender, EventArgs e)
         {
+            port.move = 1;
             if (vacancyIDS == 0)
             {
                 int salaryBy = Convert.ToInt32(textBoxSalaryBy.Text);
@@ -401,6 +410,11 @@ namespace Agent
         private void comboBoxProfessioin_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void AddV_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

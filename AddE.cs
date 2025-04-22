@@ -236,6 +236,7 @@ namespace Agent
 
         private void textBoxSurname_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (!string.IsNullOrWhiteSpace(textBoxSurname.Text))
             {
                 var words = textBoxSurname.Text.Split(' ');
@@ -268,7 +269,8 @@ namespace Agent
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(textBoxName.Text))
+            port.move = 1;
+            if (!string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 var words = textBoxName.Text.Split(' ');
 
@@ -299,6 +301,7 @@ namespace Agent
 
         private void textBoxPatronomic_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (!string.IsNullOrWhiteSpace(textBoxPatronomic.Text))
             {
                 var words = textBoxPatronomic.Text.Split(' ');
@@ -335,6 +338,7 @@ namespace Agent
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (empoyIds == 0)
                 checkEnable();
             else
@@ -346,6 +350,7 @@ namespace Agent
 
         private void comboBoxPost_SelectedIndexChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (empoyIds == 0)
                 checkEnable();
             else
@@ -357,6 +362,7 @@ namespace Agent
 
         private void textBoxPwd_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (empoyIds == 0)
                 checkEnable();
             else
@@ -369,6 +375,7 @@ namespace Agent
 
         private void textBoxLogin_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (empoyIds == 0)
                 checkEnable();
             else
@@ -380,6 +387,7 @@ namespace Agent
 
         private void exit_Click_1(object sender, EventArgs e)
         {
+            port.move = 1;
             if (empoyIds == 0)
             {
                 AdminE adminE = new AdminE();

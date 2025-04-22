@@ -255,6 +255,7 @@ namespace Agent
 
         private void buttonImage_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             openFileDialog1.InitialDirectory = "C:\\";
             openFileDialog1.Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
@@ -409,6 +410,7 @@ namespace Agent
 
         private void comboBoxGender_SelectedIndexChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (aplicantIds == 0)
                 checkEnable();
             else
@@ -420,6 +422,7 @@ namespace Agent
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (aplicantIds == 0)
                 checkEnable();
             else
@@ -431,6 +434,7 @@ namespace Agent
 
         private void textBoxSurname_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (!string.IsNullOrWhiteSpace(textBoxSurname.Text))
             {
                 var words = textBoxSurname.Text.Split(' ');
@@ -498,6 +502,7 @@ namespace Agent
 
         private void textBoxPatronomic_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (!string.IsNullOrWhiteSpace(textBoxPatronomic.Text))
             {
                 var words = textBoxPatronomic.Text.Split(' ');
@@ -530,6 +535,7 @@ namespace Agent
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (!string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 var words = textBoxName.Text.Split(' ');
@@ -572,6 +578,7 @@ namespace Agent
 
         private void maskedTextBoxPhoneNumber_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (aplicantIds == 0)
                 checkEnable();
             else

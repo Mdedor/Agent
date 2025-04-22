@@ -20,6 +20,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             MenuAdmin menuAdmin = new MenuAdmin();
             menuAdmin.Show();
             this.Close();
@@ -27,6 +28,7 @@ namespace Agent
 
         private void button3_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             AddE add = new AddE(0);
             add.Show();
             this.Close();
@@ -34,6 +36,7 @@ namespace Agent
 
         private void button1_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             SeeEmp seeEmp = new SeeEmp();
             seeEmp.Show();
             this.Close();

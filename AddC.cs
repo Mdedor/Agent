@@ -114,6 +114,7 @@ namespace Agent
         }
         private void exit_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             AdminC adminC = new AdminC();
             adminC.Show();
             this.Close();
@@ -121,6 +122,7 @@ namespace Agent
 
         private void buttonAddS_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             name = textBoxName.Text;
             adress = textBoxAdress.Text;
             link = textBoxLink.Text;
@@ -240,6 +242,7 @@ namespace Agent
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (componys == 0)
                 checkEnable();
             else
@@ -251,6 +254,7 @@ namespace Agent
 
         private void textBoxDesc_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (componys == 0)
                 checkEnable();
             else
@@ -267,6 +271,7 @@ namespace Agent
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (componys == 0)
                 checkEnable();
             else
@@ -278,6 +283,7 @@ namespace Agent
 
         private void textBoxLink_TextChanged(object sender, EventArgs e)
         {
+            port.move = 1;
             if (componys == 0)
                 checkEnable();
             else
