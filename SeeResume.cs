@@ -58,6 +58,18 @@ namespace Agent
             
             
         }
+        void done()
+        {
+            foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
+            {
+
+                string so = dataGridViewRow.Cells["Соискатель"].Value.ToString();
+                string pro = dataGridViewRow.Cells["Профессия"].Value.ToString();
+                string zn = dataGridViewRow.Cells["Знание языков"].Value.ToString();
+                string ka = dataGridViewRow.Cells["Личностные качества"].Value.ToString();
+                dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
+            }
+        }
 
         private void resumeList_Load(object sender, EventArgs e)
         {
@@ -71,6 +83,8 @@ namespace Agent
                 func.load(dataGridView2, searcIn);
                 dataGridView2.Columns["id"].Visible = false;
                 dataGridView2.Columns["Status"].Visible = false;
+
+
                 dataGridView2.Columns["Компания"].Width = 100;
                 dataGridView2.Columns["Профессия"].Width = 140;
                 dataGridView2.Columns["Обязанности"].Width = 260;
@@ -100,15 +114,20 @@ namespace Agent
                     comboBox2.Items.Add(reader[0].ToString());
             }
             connection.Close();
+            dataGridView1.Columns.Add("Соискатели", "Соискатели");
             func.load(dataGridView1, searcIn);
+
             dataGridView1.Columns["id"].Visible = false;
             dataGridView1.Columns["Status"].Visible = false;
-            dataGridView1.Columns["Соискатель"].Width = 270;
-            dataGridView1.Columns["Профессия"].Width = 250;
-            dataGridView1.Columns["Знание языков"].Width = 250;
-            dataGridView1.Columns["Личностные качества"].Width = 400;
+            dataGridView1.Columns["Соискатель"].Visible = false;
+            dataGridView1.Columns["Профессия"].Visible = false;
+            dataGridView1.Columns["Знание языков"].Visible = false;
+            dataGridView1.Columns["Личностные качества"].Visible = false;
             dataGridView1.Columns["Зарплата"].Width = 140;
-            
+
+
+            done();
+
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -186,6 +205,7 @@ namespace Agent
             }
             countRecords = func.records(searchNowCount);
             label2.Text = $"{countRecords} из {countRecordsBD}";
+          
             return basis;
         }
         void click_to(object sender, EventArgs e)
@@ -256,6 +276,7 @@ namespace Agent
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
             func.load(dataGridView1, Search());
+            done();
             CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
             manager.SuspendBinding();
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -272,6 +293,7 @@ namespace Agent
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             func.load(dataGridView1, Search());
+            done();
             CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
             manager.SuspendBinding();
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -287,6 +309,7 @@ namespace Agent
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             func.load(dataGridView1, Search());
+            done();
             CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
             manager.SuspendBinding();
             foreach (DataGridViewRow row in dataGridView1.Rows)

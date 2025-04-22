@@ -105,6 +105,12 @@
     <Compile Include="AdminS.Designer.cs">
       <DependentUpon>AdminS.cs</DependentUpon>
     </Compile>
+    <Compile Include="calendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="calendar.Designer.cs">
+      <DependentUpon>calendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Connection.cs" />
     <Compile Include="dataImport.cs">
       <SubType>Form</SubType>
@@ -217,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminS.resx">
       <DependentUpon>AdminS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="calendar.resx">
+      <DependentUpon>calendar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dataImport.resx">
       <DependentUpon>dataImport.cs</DependentUpon>

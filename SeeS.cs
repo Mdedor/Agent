@@ -164,7 +164,7 @@ namespace Agent
             {
                 string status = row.Cells["Status"].Value.ToString();
                 row.Cells["Адресс"].Value = row.Cells["Адресс"].Value.ToString().Split(',')[0];
-                row.Cells["Номер телефона"].Value = row.Cells["Номер телефона"].Value.ToString().Substring(0, 2)+"******" +row.Cells["Номер телефона"].Value.ToString().Substring(13, 5);
+            //    row.Cells["Номер телефона"].Value = row.Cells["Номер телефона"].Value.ToString().Substring(0, 2)+"******" +row.Cells["Номер телефона"].Value.ToString().Substring(13, 5);
                 if (status == "1" || status == "3")
                     row.Visible = false;
             }

@@ -36,7 +36,7 @@ namespace Agent
             resume = idResume;
             roleEmp = func.search($"SELECT employe_post FROM employe WHERE id = {port.empIds}");
 
-            searchIn = $@"SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия',   CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты ₽', vacancy.vacancy_address as 'Адресс работы', vacancy.vacancy_delete_status as 'Status', companyc_linq as 'Cсылка'   
+            searchIn = $@"SELECT vacancy.id, company.company_name as 'Компания', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия',   CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты ₽', vacancy.vacancy_delete_status as 'Status', companyc_linq as 'Cсылка'   
                         FROM vacancy 
                         INNER JOIN company ON vacancy.vacancy_company = company.id 
                         INNER JOIN profession ON vacancy.vacancy_profession = profession.id
@@ -70,7 +70,7 @@ namespace Agent
         string Search()
         {
             string searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
-            string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
+            string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
                             "FROM vacancy " +
                             "INNER JOIN company ON vacancy.vacancy_company = company.id " +
                             "INNER JOIN profession ON vacancy.vacancy_profession = profession.id " +
@@ -102,17 +102,39 @@ namespace Agent
             label5.Text = allPageCount.ToString();
             return basis;
         }
+        void done()
+        {
+            foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
+            {
+
+
+                string obz = dataGridViewRow.Cells["Обязанности"].Value.ToString();
+                string tr = dataGridViewRow.Cells["Требования"].Value.ToString();
+                string us = dataGridViewRow.Cells["Условия"].Value.ToString();
+                
+
+
+                dataGridViewRow.Cells["Специфика"].Value = $"{obz}\n{tr}\n{us}\n";
+                
+            }
+        }
         void load_load()
         {
+
+            
             func.load(dataGridView1, searchIn);
-            dataGridView1.Columns["Комапния"].Width = 160;
-            dataGridView1.Columns["Профессия"].Width = 200;
-            dataGridView1.Columns["Обязанности"].Width = 340;
-            dataGridView1.Columns["Требования"].Width = 270;
-            dataGridView1.Columns["Условия"].Width = 270;
-            dataGridView1.Columns["Размер зарплаты ₽"].Width = 150;
-            dataGridView1.Columns["Адресс работы"].Width = 310;
+            dataGridView1.Columns.Add("Специфика", "Специфика");
+            done();
+
             dataGridView1.Columns["id"].Visible = false;
+
+
+            dataGridView1.Columns["Обязанности"].Visible = false;
+            dataGridView1.Columns["Требования"].Visible = false;
+            dataGridView1.Columns["Условия"].Visible = false;
+            
+
+
 
             dataGridView1.Columns["Status"].Visible = false;
             dataGridView1.Columns["Cсылка"].Visible = false;
@@ -126,8 +148,8 @@ namespace Agent
             {
                 if (System.Uri.IsWellFormedUriString(r.Cells["Cсылка"].Value.ToString(), UriKind.Absolute))
                 {
-                    r.Cells["Комапния"] = new DataGridViewLinkCell();
-                    DataGridViewLinkCell c = r.Cells["Комапния"] as DataGridViewLinkCell;
+                    r.Cells["Компания"] = new DataGridViewLinkCell();
+                    DataGridViewLinkCell c = r.Cells["Компания"] as DataGridViewLinkCell;
                     c.LinkColor = Color.Green;
 
                 }
@@ -244,7 +266,7 @@ namespace Agent
 
                 }
             }
-            dataGridView1.Columns["Комапния"].Width = 160;
+            dataGridView1.Columns["Компания"].Width = 160;
             dataGridView1.Columns["Профессия"].Width = 200;
             dataGridView1.Columns["Обязанности"].Width = 340;
             dataGridView1.Columns["Требования"].Width = 270;
@@ -252,6 +274,13 @@ namespace Agent
             dataGridView1.Columns["Размер зарплаты"].Width = 150;
             dataGridView1.Columns["Адресс работы"].Width = 310;
             dataGridView1.Columns["id"].Visible = false;
+
+
+            dataGridView1.Columns["Status"].Visible = false;
+            dataGridView1.Columns["Cсылка"].Visible = false;
+            dataGridView1.Columns["Cсылка"].Visible = false;
+            dataGridView1.Columns["Cсылка"].Visible = false;
+            dataGridView1.Columns["Cсылка"].Visible = false;
 
             dataGridView1.Columns["Status"].Visible = false;
             dataGridView1.Columns["Cсылка"].Visible = false;

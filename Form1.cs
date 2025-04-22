@@ -342,5 +342,12 @@ namespace Agent
         {
             func.FormPaint(this);
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            calendar calendar = new calendar();
+            calendar.Show();
+            this.Hide();
+        }
     }
 }
