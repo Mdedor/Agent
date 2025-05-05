@@ -77,25 +77,25 @@ namespace Agent
 
             if (idVacancy != 0)
             {
-                exit.Location = new Point(1161, 870);
-                this.Size = new Size(1391, 1048);
-                string searcIn = $@"SELECT vacancy.id, company.company_name as 'Компания', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status' FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id WHERE vacancy.id ='{idVacancy}'";
-                func.load(dataGridView2, searcIn);
-                dataGridView2.Columns["id"].Visible = false;
-                dataGridView2.Columns["Status"].Visible = false;
+                //exit.Location = new Point(1161, 870);
+                //this.Size = new Size(1391, 1048);
+                //string searcIn = $@"SELECT vacancy.id, company.company_name as 'Компания', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status' FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id WHERE vacancy.id ='{idVacancy}'";
+                //func.load(dataGridView2, searcIn);
+                //dataGridView2.Columns["id"].Visible = false;
+                //dataGridView2.Columns["Status"].Visible = false;
 
 
-                dataGridView2.Columns["Компания"].Width = 100;
-                dataGridView2.Columns["Профессия"].Width = 140;
-                dataGridView2.Columns["Обязанности"].Width = 260;
-                dataGridView2.Columns["Требования"].Width = 200;
-                dataGridView2.Columns["Условия"].Width = 200;
-                dataGridView2.Columns["Размер зарплаты"].Width = 110;
-                dataGridView2.Columns["Адресс работы"].Width = 300;
+                //dataGridView2.Columns["Компания"].Width = 100;
+                //dataGridView2.Columns["Профессия"].Width = 140;
+                //dataGridView2.Columns["Обязанности"].Width = 260;
+                //dataGridView2.Columns["Требования"].Width = 200;
+                //dataGridView2.Columns["Условия"].Width = 200;
+                //dataGridView2.Columns["Размер зарплаты"].Width = 110;
+                //dataGridView2.Columns["Адресс работы"].Width = 300;
 
 
 
-                dataGridView2.Visible = true;
+                //dataGridView2.Visible = true;
             }
             comboBox2.Items.Add("Без фильтра");
             comboBox1.Items.Add("По возрастанию зарплаты");
@@ -242,27 +242,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            if (roleEmp == "2")
-            {
-                if (idVacancy >= 0 && professions != " ")
-                {
-                    SeeVacancy seeVacancy = new SeeVacancy();
-                    seeVacancy.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MenuManager menuManager = new MenuManager();
-                    menuManager.Show();
-                    this.Close();
-                }
-            }
-            else
-            {
-                AdminS adminS = new AdminS();
-                adminS.Show();
-                this.Close();
-            }
+            
 
         }
 
@@ -330,6 +310,36 @@ namespace Agent
         private void SeeResume_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void exit_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void exit_Click_2(object sender, EventArgs e)
+        {
+            if (roleEmp == "3")
+            {
+                if (idVacancy >= 0 && professions != " ")
+                {
+                    SeeVacancy seeVacancy = new SeeVacancy();
+                    seeVacancy.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MenuRecruter menuManager = new MenuRecruter();
+                    menuManager.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                AdminS adminS = new AdminS();
+                adminS.Show();
+                this.Close();
+            }
         }
     }
 }

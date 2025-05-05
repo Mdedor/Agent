@@ -20,8 +20,8 @@ namespace Agent
         private void exit_Click(object sender, EventArgs e)
         {
             port.move = 1;
-            MenuAdmin menuAdmin = new MenuAdmin();
-            menuAdmin.Show();
+            MenuManager menuManager = new MenuManager();
+            menuManager.Show();
             this.Close();
         }
 

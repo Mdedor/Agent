@@ -12,29 +12,9 @@ namespace Agent
 {
     public partial class MenuManager : Form
     {
-
         public MenuManager()
         {
             InitializeComponent();
-        }
-
-        private void exit_Click(object sender, EventArgs e)
-        {
-            Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
-        }
-
-        private void buttonAplicant_Click(object sender, EventArgs e)
-        {
-            SeeVacancy seeVacancy = new SeeVacancy();
-            seeVacancy.Show();
-            this.Close();
-        }
-
-        private void MenuManager_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -44,21 +24,39 @@ namespace Agent
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonAplicant_Click(object sender, EventArgs e)
         {
-            SeeResume seeResume = new SeeResume();
-            seeResume.Show();
+            port.move = 1;
+            AdminS adminS = new AdminS();
+            adminS.Show();
             this.Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void buttonCompany_Click(object sender, EventArgs e)
         {
-
+            port.move = 1;
+            AdminC adminC = new AdminC();
+            adminC.Show();
+            this.Close();
         }
 
-        private void MenuManager_Paint(object sender, PaintEventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
-            func.FormPaint(this);
+            seeDirection seeDirection = new seeDirection();
+            seeDirection.Show();
+            this.Close();
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
+        }
+
+        private void MenuManager_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

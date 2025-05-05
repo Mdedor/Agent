@@ -161,21 +161,21 @@ namespace Agent
             
             if (resume != 0)
             {
-                string searcNow = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
-                        FROM resume  
-                        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
-                        INNER JOIN profession ON resume.resume_profession = profession.id 
-                        WHERE resume.id = '{resume}'";
-                func.load(dataGridView2, searcNow);
-                dataGridView2.Columns["id"].Visible = false;
-                dataGridView2.Columns["Status"].Visible = false;
-                dataGridView2.Columns["Соискатель"].Width = 270;
-                dataGridView2.Columns["Профессия"].Width = 250;
-                dataGridView2.Columns["Знание языков"].Width = 208;
-                dataGridView2.Columns["Личностные качества"].Width = 300;
-                dataGridView2.Columns["Зарплата"].Width = 140;
+                //string searcNow = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
+                //        FROM resume  
+                //        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                //        INNER JOIN profession ON resume.resume_profession = profession.id 
+                //        WHERE resume.id = '{resume}'";
+                //func.load(dataGridView2, searcNow);
+                //dataGridView2.Columns["id"].Visible = false;
+                //dataGridView2.Columns["Status"].Visible = false;
+                //dataGridView2.Columns["Соискатель"].Width = 270;
+                //dataGridView2.Columns["Профессия"].Width = 250;
+                //dataGridView2.Columns["Знание языков"].Width = 208;
+                //dataGridView2.Columns["Личностные качества"].Width = 300;
+                //dataGridView2.Columns["Зарплата"].Width = 140;
 
-                dataGridView2.Visible = true;
+                //dataGridView2.Visible = true;
             }
 
             
@@ -465,27 +465,6 @@ namespace Agent
 
         private void exit_Click_1(object sender, EventArgs e)
         {
-            if (roleEmp == "2")
-            {
-                if (resume == 0)
-                {
-                    MenuManager menuManager = new MenuManager();
-                    menuManager.Show();
-                    this.Close();
-                }
-                else
-                {
-                    res res = new res(0, resume);
-                    res.Show();
-                    this.Close();
-                }
-            }
-            else
-            {
-                MenuAdmin menuA = new MenuAdmin();
-                menuA.Show();
-                this.Close();
-            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -505,6 +484,32 @@ namespace Agent
 
         private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
         {
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+
+            if (roleEmp == "3")
+            {
+                if (resume == 0)
+                {
+                    MenuRecruter menuManager = new MenuRecruter();
+                    menuManager.Show();
+                    this.Close();
+                }
+                else
+                {
+                    res res = new res(0, resume);
+                    res.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                MenuAdmin menuA = new MenuAdmin();
+                menuA.Show();
+                this.Close();
+            }
         }
     }
 }

@@ -143,6 +143,12 @@
     <Compile Include="MenuAdmin.Designer.cs">
       <DependentUpon>MenuAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="MenuRecruter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuRecruter.Designer.cs">
+      <DependentUpon>MenuRecruter.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MenuAdmin.resx">
       <DependentUpon>MenuAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuRecruter.resx">
+      <DependentUpon>MenuRecruter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuManager.resx">
       <DependentUpon>MenuManager.cs</DependentUpon>

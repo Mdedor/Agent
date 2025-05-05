@@ -21,31 +21,31 @@ namespace Agent
 
         private void MenuAdmin_Load(object sender, EventArgs e)
         {
-            StartTimer();
+            //StartTimer();
         }
-        private async void StartTimer()
-        {
-            int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
-            int currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
-            TimeSpan ts = new TimeSpan(0, currentValue, currentValue2);
-            while (ts > TimeSpan.Zero)
-            {
-                await Task.Delay(1000);
-                 ts -= TimeSpan.FromSeconds(1);
+    //    private async void StartTimer()
+    //    {
+    //        int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
+    //        int currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
+    //        TimeSpan ts = new TimeSpan(0, currentValue, currentValue2);
+    //        while (ts > TimeSpan.Zero)
+    //        {
+    //            await Task.Delay(1000);
+    //             ts -= TimeSpan.FromSeconds(1);
 
-                if (port.move == 1)
-                {
-                    ts = new TimeSpan(0, 0, 5);
-                    port.move = 0;
-                }
-            }
-            Auntification auntification = new Auntification();
-            CloseAllAndOpenNew(auntification);
+    //            if (port.move == 1)
+    //            {
+    //                ts = new TimeSpan(0, 0, 40);
+    //                port.move = 0;
+    //            }
+    //        }
+    //        Auntification auntification = new Auntification();
+    //        CloseAllAndOpenNew(auntification);
            
         
         
 
-    }
+    //}
         public static void CloseAllAndOpenNew(Form newForm)
         {
             var forms = Application.OpenForms.Cast<Form>().ToList();

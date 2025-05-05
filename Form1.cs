@@ -39,7 +39,13 @@ namespace Agent
         {
             InitializeComponent();
         }
+        // ДОДЕЛАТЬ ТЗ
         // сделать проверку на подключение и проверку на наличиие базы данных !!
+        // Востановление базы данных автоматическое и ручное
+        // добавить создание документа при добавлении компании
+        // документ по прибыли
+        // изменить дизайн
+        // протестировать каждый комбо бокс
         private void Auntification_Load(object sender, EventArgs e)
         {
             textBoxLogin.Text = "1";
@@ -90,6 +96,13 @@ namespace Agent
                 manager.Show();
                 this.Hide();
             }
+            else if (post == "3")
+            {
+                MenuRecruter recruter = new MenuRecruter();
+                recruter.Show();
+                this.Hide();
+            }
+            
         }
         private void button1_Click(object sender, EventArgs e)
         {
