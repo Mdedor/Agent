@@ -15,24 +15,45 @@ namespace Agent
         
         int currentRowIndex;
         int currentColumnIndex;
-
+        string searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
+                        FROM resume  
+                        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                        INNER JOIN profession ON resume.resume_profession = profession.id ";
         string roleEmp;
         string searchIn;
+        string stingSearchingVacancy;
+        string stingSearchingResume;
         int resume;
         string profession;
         int applicantId;
-        double countRecordsBD;
-        double countRecords;
-        int page = 1;
-        string searchNowCount;
-        double allPageCount;
+
+        double countRecordsBDVacancy;
+        double countRecordsVacancy;
+
+        double countRecordsBDResume;
+        double countRecordsResume;
+        int pageResume = 1;
+        int pageVacancy = 1;
+        int flag = 1;
+        string searchNowCountVacancy;
+        string searchNowCountResume;
+        double allPageCountVacancy;
+        double allPageCountResume;
         //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume=0, string profession = "")
         {
             InitializeComponent();
-            searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
-            countRecords = func.records(searchNowCount);
-            countRecordsBD = func.records(searchNowCount);
+            searchNowCountVacancy = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
+            countRecordsVacancy = func.records(searchNowCountVacancy);
+            countRecordsBDVacancy = func.records(searchNowCountVacancy);
+
+            searchNowCountResume = @"SELECT Count(*) FROM agent.resume 
+                        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                        INNER JOIN profession ON resume.resume_profession = profession.id
+                        WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
+            countRecordsBDResume = func.records(searchNowCountResume);
+            countRecordsResume = func.records(searchNowCountResume);
+
             resume = idResume;
             roleEmp = func.search($"SELECT employe_post FROM employe WHERE id = {port.empIds}");
 
@@ -41,7 +62,7 @@ namespace Agent
                         INNER JOIN company ON vacancy.vacancy_company = company.id 
                         INNER JOIN profession ON vacancy.vacancy_profession = profession.id
                         where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
-            if (roleEmp == "2" ) 
+            if (roleEmp == "3" ) 
             {
                 if (resume == 0)
                 {
@@ -55,7 +76,9 @@ namespace Agent
                     label5.Visible = true;
                     label6.Visible = true;
                     textBox1.Visible = true;
-                    label2.Text = $"{countRecords} из  {countRecordsBD}";
+                    label2.Text = $"{countRecordsVacancy} из  {countRecordsBDVacancy}";
+
+                    label11.Text = $"{countRecordsResume} из  {countRecordsBDResume}";
                 }
                 else
                 {
@@ -66,43 +89,153 @@ namespace Agent
             }
             
         }
-       
+        void editColumnsResume()
+        {
+            foreach (DataGridViewRow dataGridViewRow in dataGridView2.Rows)
+            {
+
+                string so = dataGridViewRow.Cells["Соискатель"].Value.ToString();
+                string pro = dataGridViewRow.Cells["Профессия"].Value.ToString();
+                string zn = dataGridViewRow.Cells["Знание языков"].Value.ToString();
+                string ka = dataGridViewRow.Cells["Личностные качества"].Value.ToString();
+                dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
+            }
+        }
+        void loadResume()
+        {
+
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
+            connection.Open();
+            string find = $"SELECT name FROM profession;";
+            MySqlCommand com = new MySqlCommand(find, connection);
+
+            MySqlDataReader reader = com.ExecuteReader();
+            while (reader.Read())
+            {
+
+                if (!comboBox2.Items.Contains(reader[0].ToString()))
+                    comboBox2.Items.Add(reader[0].ToString());
+            }
+            connection.Close();
+            dataGridView2.Columns.Add("Соискатели", "Соискатели");
+            func.load(dataGridView2, searcIn);
+
+            dataGridView2.Columns["id"].Visible = false;
+            dataGridView2.Columns["Status"].Visible = false;
+            dataGridView2.Columns["Соискатель"].Visible = false;
+            dataGridView2.Columns["Профессия"].Visible = false;
+            dataGridView2.Columns["Знание языков"].Visible = false;
+            dataGridView2.Columns["Личностные качества"].Visible = false;
+            dataGridView2.Columns["Зарплата"].Width = 140;
+
+            dataGridView2.Refresh();
+            editColumnsResume();
+
+            foreach (DataGridViewColumn column in dataGridView2.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView2.DataSource];
+            manager.SuspendBinding();
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                string status = row.Cells["Status"].Value.ToString();
+                if (status == "1" || status == "3")
+                    row.Visible = false;
+
+            }
+            manager.ResumeBinding();
+            allPageCountResume = Math.Ceiling(countRecordsVacancy / 20);
+
+            editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume,dataGridView2);
+            label5.Text = allPageCountResume.ToString();
+            if (allPageCountResume > 10)
+                textBox1.MaxLength = 2;
+            if (allPageCountResume > 100)
+                textBox1.MaxLength = 3;
+            else
+                textBox1.MaxLength = 4;
+        }
+
         string Search()
         {
-            string searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
-            string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
-                            "FROM vacancy " +
-                            "INNER JOIN company ON vacancy.vacancy_company = company.id " +
-                            "INNER JOIN profession ON vacancy.vacancy_profession = profession.id " +
-                            "where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4) ";
+            if (flag == 1)
+            {
+                string searchNowCount = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
+                string basis = "SELECT vacancy.id, company.company_name as 'Комапния', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_delete_status as 'Status',  companyc_linq as 'Cсылка' " +
+                                "FROM vacancy " +
+                                "INNER JOIN company ON vacancy.vacancy_company = company.id " +
+                                "INNER JOIN profession ON vacancy.vacancy_profession = profession.id " +
+                                "where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4) ";
+
+                if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
+                {
+                    basis += $" AND (profession.name = '{comboBox2.SelectedItem}')";
+                    searchNowCount += $" AND (profession.name = '{comboBox2.SelectedItem}')";
+                }
+                if (textBoxSearch.Text.Length > 0)
+                {
+
+
+                    basis += $" AND (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
+                    searchNowCount += $" and (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
+                }
+                if (comboBox1.SelectedIndex == 0)
+                {
+                    basis += $"ORDER BY vacancy.vacancy_salary_by";
+                }
+                else if (comboBox1.SelectedIndex == 1)
+                {
+                    basis += $"ORDER BY vacancy.vacancy_salary_by DESC";
+                }
+                countRecordsVacancy = func.records(searchNowCount);
+                label2.Text = $"{countRecordsVacancy} из {countRecordsBDVacancy}";
+                pageVacancy = 1;
+                allPageCountVacancy = Math.Ceiling(countRecordsVacancy / 20);
+                label5.Text = allPageCountVacancy.ToString();
+                return basis;
+            }
+            else
+            {
+                string searchNowCount = @"SELECT Count(*) FROM agent.resume INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                        INNER JOIN profession ON resume.resume_profession = profession.id
+                        WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
+                string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status' FROM resume  INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id INNER JOIN profession ON resume.resume_profession = profession.id  "; ;
+                if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0)
+                {
+                    basis += "WHERE ";
+                }
+                if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
+                {
+                    basis += $"(profession.name = '{comboBox2.SelectedItem}')";
+                    searchNowCount += $" and (profession.name = '{comboBox2.SelectedItem}')";
+                }
+                if (textBoxSearch.Text.Length > 0)
+                {
+                    if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
+                        basis += " AND ";
+                    basis += $"(CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
+                    searchNowCount += $" and (CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
+                }
+                if (comboBox1.SelectedIndex == 0)
+                {
+                    basis += $"ORDER BY resume.salary";
+                }
+                else if (comboBox1.SelectedIndex == 1)
+                {
+                    basis += $"ORDER BY resume.salary DESC";
+                }
+                countRecordsResume = func.records(searchNowCount);
+                label2.Text = $"{countRecordsResume} из {countRecordsBDResume}";
+                pageResume = 1;
+                allPageCountResume = Math.Ceiling(countRecordsResume / 20);
+                label8.Text = allPageCountResume.ToString();
+                return basis;
+            }
             
-            if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
-            {
-                basis += $" AND (profession.name = '{comboBox2.SelectedItem}')";
-                searchNowCount += $" AND (profession.name = '{comboBox2.SelectedItem}')";
-            }
-            if (textBoxSearch.Text.Length > 0)
-            {
-                
-                    
-                basis += $" AND (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
-                searchNowCount += $" and (company.company_name LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_requirements LIKE '%{textBoxSearch.Text}%' OR vacancy.vacancy_conditions LIKE '%{textBoxSearch.Text}%' OR  vacancy.vacancy_responsibilities LIKE '%{textBoxSearch.Text}%')";
-            }
-            if (comboBox1.SelectedIndex == 0)
-            {
-                basis += $"ORDER BY vacancy.vacancy_salary_by";
-            } else if (comboBox1.SelectedIndex == 1)
-            {
-                basis += $"ORDER BY vacancy.vacancy_salary_by DESC";
-            }
-            countRecords = func.records(searchNowCount);
-            label2.Text = $"{countRecords} из {countRecordsBD}";
-            page = 1;
-            allPageCount = Math.Ceiling(countRecords / 20);
-            label5.Text = allPageCount.ToString();
-            return basis;
         }
-        void done()
+
+        void editColumnVacancy()
         {
             foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
             {
@@ -124,7 +257,7 @@ namespace Agent
             
             func.load(dataGridView1, searchIn);
             dataGridView1.Columns.Add("Специфика", "Специфика");
-            done();
+            editColumnVacancy();
 
             dataGridView1.Columns["id"].Visible = false;
 
@@ -158,28 +291,8 @@ namespace Agent
         }
         private void SeeVacancy_Load(object sender, EventArgs e)
         {
+             dataGridView1.ClearSelection();
             
-            if (resume != 0)
-            {
-                //string searcNow = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
-                //        FROM resume  
-                //        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
-                //        INNER JOIN profession ON resume.resume_profession = profession.id 
-                //        WHERE resume.id = '{resume}'";
-                //func.load(dataGridView2, searcNow);
-                //dataGridView2.Columns["id"].Visible = false;
-                //dataGridView2.Columns["Status"].Visible = false;
-                //dataGridView2.Columns["Соискатель"].Width = 270;
-                //dataGridView2.Columns["Профессия"].Width = 250;
-                //dataGridView2.Columns["Знание языков"].Width = 208;
-                //dataGridView2.Columns["Личностные качества"].Width = 300;
-                //dataGridView2.Columns["Зарплата"].Width = 140;
-
-                //dataGridView2.Visible = true;
-            }
-
-            
-
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
             comboBox2.Items.Add("Без фильтра");
             List<string> list = new List<string>();
@@ -200,23 +313,25 @@ namespace Agent
             comboBox1.Items.Add("По возрастанию зарплаты");
             comboBox1.Items.Add("По убыванию зарплаты");
             load_load();
+            loadResume();
             if (resume == 0)
             {
 
-                allPageCount = Math.Ceiling(countRecords / 20);
-                editPage();
-                label5.Text = allPageCount.ToString();
-                if (allPageCount > 10)
+                allPageCountVacancy = Math.Ceiling(countRecordsVacancy / 20);
+                editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy,dataGridView1);
+                label8.Text = allPageCountVacancy.ToString();
+                if (allPageCountVacancy > 10)
                     textBox1.MaxLength = 2;
-                if (allPageCount > 100)
+                if (allPageCountVacancy > 100)
                     textBox1.MaxLength = 3;
                 else
                     textBox1.MaxLength = 4;
             }
 
         }
-        void editPage()
+        void editPage(double countRecords, double countRecordsBD, Label label2,Label label5,TextBox textBox1, double allPageCount, int page,DataGridView dataGridView)
         {
+
             dataGridView1.CurrentCell = null;
 
             int countRow = 20;
@@ -227,14 +342,14 @@ namespace Agent
             {
                 if (i < startRow || i > endRow)
                 {
-                    
-                    dataGridView1.Rows[i].Visible = false;
+
+                    dataGridView.Rows[i].Visible = false;
                     
 
                 }
                 else
                 {
-                    dataGridView1.Rows[i].Visible = true;
+                    dataGridView.Rows[i].Visible = true;
                 }
 
             }
@@ -243,6 +358,8 @@ namespace Agent
                 nowCount = -1*(20*(page-1)-countRecords);
             label2.Text = $"{nowCount} из  {countRecordsBD}";
             label5.Text = allPageCount.ToString();
+            if (nowCount == 0)
+                page = 0;
             textBox1.Text = page.ToString();
 
         }
@@ -267,55 +384,12 @@ namespace Agent
 
                 }
             }
-            dataGridView1.Columns["Компания"].Width = 160;
-            dataGridView1.Columns["Профессия"].Width = 200;
-            dataGridView1.Columns["Обязанности"].Width = 340;
-            dataGridView1.Columns["Требования"].Width = 270;
-            dataGridView1.Columns["Условия"].Width = 270;
-            dataGridView1.Columns["Размер зарплаты"].Width = 150;
-            dataGridView1.Columns["Адресс работы"].Width = 310;
-            dataGridView1.Columns["id"].Visible = false;
 
-
-            dataGridView1.Columns["Status"].Visible = false;
-            dataGridView1.Columns["Cсылка"].Visible = false;
-            dataGridView1.Columns["Cсылка"].Visible = false;
-            dataGridView1.Columns["Cсылка"].Visible = false;
-            dataGridView1.Columns["Cсылка"].Visible = false;
-
+            editColumnVacancy();
             dataGridView1.Columns["Status"].Visible = false;
             dataGridView1.Columns["Cсылка"].Visible = false;
         }
-        private void textBoxSearch_TextChanged(object sender, EventArgs e)
-        {
-           
-
-            func.load(dataGridView1, Search());
-            dataGridView1.ClearSelection();
-
-
-            change();
-            editPage();
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-
-            func.load(dataGridView1, Search());
-            change();
-            editPage();
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-         
-
-            func.load(dataGridView1, Search());
-            change();
-            editPage();
-        }
+        
         void menu(object sender, MouseEventArgs e)
         {
 
@@ -325,7 +399,7 @@ namespace Agent
             this.currentRowIndex = dataGridView1.HitTest(e.X, e.Y).RowIndex;
             if(e.Button == MouseButtons.Right)
             {
-                if (roleEmp == "2")
+                if (roleEmp == "3")
                 {
                     if (resume == 0)
                         contextMenu.MenuItems.Add(new MenuItem("Выбрать соискателя", click_to));
@@ -413,11 +487,7 @@ namespace Agent
             }
             
         }
-        private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
-        {
-            
-        }
-
+       
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1)
@@ -439,10 +509,7 @@ namespace Agent
             }
         }
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
 
         private void SeeVacancy_Paint(object sender, PaintEventArgs e)
         {
@@ -451,40 +518,21 @@ namespace Agent
 
         private void label4_Click(object sender, EventArgs e)
         { 
-            if (countRecords>page*20)
-                page++;
-            editPage();
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-            if(page >1)
-                page--;
-            editPage();
+            
         }
 
-        private void exit_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_MouseDown_1(object sender, MouseEventArgs e)
-        {
-            menu(sender, e);
-        }
+        
 
         private void SeeVacancy_MouseMove(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
+        
 
         private void exit_Click(object sender, EventArgs e)
         {
@@ -510,6 +558,148 @@ namespace Agent
                 menuA.Show();
                 this.Close();
             }
+        }
+
+        private void exit_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                textBoxSearch.Text = stingSearchingVacancy;
+            }
+            else
+            {
+                flag = 2;
+                stingSearchingVacancy = textBoxSearch.Text;
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+            {
+                textBoxSearch.Text = stingSearchingResume;
+            }
+            else
+            {
+                flag = 1;
+                stingSearchingResume = textBoxSearch.Text;
+
+            }
+        }
+
+        private void textBoxSearch_TextChanged_1(object sender, EventArgs e)
+        {
+            if (flag == 1)
+            {
+                    dataGridView1.Columns.Remove("Специфика");
+                    func.load(dataGridView1, Search());
+                    dataGridView1.Columns.Add("Специфика", "Специфика");
+                    editColumnVacancy();
+                    dataGridView1.ClearSelection();
+                    change();
+                editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+
+            }
+            else
+            {
+                    func.load(dataGridView2, Search());
+                    dataGridView1.ClearSelection();
+                    editColumnsResume();               
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (flag == 1)
+            {
+                func.load(dataGridView1, Search());
+                change();
+                editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            }
+            else
+            {
+                func.load(dataGridView2, Search());
+                dataGridView1.ClearSelection();
+                editColumnsResume();
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (flag == 1)
+            {
+                func.load(dataGridView1, Search());
+                change();
+                editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            }
+            else
+            {
+                func.load(dataGridView2, Search());
+                dataGridView1.ClearSelection();
+                editColumnsResume();
+
+            }
+        }
+
+        private void dataGridView1_MouseDown_2(object sender, MouseEventArgs e)
+        {
+            radioButton1.Checked = true;
+            menu(sender, e);
+        }
+
+        private void dataGridView2_MouseDown(object sender, MouseEventArgs e)
+        {
+            radioButton2.Checked = true;
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+            if (pageVacancy > 1)
+                pageVacancy--;
+            editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
+            if (countRecordsVacancy > pageVacancy * 20)
+                pageVacancy++;
+            editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            if (countRecordsResume > pageResume * 20)
+                pageResume++;
+            editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+            
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            if (pageResume > 1)
+                pageResume--;
+            editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
         }
     }
 }

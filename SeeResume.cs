@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace Agent
                         FROM resume  
                         INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
                         INNER JOIN profession ON resume.resume_profession = profession.id ";
-            if (roleEmp == "2")
+            if (roleEmp == "3")
             {
                 if (idVacancy >= 0 && professions != " ")
                     searcIn += $"WHERE profession.name = '{professions}'";
@@ -70,37 +71,8 @@ namespace Agent
                 dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
             }
         }
-
-        private void resumeList_Load(object sender, EventArgs e)
+        void loadResume()
         {
-            labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
-
-            if (idVacancy != 0)
-            {
-                //exit.Location = new Point(1161, 870);
-                //this.Size = new Size(1391, 1048);
-                //string searcIn = $@"SELECT vacancy.id, company.company_name as 'Компания', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status' FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id WHERE vacancy.id ='{idVacancy}'";
-                //func.load(dataGridView2, searcIn);
-                //dataGridView2.Columns["id"].Visible = false;
-                //dataGridView2.Columns["Status"].Visible = false;
-
-
-                //dataGridView2.Columns["Компания"].Width = 100;
-                //dataGridView2.Columns["Профессия"].Width = 140;
-                //dataGridView2.Columns["Обязанности"].Width = 260;
-                //dataGridView2.Columns["Требования"].Width = 200;
-                //dataGridView2.Columns["Условия"].Width = 200;
-                //dataGridView2.Columns["Размер зарплаты"].Width = 110;
-                //dataGridView2.Columns["Адресс работы"].Width = 300;
-
-
-
-                //dataGridView2.Visible = true;
-            }
-            comboBox2.Items.Add("Без фильтра");
-            comboBox1.Items.Add("По возрастанию зарплаты");
-            comboBox1.Items.Add("По убыванию зарплаты");
-            List<string> list = new List<string>();
             MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT name FROM profession;";
@@ -142,6 +114,38 @@ namespace Agent
 
             }
             manager.ResumeBinding();
+        }
+        private void resumeList_Load(object sender, EventArgs e)
+        {
+            labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
+
+            if (idVacancy != 0)
+            {
+                //exit.Location = new Point(1161, 870);
+                //this.Size = new Size(1391, 1048);
+                //string searcIn = $@"SELECT vacancy.id, company.company_name as 'Компания', profession.name as 'Профессия', vacancy.vacancy_responsibilities as 'Обязанности', vacancy.vacancy_requirements as 'Требования', vacancy.vacancy_conditions as 'Условия', CONCAT( vacancy.vacancy_salary_by, ' - ', vacancy.vacancy_salary_before) as 'Размер зарплаты',  vacancy.vacancy_address as 'Адресс работы',  vacancy.vacancy_delete_status as 'Status' FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id WHERE vacancy.id ='{idVacancy}'";
+                //func.load(dataGridView2, searcIn);
+                //dataGridView2.Columns["id"].Visible = false;
+                //dataGridView2.Columns["Status"].Visible = false;
+
+
+                //dataGridView2.Columns["Компания"].Width = 100;
+                //dataGridView2.Columns["Профессия"].Width = 140;
+                //dataGridView2.Columns["Обязанности"].Width = 260;
+                //dataGridView2.Columns["Требования"].Width = 200;
+                //dataGridView2.Columns["Условия"].Width = 200;
+                //dataGridView2.Columns["Размер зарплаты"].Width = 110;
+                //dataGridView2.Columns["Адресс работы"].Width = 300;
+
+
+
+                //dataGridView2.Visible = true;
+            }
+            comboBox2.Items.Add("Без фильтра");
+            comboBox1.Items.Add("По возрастанию зарплаты");
+            comboBox1.Items.Add("По убыванию зарплаты");
+
+            loadResume();
         }
         void menu(object sender, MouseEventArgs e)
         {
