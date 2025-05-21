@@ -131,7 +131,7 @@ namespace Agent
 
                 //dataGridView2.Columns["Компания"].Width = 100;
                 //dataGridView2.Columns["Профессия"].Width = 140;
-                //dataGridView2.Columns["Обязанности"].Width = 260;
+                ////dataGridView2.Columns["Обязанности"].Width = 260;
                 //dataGridView2.Columns["Требования"].Width = 200;
                 //dataGridView2.Columns["Условия"].Width = 200;
                 //dataGridView2.Columns["Размер зарплаты"].Width = 110;
