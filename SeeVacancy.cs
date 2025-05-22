@@ -49,7 +49,9 @@ namespace Agent
         public SeeVacancy(int idResume = 0, string profession = "")
         {
             InitializeComponent();
-            searchNowCountVacancy = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id INNER JOIN profession ON vacancy.vacancy_profession = profession.id  where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
+            searchNowCountVacancy = "SELECT count(*) FROM vacancy INNER JOIN company ON vacancy.vacancy_company = company.id " +
+                                    "INNER JOIN profession ON vacancy.vacancy_profession = profession.id  " +
+                                    "where (vacancy_delete_status IS NULL OR vacancy_delete_status = 4)";
             countRecordsVacancy = func.records(searchNowCountVacancy);
             countRecordsBDVacancy = func.records(searchNowCountVacancy);
 
@@ -206,6 +208,7 @@ namespace Agent
 
                 }
                 countRecordsVacancy = func.records(searchNowCount);
+                countRecordsBDVacancy = func.records(searchNowCount);   
                 label2.Text = $"{countRecordsVacancy} из {countRecordsBDVacancy}";
                 pageVacancy = 1;
                 allPageCountVacancy = Math.Ceiling(countRecordsVacancy / 20);
@@ -218,20 +221,23 @@ namespace Agent
                 string searchNowCount = @"SELECT Count(*) FROM agent.resume INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
                         INNER JOIN profession ON resume.resume_profession = profession.id
                         WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
-                string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status' FROM resume  INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id INNER JOIN profession ON resume.resume_profession = profession.id  "; ;
-                if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0 || resumeProfession != "0")
-                {
-                    basis += "WHERE ";
-                }
+                string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status' FROM resume  
+                                INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
+                                INNER JOIN profession ON resume.resume_profession = profession.id   
+                                WHERE (applicant_delete_status is null or applicant_delete_status = 4)"; ;
+                //if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || textBoxSearch.Text.Length > 0 || resumeProfession != "0")
+                //{
+                //    basis += "WHERE ";
+                //}
                 if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0)
                 {
-                    basis += $"(profession.name = '{comboBox2.SelectedItem}')";
+                    basis += $" and (profession.name = '{comboBox2.SelectedItem}')";
                     searchNowCount += $" and (profession.name = '{comboBox2.SelectedItem}')";
 
                 }
                 if (resumeProfession != "0")
                 {
-                    basis += $" (profession.name = '{resumeProfession}') ";
+                    basis += $"  and (profession.name = '{resumeProfession}') ";
                     searchNowCount += $"AND profession.name = '{vacancyProfession}'";
                 }
                 if (textBoxSearch.Text.Length > 0)
@@ -251,6 +257,7 @@ namespace Agent
                 }
                 countRecordsResume = func.records(searchNowCount);
                 label11.Text = $"{countRecordsResume} из {countRecordsBDResume}";
+                countRecordsBDResume = func.records(searchNowCount);
                 pageResume = 1;
                 allPageCountResume = Math.Ceiling(countRecordsResume / 20);
                 label8.Text = allPageCountResume.ToString();
