@@ -115,20 +115,13 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            if (roleEmp == "2")
+            if (roleEmp == "3")
             {
-                if (idVacancy > 0)
-                {
-                    SeeResume seeResume = new SeeResume( labelProfession.Text, idVacancy);
-                    seeResume.Show();
-                    this.Close();
-                }
-                else
-                {
-                    SeeResume seeResume = new SeeResume();
-                    seeResume.Show();
-                    this.Close();
-                }
+                
+                SeeVacancy seeVacancy = new SeeVacancy(idVacancy);
+                seeVacancy.Show();
+                this.Close();
+                
             }
             else
             {
@@ -156,6 +149,11 @@ namespace Agent
         }
 
         private void labelProfession_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }

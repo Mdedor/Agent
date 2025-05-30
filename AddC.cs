@@ -18,6 +18,7 @@ namespace Agent
         string adress;
         string link;
         string phoneNumber;
+        string cost;
         int flag;
 
         public AddC(int compony =0)
@@ -53,7 +54,7 @@ namespace Agent
         }
         void checkEnable()
         {
-            if (flag == 1)
+            if (flag == 0)
             {
                 var count = 0;
                 if (textBoxDesc.Text.Length > 0)
@@ -64,8 +65,9 @@ namespace Agent
                     count++;
                 if (maskedTextBoxPhoneNumber.MaskFull)
                     count++;
-
-                if (count == 4)
+                if (textBox1.Text.Length > 0)
+                    count++;
+                if (count >= 5)
                 {
                     buttonAddS.Enabled = true;
                 }
@@ -102,6 +104,7 @@ namespace Agent
                     maskedTextBoxPhoneNumber.Text = readerr[3].ToString();
                     textBoxAdress.Text = readerr[4].ToString();
                     textBoxLink.Text = readerr[5].ToString();
+                    textBox1.Text = readerr[7].ToString();
 
                 }
                 name = textBoxName.Text;
@@ -109,6 +112,7 @@ namespace Agent
                 link = textBoxLink.Text;
                 phoneNumber = maskedTextBoxPhoneNumber.Text;
                 description = textBoxDesc.Text;
+                cost = textBox1.Text;
                 flag = 1;
             }
         }
@@ -128,6 +132,7 @@ namespace Agent
             link = textBoxLink.Text;
             phoneNumber = maskedTextBoxPhoneNumber.Text;
             description = textBoxDesc.Text;
+            
 
             if (componys == 0)
             {
@@ -142,11 +147,11 @@ namespace Agent
                     try
                     {
                         func.direction($@"
-                                INSERT INTO company (company_name, company_desceiption, company_phone_number, company_address, companyc_linq) 
-                                SELECT '{name}', '{description}', '{phoneNumber}', '{adress}', '{link}' 
+                                INSERT INTO company (company_name, company_desceiption, company_phone_number, company_address, companyc_linq,company_vacancy_cost) 
+                                SELECT '{name}', '{description}', '{phoneNumber}', '{adress}', '{link}',{textBox1.Text} 
                                 WHERE NOT EXISTS (
                                     SELECT 1 FROM company 
-                                    WHERE company_name = '{name}' AND company_phone_number = '{phoneNumber}' AND company_address = '{adress}' AND (company_delete_status IS NULL OR company_delete_status = 3 OR company_delete_status = 4)
+                                    WHERE company_name = '{name}' AND company_phone_number = '{phoneNumber}' AND company_address = '{adress}' AND  (company_delete_status IS NULL OR company_delete_status = 3 OR company_delete_status = 4)
                                 );
                             ");
 
@@ -175,6 +180,7 @@ namespace Agent
                     textBoxAdress.Clear();
                     textBoxLink.Clear();
                     textBoxName.Clear();
+                    textBox1.Clear();
                     maskedTextBoxPhoneNumber.Clear();
                     MessageBox.Show("Запись успешно добавлена", "Уведомление");
                     DialogResult results = MessageBox.Show(
@@ -203,7 +209,7 @@ namespace Agent
                 if (result == DialogResult.Yes)
                 {
 
-                    string searchIn = $@"UPDATE company SET company_name = '{name}', company_desceiption = '{description}', company_phone_number = '{phoneNumber}', company_address = '{adress}', companyc_linq = '{link}';";
+                    string searchIn = $@"UPDATE company SET company_name = '{name}', company_desceiption = '{description}', company_phone_number = '{phoneNumber}', company_address = '{adress}', companyc_linq = '{link}', company_vacancy_cost = {textBox1.Text};";
                     
                     try
                     {
@@ -327,6 +333,23 @@ namespace Agent
                 checkEnableUpdate();
                 checkEnable();
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            port.move = 1;
+            if (componys == 0)
+                checkEnable();
+            else
+            {
+                checkEnableUpdate();
+                checkEnable();
+            }
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            func.salary(e);
         }
     }
 }

@@ -43,6 +43,8 @@
             this.exit = new System.Windows.Forms.Button();
             this.buttonAddS = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,7 +88,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(30, 71);
+            this.label2.Location = new System.Drawing.Point(25, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 27);
             this.label2.TabIndex = 45;
@@ -100,7 +102,7 @@
             this.textBoxName.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxName.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxName.ForeColor = System.Drawing.Color.Black;
-            this.textBoxName.Location = new System.Drawing.Point(174, 69);
+            this.textBoxName.Location = new System.Drawing.Point(148, 70);
             this.textBoxName.MaxLength = 80;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(230, 34);
@@ -112,7 +114,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(30, 199);
+            this.label3.Location = new System.Drawing.Point(12, 198);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(130, 54);
             this.label3.TabIndex = 47;
@@ -126,11 +128,11 @@
             this.textBoxDesc.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBoxDesc.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxDesc.ForeColor = System.Drawing.Color.Black;
-            this.textBoxDesc.Location = new System.Drawing.Point(174, 137);
+            this.textBoxDesc.Location = new System.Drawing.Point(148, 138);
             this.textBoxDesc.MaxLength = 1000;
             this.textBoxDesc.Multiline = true;
             this.textBoxDesc.Name = "textBoxDesc";
-            this.textBoxDesc.Size = new System.Drawing.Size(230, 226);
+            this.textBoxDesc.Size = new System.Drawing.Size(230, 232);
             this.textBoxDesc.TabIndex = 46;
             this.textBoxDesc.TextChanged += new System.EventHandler(this.textBoxDesc_TextChanged);
             this.textBoxDesc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDesc_KeyPress);
@@ -192,9 +194,9 @@
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(520, 319);
+            this.exit.Location = new System.Drawing.Point(641, 323);
             this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(264, 47);
+            this.exit.Size = new System.Drawing.Size(230, 47);
             this.exit.TabIndex = 120;
             this.exit.Text = "Назад в меню\r\n";
             this.exit.UseVisualStyleBackColor = true;
@@ -210,9 +212,9 @@
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
-            this.buttonAddS.Location = new System.Drawing.Point(520, 259);
+            this.buttonAddS.Location = new System.Drawing.Point(405, 324);
             this.buttonAddS.Name = "buttonAddS";
-            this.buttonAddS.Size = new System.Drawing.Size(264, 44);
+            this.buttonAddS.Size = new System.Drawing.Size(230, 44);
             this.buttonAddS.TabIndex = 119;
             this.buttonAddS.Text = "Добавить";
             this.buttonAddS.UseVisualStyleBackColor = false;
@@ -228,12 +230,40 @@
             this.pictureBox1.TabIndex = 121;
             this.pictureBox1.TabStop = false;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(384, 245);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(256, 54);
+            this.label7.TabIndex = 122;
+            this.label7.Text = "Плата \r\nза устроенного работника\r\n";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(641, 262);
+            this.textBox1.MaxLength = 10;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(230, 34);
+            this.textBox1.TabIndex = 123;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            // 
             // AddC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(883, 398);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.buttonAddS);
@@ -279,5 +309,7 @@
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Button buttonAddS;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

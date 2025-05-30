@@ -157,9 +157,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            AdminC adminC = new AdminC();
-            adminC.Show();
-            this.Close();
+            
         }
 
         private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
@@ -170,6 +168,13 @@ namespace Agent
         private void SeeCompany_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AdminC adminC = new AdminC();
+            adminC.Show();
+            this.Close();
         }
     }
 }

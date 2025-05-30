@@ -38,13 +38,14 @@ namespace Agent
         void loadDate()
         {
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
+            dataGridView1.Columns.Clear();
             func.load(dataGridView1, stringSearch);
             dataGridView1.Columns["id"].Visible = false;
-            dataGridView1.Columns["Соискатель"].Width = 270;
-            dataGridView1.Columns["Профессия"].Width = 250;
-            dataGridView1.Columns["Работник"].Width = 270;
-            dataGridView1.Columns["Дата направления"].Width = 100;
-            dataGridView1.Columns["Статус"].Width = 100;
+            //dataGridView1.Columns["Соискатель"].Width = 270;
+            //dataGridView1.Columns["Профессия"].Width = 250;
+            //dataGridView1.Columns["Работник"].Width = 270;
+            dataGridView1.Columns["Дата направления"].Width = 70;
+            dataGridView1.Columns["Статус"].Width = 70;
 
             dataGridView1.Columns["Delete"].Visible = false;
 
@@ -106,6 +107,7 @@ namespace Agent
             DirectionStatus status = new DirectionStatus(dirId);
             status.ShowDialog();
             port.status = "";
+
             loadDate();
         }
 
@@ -124,6 +126,13 @@ namespace Agent
         private void seeDirection_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ExcelFile excelFile = new ExcelFile();
+            excelFile.ShowDialog();
+
         }
     }
 }

@@ -7,7 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
+using Point = System.Drawing.Point;
+
 namespace Agent
 {
     public partial class SeeVacancy : Form
@@ -15,10 +19,11 @@ namespace Agent
 
         int currentRowIndex;
         int currentColumnIndex;
-        string searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
+        string searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status', applicant_id
                         FROM resume  
                         INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
-                        INNER JOIN profession ON resume.resume_profession = profession.id ";
+                        INNER JOIN profession ON resume.resume_profession = profession.id
+                        WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
         string roleEmp;
         string searchIn;
         string stingSearchingVacancy;
@@ -33,6 +38,9 @@ namespace Agent
         int idFilterVacancy = 0;
         int idSortVacancy = -1;
         int idSortResume = -1;
+
+        int aplicantID = 0;
+        int vacancyID = 0;
 
         double countRecordsBDResume;
         double countRecordsResume;
@@ -99,6 +107,16 @@ namespace Agent
         }
         void editColumnsResume()
         {
+            try
+            {
+                dataGridView2.Columns.Remove("Зарплат");
+            }
+            catch
+            {
+
+            }
+            
+            dataGridView2.Columns.Add("Зарплат", "Зарплата");
             foreach (DataGridViewRow dataGridViewRow in dataGridView2.Rows)
             {
 
@@ -107,6 +125,8 @@ namespace Agent
                 string zn = dataGridViewRow.Cells["Знание языков"].Value.ToString();
                 string ka = dataGridViewRow.Cells["Личностные качества"].Value.ToString();
                 dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
+
+                dataGridViewRow.Cells["Зарплат"].Value = $"{dataGridViewRow.Cells["Зарплата"].Value.ToString()} руб";
             }
         }
         void loadComboBoxPRofession()
@@ -138,7 +158,9 @@ namespace Agent
             dataGridView2.Columns["Профессия"].Visible = false;
             dataGridView2.Columns["Знание языков"].Visible = false;
             dataGridView2.Columns["Личностные качества"].Visible = false;
-            dataGridView2.Columns["Зарплата"].Width = 140;
+            dataGridView2.Columns["applicant_id"].Visible = false;
+            dataGridView2.Columns["Зарплата"].Visible = false;
+
 
             dataGridView2.Refresh();
             editColumnsResume();
@@ -194,6 +216,7 @@ namespace Agent
                 }
                 if (resumeProfession != "0")
                 {
+
                     basis += $" (profession.name = '{resumeProfession}') ";
                 }
                 if (comboBox1.SelectedIndex == 1)
@@ -221,7 +244,7 @@ namespace Agent
                 string searchNowCount = @"SELECT Count(*) FROM agent.resume INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
                         INNER JOIN profession ON resume.resume_profession = profession.id
                         WHERE (applicant_delete_status is null or applicant_delete_status = 4)";
-                string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status' FROM resume  
+                string basis = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status', applicant_id FROM resume  
                                 INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
                                 INNER JOIN profession ON resume.resume_profession = profession.id   
                                 WHERE (applicant_delete_status is null or applicant_delete_status = 4)"; ;
@@ -242,16 +265,15 @@ namespace Agent
                 }
                 if (textBoxSearch.Text.Length > 0)
                 {
-                    if (comboBox2.SelectedIndex != -1 && comboBox2.SelectedIndex != 0 || resumeProfession != "0")
-                        basis += " AND ";
-                    basis += $"(CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
+                    
+                    basis += $" AND  (CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
                     searchNowCount += $" and (CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) LIKE '%{textBoxSearch.Text}%' OR resume.resume_personal_qualities LIKE '%{textBoxSearch.Text}%' OR resume.resume_knowledge_of_languages LIKE '%{textBoxSearch.Text}%')";
                 }
-                if (comboBox1.SelectedIndex == 0)
+                if (comboBox1.SelectedIndex == 1)
                 {
                     basis += $"ORDER BY resume.salary";
                 }
-                else if (comboBox1.SelectedIndex == 1)
+                else if (comboBox1.SelectedIndex == 2)
                 {
                     basis += $"ORDER BY resume.salary DESC";
                 }
@@ -430,24 +452,28 @@ namespace Agent
         {
             ContextMenu contextMenu = new ContextMenu();
 
-            this.currentRowIndex = dataGridView1.HitTest(e.X, e.Y).RowIndex;
+            this.currentRowIndex = dataGridView2.HitTest(e.X, e.Y).RowIndex;
             if (e.Button == MouseButtons.Right)
             {
-                if (roleEmp == "3")
+                if (vacancyID == 0)
                 {
                     contextMenu.MenuItems.Add(new MenuItem("Посмотреть подробную информацию", clickToResume));
                     contextMenu.MenuItems.Add(new MenuItem("Выбрать вакансию", clickToClient));
                 }
-                else if (roleEmp == "1")
+                else
                 {
-                    contextMenu.MenuItems.Add(new MenuItem("Редактировать резюме", update));
-                    contextMenu.MenuItems.Add(new MenuItem("Удалить резюме", delete));
+                    contextMenu.MenuItems.Add(new MenuItem("Создать направление", dir2));
                 }
+                //else if (roleEmp == "1")
+                //{
+                //    contextMenu.MenuItems.Add(new MenuItem("Редактировать резюме", update));
+                //    contextMenu.MenuItems.Add(new MenuItem("Удалить резюме", delete));
+                //}
 
                 if (currentRowIndex >= 0)
                 {
-                    dataGridView1.Rows[currentRowIndex].Selected = true;
-                    contextMenu.Show(dataGridView1, new Point(e.X, e.Y));
+                    dataGridView2.Rows[currentRowIndex].Selected = true;
+                    contextMenu.Show(dataGridView2, new Point(e.X, e.Y));
                 }
                 else
                 {
@@ -460,7 +486,7 @@ namespace Agent
         }
         void clickToResume(object sender, EventArgs e)
         {
-            int resume = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+            int resume = Convert.ToInt32(dataGridView2.Rows[currentRowIndex].Cells["id"].Value);
             res res = new res(0, resume);
             res.Show();
             this.Hide();
@@ -477,7 +503,7 @@ namespace Agent
             {
                 if (roleEmp == "3")
                 {
-                    if (resume == 0)
+                    if (aplicantID ==0)
                         contextMenu.MenuItems.Add(new MenuItem("Выбрать соискателя", click_to));
                     else
                         contextMenu.MenuItems.Add(new MenuItem("Создать направление", dir));
@@ -505,6 +531,7 @@ namespace Agent
         }
         void dir(object sender, EventArgs e)
         {
+            vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
             DialogResult result = MessageBox.Show(
                "Создать направление с этим резюме?",
                "Подтверждение",
@@ -513,32 +540,52 @@ namespace Agent
                );
             if (result == DialogResult.Yes)
             {
-                string vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
-                int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+
+
                 DateTime now = DateTime.Now;
-                func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{applicantId}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{applicantId}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
+                func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{aplicantID}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{applicantId}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
                 MessageBox.Show(
               "Направление успешно создано",
               "Уведомление"
               );
-                SeeResume resume = new SeeResume();
-                resume.Show();
-                this.Close();
+                restart();
+            }
+        }
+        void dir2(object sender, EventArgs e)
+        {
+            aplicantID = Convert.ToInt32(dataGridView2.Rows[currentRowIndex].Cells["id"].Value);
+            DialogResult result = MessageBox.Show(
+              "Создать направление с этим резюме?",
+              "Подтверждение",
+              MessageBoxButtons.YesNo,
+              MessageBoxIcon.Information
+              );
+            if (result == DialogResult.Yes)
+            {
+                DateTime now = DateTime.Now;
+                func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{aplicantID}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{aplicantID}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
+                MessageBox.Show(
+               "Направление успешно создано",
+               "Уведомление"
+               );
+                restart();
             }
         }
         void clickToClient(object sender, EventArgs e)
         {
-             vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
-            string searchNow = searcIn + $"AND profession.name = '{vacancyProfession}'";
+             vacancyProfession = dataGridView2.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
+             searchIn += $"AND profession.name = '{vacancyProfession}'";
             radioButton1.Checked = true;
+            aplicantID = Convert.ToInt32(dataGridView2.Rows[currentRowIndex].Cells["id"].Value);
 
-            int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
-            string countSearch = searchNowCountResume + $"AND profession.name = '{vacancyProfession}'";
-            countRecordsResume = func.records(countSearch);
-            dataGridView2.Columns.Clear();
-            loadResume(searchNow);
-            pageResume = 1;
-            editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+             searchNowCountVacancy += $"AND profession.name = '{vacancyProfession}'";
+            countRecordsVacancy = func.records(searchNowCountVacancy);
+            dataGridView1.Columns.Clear();
+
+            load_load();
+            pageVacancy = 1;
+            editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            
             //SeeResume seeResume = new SeeResume( vacancyProfession,vacancyID);
             //seeResume.Show();
             //this.Hide();
@@ -552,11 +599,12 @@ namespace Agent
             radioButton2.Checked = true;
 
             vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
-            //int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+            vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
             searchNowCountResume += $"AND profession.name = '{vacancyProfession}'";
             countRecordsResume = func.records(searchNowCountResume);
             dataGridView2.Columns.Clear();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+
             loadResume(Search());
             pageResume = 1;
             
@@ -592,27 +640,14 @@ namespace Agent
             }
 
         }
-
-
-
         private void SeeVacancy_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
         }
-
-
-
-
-
         private void SeeVacancy_MouseMove(object sender, MouseEventArgs e)
         {
 
         }
-
-
-
-
-
         private void exit_Click_2(object sender, EventArgs e)
         {
             if (roleEmp == "3")
@@ -621,19 +656,25 @@ namespace Agent
                 {
                     MenuRecruter menuManager = new MenuRecruter();
                     menuManager.Show();
-                    this.Close();
+                    this.Hide();
                 }
                 else
                 {
                     res res = new res(0, resume);
-                    res.Show();
-                    this.Close();
+                    res.ShowDialog();
+                    this.Hide();
                 }
             }
-            else
+            else if (roleEmp == "1") 
             {
                 MenuAdmin menuA = new MenuAdmin();
                 menuA.Show();
+                this.Close();
+            }
+            else
+            {
+                MenuManager menuManager = new MenuManager();
+                menuManager.Show();
                 this.Close();
             }
         }
@@ -839,9 +880,9 @@ namespace Agent
             }
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
+        void restart()
         {
-             searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
+            searcIn = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status', applicant_id
                         FROM resume  
                         INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
                         INNER JOIN profession ON resume.resume_profession = profession.id ";
@@ -871,7 +912,8 @@ namespace Agent
             loadResume(searcIn);
             idFilterResume = 0;
             idFilterVacancy = 0;
-
+            aplicantID = 0;
+            vacancyID = 0;
             idSortResume = 0;
             idSortVacancy = 0;
             comboBox1.SelectedIndex = -1;
@@ -887,7 +929,19 @@ namespace Agent
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
         }
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            restart();
+        }
 
-        
+        private void посмотретьРезюмеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            currentRowIndex = e.RowIndex;
+        }
     }
 }

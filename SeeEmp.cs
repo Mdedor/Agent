@@ -28,12 +28,12 @@ namespace Agent
         {
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
             load();
-            dataGridView1.Columns["ФИО"].Width = 270;
-            dataGridView1.Columns["Номер телефона"].Width = 170;
-            dataGridView1.Columns["Адрес"].Width = 310;
-            dataGridView1.Columns["Логин"].Width = 170;
-            dataGridView1.Columns["Пароль"].Width = 200;
-            dataGridView1.Columns["Роль"].Width = 140;
+            //dataGridView1.Columns["ФИО"].Width = 270;
+            //dataGridView1.Columns["Номер телефона"].Width = 170;
+            //dataGridView1.Columns["Адрес"].Width = 310;
+            //dataGridView1.Columns["Логин"].Width = 170;
+            //dataGridView1.Columns["Пароль"].Width = 200;
+            //dataGridView1.Columns["Роль"].Width = 140;
 
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
@@ -43,7 +43,7 @@ namespace Agent
         }
         void load()
         {
-            func.load(dataGridView1, $@"SELECT employe.id, CONCAT(employe.employe_surname,' ', employe.employe_name,' ', employe.employe_partronymic) as 'ФИО', employe.employe_phone_number as 'Номер телефона', employe.employe_adress as 'Адрес', employe.employe_login as 'Логин', employe.employe_pwd as 'Пароль', post.posts as 'Роль', employe.employe_delete_status as 'Status' 
+            func.load(dataGridView1, $@"SELECT employe.id, CONCAT(employe.employe_surname,' ', employe.employe_name,' ', employe.employe_partronymic) as 'ФИО', employe.employe_login as 'Логин', employe.employe_pwd as 'Пароль', post.posts as 'Роль', employe.employe_delete_status as 'Status' 
                                         FROM employe 
                                         INNER JOIN post ON employe.employe_post = post.id");
             dataGridView1.Columns["id"].Visible = false;

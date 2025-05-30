@@ -29,6 +29,7 @@ namespace Agent
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -44,6 +45,9 @@ namespace Agent
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelFIO = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.посмотретьРезюмеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выбратВакансиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -66,9 +70,11 @@ namespace Agent
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -149,7 +155,7 @@ namespace Agent
             // 
             this.labelFIO.AutoSize = true;
             this.labelFIO.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold);
-            this.labelFIO.Location = new System.Drawing.Point(62, 13);
+            this.labelFIO.Location = new System.Drawing.Point(62, 20);
             this.labelFIO.Name = "labelFIO";
             this.labelFIO.Size = new System.Drawing.Size(166, 27);
             this.labelFIO.TabIndex = 152;
@@ -211,7 +217,29 @@ namespace Agent
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(428, 540);
             this.dataGridView2.TabIndex = 168;
+            this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView2_MouseDown);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.посмотретьРезюмеToolStripMenuItem,
+            this.выбратВакансиюToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 48);
+            // 
+            // посмотретьРезюмеToolStripMenuItem
+            // 
+            this.посмотретьРезюмеToolStripMenuItem.Name = "посмотретьРезюмеToolStripMenuItem";
+            this.посмотретьРезюмеToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.посмотретьРезюмеToolStripMenuItem.Text = "Посмотреть резюме";
+            this.посмотретьРезюмеToolStripMenuItem.Click += new System.EventHandler(this.посмотретьРезюмеToolStripMenuItem_Click);
+            // 
+            // выбратВакансиюToolStripMenuItem
+            // 
+            this.выбратВакансиюToolStripMenuItem.Name = "выбратВакансиюToolStripMenuItem";
+            this.выбратВакансиюToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.выбратВакансиюToolStripMenuItem.Text = "Выбрат вакансию";
             // 
             // label6
             // 
@@ -478,12 +506,23 @@ namespace Agent
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Comic Sans MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(440, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(146, 38);
+            this.label13.TabIndex = 190;
+            this.label13.Text = "Рекрутинг";
+            // 
             // SeeVacancy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1024, 768);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
@@ -520,6 +559,7 @@ namespace Agent
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -555,5 +595,9 @@ namespace Agent
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem посмотретьРезюмеToolStripMenuItem;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ToolStripMenuItem выбратВакансиюToolStripMenuItem;
     }
 }
