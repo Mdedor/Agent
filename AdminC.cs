@@ -57,8 +57,8 @@ namespace Agent
         private void button5_Click(object sender, EventArgs e)
         {
             port.move = 1;
-            SeeVacancy seeVacancy = new SeeVacancy();
-            seeVacancy.Show();
+            SeeVacancyNew seeVacancyNew = new SeeVacancyNew();
+            seeVacancyNew.Show();
             this.Close();
         }
 

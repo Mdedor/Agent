@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(seeDirection));
             this.labelFIO = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -67,7 +68,7 @@
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(864, 712);
+            this.exit.Location = new System.Drawing.Point(864, 703);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(137, 44);
             this.exit.TabIndex = 47;
@@ -130,7 +131,7 @@
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.RowTemplate.Height = 50;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(978, 642);
+            this.dataGridView1.Size = new System.Drawing.Size(978, 620);
             this.dataGridView1.TabIndex = 46;
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             // 
@@ -141,13 +142,13 @@
             this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
             this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
-            this.buttonAddS.Location = new System.Drawing.Point(23, 712);
+            this.buttonAddS.Location = new System.Drawing.Point(23, 690);
             this.buttonAddS.Name = "buttonAddS";
-            this.buttonAddS.Size = new System.Drawing.Size(137, 44);
+            this.buttonAddS.Size = new System.Drawing.Size(228, 66);
             this.buttonAddS.TabIndex = 75;
-            this.buttonAddS.Text = "Отчет";
+            this.buttonAddS.Text = "Отчет  по статистике направлений";
             this.buttonAddS.UseVisualStyleBackColor = false;
             this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click);
             // 
@@ -164,8 +165,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(630, 709);
+            this.label1.Location = new System.Drawing.Point(628, 699);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(204, 18);
             this.label1.TabIndex = 129;
@@ -175,8 +177,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(630, 738);
+            this.label2.Location = new System.Drawing.Point(628, 728);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(213, 18);
             this.label2.TabIndex = 130;
@@ -186,7 +189,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Green;
-            this.pictureBox2.Location = new System.Drawing.Point(603, 709);
+            this.pictureBox2.Location = new System.Drawing.Point(601, 699);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(21, 18);
             this.pictureBox2.TabIndex = 131;
@@ -195,7 +198,7 @@
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Goldenrod;
-            this.pictureBox3.Location = new System.Drawing.Point(603, 738);
+            this.pictureBox3.Location = new System.Drawing.Point(601, 728);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(21, 18);
             this.pictureBox3.TabIndex = 132;
@@ -221,11 +224,11 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(372, 712);
+            this.button1.Location = new System.Drawing.Point(279, 690);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(137, 44);
+            this.button1.Size = new System.Drawing.Size(237, 66);
             this.button1.TabIndex = 134;
-            this.button1.Text = "Отчет";
+            this.button1.Text = "Отчет о выручке";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -247,6 +250,7 @@
             this.Controls.Add(this.exit);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "seeDirection";

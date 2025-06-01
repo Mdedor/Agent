@@ -29,6 +29,7 @@ namespace Agent
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(dataImport));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonAddS = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -140,6 +141,7 @@ namespace Agent
             this.Controls.Add(this.comboBoxTables);
             this.Controls.Add(this.label6);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "dataImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "dataImport";

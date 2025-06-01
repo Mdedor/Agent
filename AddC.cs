@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
+using WordApp = Microsoft.Office.Interop.Word;
+using System.Reflection;
+using Microsoft.Office.Interop.Word;
+using System.Diagnostics;
+
 namespace Agent
 {
     public partial class AddC : Form
@@ -20,6 +30,10 @@ namespace Agent
         string phoneNumber;
         string cost;
         int flag;
+
+        string wordCompany;
+        string wordDate;
+        int wordCost;
 
         public AddC(int compony =0)
         {
@@ -76,6 +90,116 @@ namespace Agent
                     buttonAddS.Enabled = false;
                 }
             }
+        }
+        public System.Data.DataTable returnDate(string query, System.Data.DataTable dataTable)
+        {
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
+            connection.Open();
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            adapter.SelectCommand.ExecuteNonQuery();
+            adapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+        }
+        private void exportToWord(System.Data.DataTable dataTable)
+        {
+            var wordApp = new WordApp.Application();
+            try
+            {
+                string exePath = Assembly.GetEntryAssembly().Location;
+                string baseDir = Path.GetDirectoryName(exePath);
+                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                string docPath = Path.Combine(baseDir, "document", "cost.docx");
+
+
+                WordApp.Document doc = null;
+
+                try
+                {
+                    doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+
+                    // Fetch data from database
+                    string wordCompany = func.search($@"SELECT company_name,company_vacancy_cost FROM agent.company WHERE company.id = {func.search("SELECT id FROM agent.company ORDER BY company.id DESC LIMIT 1;")}");
+                    int wordCost = Convert.ToInt32(func.search($@"SELECT company_vacancy_cost FROM agent.company WHERE company.id = {func.search("SELECT id FROM agent.company ORDER BY company.id DESC LIMIT 1;")}"));
+
+                    var replacements = new Dictionary<string, string>
+        {
+            { "<company>", wordCompany },
+            { "<cost>", wordCost.ToString() },
+            { "<Date>", DateTime.Now.ToString() }
+        };
+
+                    foreach (var item in replacements)
+                    {
+                        WordApp.Find find = wordApp.Selection.Find;
+                        find.Text = item.Key;
+                        find.Replacement.Text = item.Value;
+                        object wrap = WordApp.WdFindWrap.wdFindContinue;
+                        object replace = WordApp.WdReplace.wdReplaceAll;
+
+                        find.Execute(
+                            FindText: find.Text,
+                            ReplaceWith: find.Replacement.Text,
+                            Replace: replace,
+                            Wrap: wrap,
+                            Forward: true,
+                            MatchCase: false,
+                            MatchWholeWord: false,
+                            MatchWildcards: false
+                        );
+                    }
+
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    {
+                        Filter = "Word Documents|*.docx",
+                        Title = "Сохранить документ",
+                        FileName = "Отчет_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".docx"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        doc.SaveAs2(saveFileDialog.FileName);
+                        Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
+                    }
+                }
+                finally
+                {
+                    if (doc != null)
+                    {
+                        doc.Close(false);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
+                    }
+                }
+            }
+            finally
+            {
+                if (wordApp != null)
+                {
+                    wordApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
+                }
+            }
+            //}
+            //catch (COMException ex)
+            //{
+            //    Console.WriteLine($"COM Exception: {ex.Message}, ErrorCode: {ex.ErrorCode}");
+            //    // Более подробная обработка ошибки: проверка кода ошибки, логирование и т.д.
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"General Exception: {ex.Message}");
+            //}
+            //finally
+            //{
+            //    wordDoc.Visible = true;
+            //    // Обязательно освобождаем COM-объекты!
+            //    Marshal.ReleaseComObject(doc);
+            //    // ... Освобождение других объектов ...
+            //    GC.Collect(); // Для сборки мусора
+            //    GC.WaitForPendingFinalizers();
+            //}
+
         }
         private void AddC_Load(object sender, EventArgs e)
         {
@@ -182,7 +306,16 @@ namespace Agent
                     textBoxName.Clear();
                     textBox1.Clear();
                     maskedTextBoxPhoneNumber.Clear();
-                    MessageBox.Show("Запись успешно добавлена", "Уведомление");
+
+                    var dataTable = new System.Data.DataTable();
+
+                    //;
+
+                    string search = $@"SELECT company_name,company_vacancy_cost FROM agent.company Where company.id = {func.search("SELECT id FROM agent.company order by company.id desC limit 1;")};
+                                       ";
+                    returnDate(search, dataTable);
+                    exportToWord(dataTable);
+
                     DialogResult results = MessageBox.Show(
                        "Создать вакансии?",
                        "Подтверждение",

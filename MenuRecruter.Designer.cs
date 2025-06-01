@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuRecruter));
             this.label1 = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Button();
             this.buttonAplicant = new System.Windows.Forms.Button();
@@ -51,12 +52,13 @@
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(104, 142);
+            this.exit.Location = new System.Drawing.Point(104, 151);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(140, 44);
             this.exit.TabIndex = 34;
             this.exit.Text = "Назад";
             this.exit.UseVisualStyleBackColor = true;
+            this.exit.Click += new System.EventHandler(this.exit_Click_2);
             // 
             // buttonAplicant
             // 
@@ -72,6 +74,7 @@
             this.buttonAplicant.TabIndex = 33;
             this.buttonAplicant.Text = "Поиск и подбор персонала (вакансии)";
             this.buttonAplicant.UseVisualStyleBackColor = false;
+            this.buttonAplicant.Click += new System.EventHandler(this.buttonAplicant_Click_2);
             // 
             // MenuRecruter
             // 
@@ -83,6 +86,7 @@
             this.Controls.Add(this.buttonAplicant);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MenuRecruter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu_anager";

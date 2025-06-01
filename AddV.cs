@@ -240,8 +240,8 @@ namespace Agent
             }
             else
             {
-                SeeVacancy seeVacancy = new SeeVacancy();
-                seeVacancy.Show();
+               SeeVacancyNew seeVacancyNew = new SeeVacancyNew();
+                seeVacancyNew.Show();   
                 this.Close();
             }
             

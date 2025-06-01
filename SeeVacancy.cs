@@ -777,6 +777,7 @@ namespace Agent
                 func.load(dataGridView2, Search());
 
                 editColumnsResume();
+                editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
             }
         }
 
@@ -802,7 +803,7 @@ namespace Agent
                 func.load(dataGridView2, Search());
                 dataGridView1.ClearSelection();
                 editColumnsResume();
-
+                editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
 
             }
         }

@@ -44,18 +44,18 @@ namespace Agent
                 Excel.Workbook workbook = excelApp.Workbooks.Add();
                 Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1]; // Первый лист
 
-
                 // Заполняем данные
-
                 worksheet.Cells[1, 1].Value = "Название компании";
                 worksheet.Cells[1, 2].Value = "Сумма полученная от компании";
+
                 MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
                 MySqlCommand command = new MySqlCommand($@"SELECT company_name, sum(company_vacancy_cost) FROM agent.direction
-                INNER JOIN vacancy ON vacancy.id = direction_vacancy
-                INNER JOIN company ON company.id = vacancy_company
-                WHERE direction_status = 'Принято' and direction_date BETWEEN '{dateTimePicker3.Value.ToString("yyyy-MM-dd")}' AND  '{dateTimePicker1.Value.ToString("yyyy-MM-dd")}' GROUP BY company.id;", connection);
+INNER JOIN vacancy ON vacancy.id = direction_vacancy
+INNER JOIN company ON company.id = vacancy_company
+WHERE direction_status = 'Принято' and direction_date BETWEEN '{dateTimePicker3.Value.ToString("yyyy-MM-dd")}' AND  '{dateTimePicker1.Value.ToString("yyyy-MM-dd")}' GROUP BY company.id;", connection);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 int row = 2;
                 int allSum = 0;
                 while (reader.Read())
@@ -65,26 +65,43 @@ namespace Agent
                     row++;
                     allSum += reader.GetInt32(1);
                 }
-                
+
                 connection.Close();
+
                 // Пример данных
                 row++;
                 worksheet.Cells[row, 1].Value = "Итоговая выручка";
                 worksheet.Cells[row, 2].Value = $"{allSum} рублей";
+
                 // Авто-подгонка ширины столбцов
                 worksheet.Columns.AutoFit();
-                // Сохраняем файл (формат .xlsx для Excel 2007+)
 
-                string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"......"));
-                string documentPath = Path.Combine(projectRoot, "file.xls");
-                workbook.SaveAs(documentPath);
-                
+                // Диалог сохранения файла
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xls";
+                saveFileDialog.Title = "Сохранить файл отчёта";
+                saveFileDialog.FileName = "Отчёт по компаниям.xls"; // Предлагаемое имя файла
 
-                // Закрываем Excel
-                workbook.Close();
-                excelApp.Quit();
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Сохраняем файл
+                    workbook.SaveAs(saveFileDialog.FileName);
 
-                MessageBox.Show($"Файл успешно сохранен: {documentPath}");
+                    // Закрываем Excel
+                    workbook.Close();
+                    excelApp.Quit();
+
+                    // Открываем сохранённый файл
+                    System.Diagnostics.Process.Start(saveFileDialog.FileName);
+                }
+                else
+                {
+                    // Если пользователь отменил сохранение, просто закрываем Excel
+                    workbook.Close(false);
+                    excelApp.Quit();
+                }
+
+                //MessageBox.Show($"Файл успешно сохранен: {documentPath}");
             }
             catch (Exception ex)
             {
@@ -99,7 +116,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void ExcelFile_Load(object sender, EventArgs e)

@@ -71,6 +71,18 @@ namespace Agent
 
         private void exit_Click_1(object sender, EventArgs e)
         {
+           
+        }
+
+        private void buttonAplicant_Click_2(object sender, EventArgs e)
+        {
+            SeeVacancy seeVacancy = new SeeVacancy();
+            seeVacancy.Show();
+            this.Close();
+        }
+
+        private void exit_Click_2(object sender, EventArgs e)
+        {
             Auntification auntification = new Auntification();
             auntification.Show();
             this.Close();

@@ -250,7 +250,7 @@ namespace Agent
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     // Заполняем фон белым цветом
-                    graphics.Clear(Color.Gold);
+                    graphics.Clear(Color.FromArgb(255, 224, 192));
 
                     // Рисуем красный прямоугольник
                     using (Brush brush = new SolidBrush(Color.Red))
@@ -269,7 +269,7 @@ namespace Agent
                             int yy;
                             Pen pen = new Pen(Color.Gray, 1);
                             Pen pena = new Pen(Color.Gray, 4);
-                            for (int i = 0; i < Random.Next(4,6); i++)
+                            for (int i = 0; i < Random.Next(5,6); i++)
                             {
                                 char mas = masAlf[Random.Next(0, masAlf.Length - 1)];
                                 graphics.DrawString($"{mas}", font, brush, new PointF(x, y));
@@ -360,9 +360,7 @@ namespace Agent
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            calendar calendar = new calendar();
-            calendar.Show();
-            this.Hide();
+            
         }
     }
 }

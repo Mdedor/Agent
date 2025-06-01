@@ -14,6 +14,8 @@ using WordApp = Microsoft.Office.Interop.Word;
 using System.Reflection;
 using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+
 namespace Agent
 {
     public partial class word : Form
@@ -46,8 +48,9 @@ namespace Agent
         {
             dateTimePicker1.MaxDate = DateTime.Now;
             dateTimePicker1.Value = DateTime.Now;
-            dateTimePicker3.Value = DateTime.Now;
             dateTimePicker3.MaxDate = DateTime.Now;
+            dateTimePicker3.Value = DateTime.Now;
+
             
             count = 0;
             cool = 0;
@@ -69,28 +72,30 @@ namespace Agent
         }
         private void exportToWord(System.Data.DataTable dataTable)
         {
-            var wordDoc = new WordApp.Application();
-            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            path += "\\doc.docx";
-            Document doc = wordDoc.Documents.Open(path, ReadOnly: false);
+            var wordApp = new WordApp.Application();
+            // Получаем путь к исполняемому файлу
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
+                                                                        // Добавляем относительный путь к документу
+            string docPath = Path.Combine(baseDir, "document", "doc.docx");
+            Document doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+
             try
             {
-                
-                
                 doc.Content.End = doc.Content.End; //не обязательно, но для ясности кода
                 doc.Content.Select(); //Выделение курсора в конце
 
                 // Пример добавления текста в конец:
-
-
                 Range r = doc.Content;
                 if (dataTable.Rows.Count > 0)
                 {
-                    Range rng = wordDoc.Selection.Range;
+                    Range rng = wordApp.Selection.Range;
                     rng.Collapse(WdCollapseDirection.wdCollapseEnd); // или wdCollapseStart
                     r.Collapse(0);
 
-                    WordApp.Table table = wordDoc.Application.ActiveDocument.Tables.Add(r, dataTable.Rows.Count + 1, dataTable.Columns.Count);
+                    WordApp.Table table = wordApp.ActiveDocument.Tables.Add(r, dataTable.Rows.Count + 1, dataTable.Columns.Count);
                     table.Borders.OutsideLineStyle = WordApp.WdLineStyle.wdLineStyleSingle;
                     table.Borders.InsideLineStyle = WordApp.WdLineStyle.wdLineStyleSingle;
                     for (int i = 0; i < dataTable.Columns.Count; i++)
@@ -103,25 +108,23 @@ namespace Agent
                         { table.Cell(i + 2, j + 1).Range.Text = dataTable.Rows[i][j].ToString(); }
                     }
                 }
+
                 doc.Content.InsertAfter("<nowDate>");
                 var Items = new Dictionary<string, string>
-            {
-                { "<startDate>",startDate},
-                { "<endDate>",endDate},
-                { "<count>",count.ToString()},
-                { "<cool>",cool.ToString()},
-                { "<bad>",bad.ToString()},
-                { "<percent>",percent.ToString()},
-                { "<load>",load.ToString()},
-                { "<nowDate>",DateTime.Now.ToString()}
+                {
+                    { "<startDate>", startDate },
+                    { "<endDate>", endDate },
+                    { "<count>", count.ToString() },
+                    { "<cool>", cool.ToString() },
+                    { "<bad>", bad.ToString() },
+                    { "<percent>", percent.ToString() },
+                    { "<load>", load.ToString() },
+                    { "<nowDate>", DateTime.Now.ToString() }
+                };
 
-            };
-
-
-                WordApp.Find find = wordDoc.Selection.Find;
+                WordApp.Find find = wordApp.Selection.Find;
                 foreach (var item in Items)
                 {
-
                     find.Text = item.Key;
                     find.Replacement.Text = item.Value;
                     object wrap = WdFindWrap.wdFindContinue;
@@ -129,6 +132,23 @@ namespace Agent
                     find.Execute(FindText: find.Text, ReplaceWith: find.Replacement.Text, Replace: replace, Wrap: wrap, MatchCase: false, MatchWholeWord: false, MatchWildcards: false);
                 }
 
+                // Диалог сохранения файла
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Word Documents|*.docx";
+                saveFileDialog.Title = "Сохранить документ";
+                saveFileDialog.FileName = "Отчет_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".docx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Сохраняем документ
+                    doc.SaveAs2(saveFileDialog.FileName);
+
+                    // Открываем сохраненный файл
+                    Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
+                }
+                doc.Close(false);
+                wordApp.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
             }
             catch (COMException ex)
             {
@@ -141,13 +161,11 @@ namespace Agent
             }
             finally
             {
-                wordDoc.Visible = true;
-                // Обязательно освобождаем COM-объекты!
-                Marshal.ReleaseComObject(doc);
-                // ... Освобождение других объектов ...
-                GC.Collect(); // Для сборки мусора
-                GC.WaitForPendingFinalizers();
+                // Закрываем документ и приложение Word
+                
             }
+            
+            
             
         }
         private void buttonAddS_Click(object sender, EventArgs e)
@@ -181,6 +199,11 @@ namespace Agent
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dateTimePicker3.MaxDate = dateTimePicker1.Value;
+        }
+
+        private void dateTimePicker3_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
