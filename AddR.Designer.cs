@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddR));
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonAddS = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxPers = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -45,6 +44,7 @@
             this.textBoxSalary = new System.Windows.Forms.TextBox();
             this.exit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonAddS = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,24 +57,6 @@
             this.label1.Size = new System.Drawing.Size(255, 35);
             this.label1.TabIndex = 27;
             this.label1.Text = "Добавление резюме";
-            // 
-            // buttonAddS
-            // 
-            this.buttonAddS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonAddS.Enabled = false;
-            this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddS.ForeColor = System.Drawing.Color.White;
-            this.buttonAddS.Location = new System.Drawing.Point(150, 340);
-            this.buttonAddS.Name = "buttonAddS";
-            this.buttonAddS.Size = new System.Drawing.Size(286, 44);
-            this.buttonAddS.TabIndex = 134;
-            this.buttonAddS.Text = "Добавить";
-            this.buttonAddS.UseVisualStyleBackColor = false;
-            this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click);
             // 
             // label6
             // 
@@ -258,6 +240,24 @@
             this.pictureBox1.TabIndex = 136;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonAddS
+            // 
+            this.buttonAddS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
+            this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonAddS.Enabled = false;
+            this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddS.ForeColor = System.Drawing.Color.White;
+            this.buttonAddS.Location = new System.Drawing.Point(150, 340);
+            this.buttonAddS.Name = "buttonAddS";
+            this.buttonAddS.Size = new System.Drawing.Size(286, 44);
+            this.buttonAddS.TabIndex = 134;
+            this.buttonAddS.Text = "Добавить";
+            this.buttonAddS.UseVisualStyleBackColor = false;
+            this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click);
+            // 
             // AddR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -296,7 +296,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button buttonAddS;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBoxPers;
         private System.Windows.Forms.Label label9;
@@ -311,5 +310,6 @@
         private System.Windows.Forms.TextBox textBoxSalary;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonAddS;
     }
 }

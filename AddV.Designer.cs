@@ -56,9 +56,9 @@
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(315, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(270, 35);
+            this.label1.Size = new System.Drawing.Size(300, 35);
             this.label1.TabIndex = 46;
-            this.label1.Text = "Добавление вакансии";
+            this.label1.Text = "Редактирвание вакансии";
             // 
             // label9
             // 
@@ -260,7 +260,7 @@
             this.buttonAddS.Name = "buttonAddS";
             this.buttonAddS.Size = new System.Drawing.Size(185, 44);
             this.buttonAddS.TabIndex = 146;
-            this.buttonAddS.Text = "Добавить";
+            this.buttonAddS.Text = "Изменение";
             this.buttonAddS.UseVisualStyleBackColor = false;
             this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click_1);
             // 

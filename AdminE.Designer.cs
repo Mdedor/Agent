@@ -30,10 +30,21 @@ namespace Agent
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminE));
+            this.label1 = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(62, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(252, 38);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "Администриратор";
             // 
             // exit
             // 
@@ -43,15 +54,15 @@ namespace Agent
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.exit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.exit.Location = new System.Drawing.Point(115, 162);
+            this.exit.Location = new System.Drawing.Point(116, 175);
             this.exit.Name = "exit";
             this.exit.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.exit.Size = new System.Drawing.Size(133, 44);
-            this.exit.TabIndex = 37;
+            this.exit.TabIndex = 41;
             this.exit.Text = "Назад";
             this.exit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.exit.UseVisualStyleBackColor = true;
-            this.exit.Click += new System.EventHandler(this.exit_Click);
+            this.exit.Click += new System.EventHandler(this.exit_Click_1);
             // 
             // button1
             // 
@@ -61,13 +72,13 @@ namespace Agent
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(12, 81);
+            this.button1.Location = new System.Drawing.Point(13, 102);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(343, 65);
-            this.button1.TabIndex = 35;
+            this.button1.TabIndex = 40;
             this.button1.Text = "Просмотр и редактирование сотрудников";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button3
             // 
@@ -77,20 +88,21 @@ namespace Agent
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Location = new System.Drawing.Point(12, 31);
+            this.button3.Location = new System.Drawing.Point(13, 52);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(343, 44);
-            this.button3.TabIndex = 34;
+            this.button3.TabIndex = 39;
             this.button3.Text = "Добавление сотрудника";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // AdminE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(367, 219);
+            this.ClientSize = new System.Drawing.Size(367, 231);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button3);
@@ -102,11 +114,13 @@ namespace Agent
             this.Load += new System.EventHandler(this.AdminE_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminE_Paint);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;

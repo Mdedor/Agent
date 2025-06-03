@@ -117,9 +117,9 @@
             this.labelFIO.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold);
             this.labelFIO.Location = new System.Drawing.Point(56, 20);
             this.labelFIO.Name = "labelFIO";
-            this.labelFIO.Size = new System.Drawing.Size(67, 27);
+            this.labelFIO.Size = new System.Drawing.Size(155, 27);
             this.labelFIO.TabIndex = 44;
-            this.labelFIO.Text = "label1";
+            this.labelFIO.Text = "ФИО работника";
             // 
             // exit
             // 

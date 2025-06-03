@@ -12,7 +12,8 @@ using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Threading.Tasks;
-
+using System.IO;
+using System.Reflection;
 
 namespace Agent
 {
@@ -53,6 +54,156 @@ namespace Agent
             updateCaptcha.Click += buttonClicl;
             
         }
+        void buckup()
+        {
+            using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
+            {
+                conn.Open();
+
+                // Получаем список таблиц
+                List<string> tables = new List<string>();
+                using (MySqlCommand cmd = new MySqlCommand("SHOW TABLES", conn))
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        tables.Add(reader.GetString(0));
+                    }
+                }
+
+                // Получаем путь к исполняемому файлу
+                string exePath = Assembly.GetEntryAssembly().Location;
+                // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+                string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
+                                                                             // Добавляем относительный путь к документу
+                string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
+                string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Отчет_auto_" + fileName);
+                // Создаем SQL-дамп
+                using (StreamWriter writer = new StreamWriter(docPath))
+                {
+                    writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `agent`;");
+                    writer.WriteLine($"USE `agent`;");
+                    writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+                        /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+                        /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+                        /*!50503 SET NAMES utf8 */;
+                        /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+                        /*!40103 SET TIME_ZONE='+00:00' */;
+                        /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+                        /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+                        /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+                        /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
+                    foreach (string table in tables)
+                    {
+
+                        
+                        writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
+
+
+
+                        //Получаем структуру таблицы
+                        using (MySqlCommand cmd = new MySqlCommand($"SHOW CREATE TABLE `{table}`", conn))
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                writer.WriteLine(reader.GetString(1) + ";");
+                            }
+                        }
+
+                        // Получаем данные таблицы
+                        writer.WriteLine($"\n-- Data for table `{table}`\n");
+
+                        using (MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{table}`", conn))
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                StringBuilder insert = new StringBuilder($"INSERT INTO `{table}` VALUES (");
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    if (i > 0) insert.Append(", ");
+
+                                    if (reader.IsDBNull(i))
+                                    {
+                                        insert.Append("NULL");
+                                    }
+                                    else
+                                    {
+                                        Type fieldType = reader.GetFieldType(i);
+                                        if (fieldType == typeof(DateTime))
+                                        {
+                                            DateTime dateValue = reader.GetDateTime(i);
+                                            insert.Append($"'{dateValue.ToString("yyyy-MM-dd")}'");
+                                        }
+                                        else
+                                        {
+                                            insert.Append($"'{MySqlHelper.EscapeString(reader.GetString(i))}'");
+                                        }
+                                    }
+                                }
+
+                                insert.Append(");");
+                                writer.WriteLine(insert.ToString());
+                            }
+                        }
+                    }
+                   // MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведобление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                }
+            }
+        }
+        void deleteBuckup()
+        {
+
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
+                                                                         // Добавляем относительный путь к документу
+
+            string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование");
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo(docPath);
+
+                // Получаем все файлы в папке, сортируем по дате создания (последние сначала)
+                FileInfo[] files = directory.GetFiles()
+                    .OrderByDescending(f => f.CreationTime)
+                    .ToArray();
+
+                int totalFiles = files.Length;
+
+
+                if (totalFiles > 10)
+                {
+                    
+
+                    // Пропускаем первые 10 файлов (самые новые), остальные удаляем
+                    foreach (FileInfo file in files.Skip(10))
+                    {
+                        try
+                        {
+
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            //MessageBox.Show($"Ошибка при удалении файла {file.Name}: {ex.Message}");
+                        }
+                    }
+
+                }
+                else
+                {
+                    //MessageBox.Show("Файлов меньше 10, удаление не требуется.");
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
         private void buttonClicl(object sender, EventArgs eventArgs)
         {
             edit();
@@ -86,8 +237,8 @@ namespace Agent
             port.empIds = empId;
             if (post == "1")
             {
-                MenuAdmin admin = new MenuAdmin();
-                admin.Show();
+                AdminE adminE = new AdminE();
+                adminE.Show();
                 this.Hide();
             }
             else if (post == "2")
@@ -98,8 +249,8 @@ namespace Agent
             }
             else if (post == "3")
             {
-                MenuRecruter recruter = new MenuRecruter();
-                recruter.Show();
+                SeeVacancy seeVacancy = new SeeVacancy();
+                seeVacancy.Show();
                 this.Hide();
             }
             
@@ -313,6 +464,8 @@ namespace Agent
               );
             if (results == DialogResult.Yes)
             {
+                buckup();
+                deleteBuckup(); 
                 Application.Exit();
             }
             

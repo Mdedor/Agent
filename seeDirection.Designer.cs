@@ -142,7 +142,7 @@
             this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
             this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
             this.buttonAddS.Location = new System.Drawing.Point(23, 690);
             this.buttonAddS.Name = "buttonAddS";
@@ -222,9 +222,9 @@
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(279, 690);
+            this.button1.Location = new System.Drawing.Point(301, 690);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(237, 66);
             this.button1.TabIndex = 134;

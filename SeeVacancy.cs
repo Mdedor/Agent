@@ -125,7 +125,7 @@ namespace Agent
                 string zn = dataGridViewRow.Cells["Знание языков"].Value.ToString();
                 string ka = dataGridViewRow.Cells["Личностные качества"].Value.ToString();
                 dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
-
+                dataGridView2.Columns["Зарплат"].Width = 100;
                 dataGridViewRow.Cells["Зарплат"].Value = $"{dataGridViewRow.Cells["Зарплата"].Value.ToString()} руб";
             }
         }
@@ -650,33 +650,9 @@ namespace Agent
         }
         private void exit_Click_2(object sender, EventArgs e)
         {
-            if (roleEmp == "3")
-            {
-                if (resume == 0)
-                {
-                    MenuRecruter menuManager = new MenuRecruter();
-                    menuManager.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    res res = new res(0, resume);
-                    res.ShowDialog();
-                    this.Hide();
-                }
-            }
-            else if (roleEmp == "1") 
-            {
-                MenuAdmin menuA = new MenuAdmin();
-                menuA.Show();
-                this.Close();
-            }
-            else
-            {
-                MenuManager menuManager = new MenuManager();
-                menuManager.Show();
-                this.Close();
-            }
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

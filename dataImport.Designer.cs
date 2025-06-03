@@ -56,7 +56,7 @@ namespace Agent
             this.buttonAddS.Name = "buttonAddS";
             this.buttonAddS.Size = new System.Drawing.Size(240, 37);
             this.buttonAddS.TabIndex = 97;
-            this.buttonAddS.Text = "Импорт данных";
+            this.buttonAddS.Text = "Импортировать";
             this.buttonAddS.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonAddS.UseVisualStyleBackColor = false;
             this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click_1);

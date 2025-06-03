@@ -43,14 +43,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.buttonImage = new System.Windows.Forms.Button();
             this.exit = new System.Windows.Forms.Button();
-            this.buttonAddS = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.buttonImage = new System.Windows.Forms.Button();
+            this.buttonAddS = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -231,16 +231,6 @@
             this.label7.TabIndex = 43;
             this.label7.Text = "Дата рождения";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(421, 201);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 27);
-            this.label8.TabIndex = 44;
-            this.label8.Text = "Фотография";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -250,21 +240,6 @@
             this.label9.Size = new System.Drawing.Size(52, 27);
             this.label9.TabIndex = 45;
             this.label9.Text = "Пол";
-            // 
-            // buttonImage
-            // 
-            this.buttonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
-            this.buttonImage.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonImage.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonImage.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonImage.Location = new System.Drawing.Point(615, 192);
-            this.buttonImage.Name = "buttonImage";
-            this.buttonImage.Size = new System.Drawing.Size(244, 36);
-            this.buttonImage.TabIndex = 7;
-            this.buttonImage.Text = "Выбрать";
-            this.buttonImage.UseVisualStyleBackColor = false;
-            this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
             // 
             // exit
             // 
@@ -280,24 +255,6 @@
             this.exit.Text = "Назад в меню\r\n";
             this.exit.UseVisualStyleBackColor = true;
             this.exit.Click += new System.EventHandler(this.exit_Click_1);
-            // 
-            // buttonAddS
-            // 
-            this.buttonAddS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
-            this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonAddS.Enabled = false;
-            this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddS.ForeColor = System.Drawing.Color.White;
-            this.buttonAddS.Location = new System.Drawing.Point(516, 311);
-            this.buttonAddS.Name = "buttonAddS";
-            this.buttonAddS.Size = new System.Drawing.Size(264, 44);
-            this.buttonAddS.TabIndex = 74;
-            this.buttonAddS.Text = "Добавить";
-            this.buttonAddS.UseVisualStyleBackColor = false;
-            this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click);
             // 
             // openFileDialog1
             // 
@@ -323,6 +280,49 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 122;
             this.pictureBox2.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(421, 201);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(122, 27);
+            this.label8.TabIndex = 44;
+            this.label8.Text = "Фотография";
+            // 
+            // buttonImage
+            // 
+            this.buttonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
+            this.buttonImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonImage.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonImage.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.buttonImage.Location = new System.Drawing.Point(615, 192);
+            this.buttonImage.Name = "buttonImage";
+            this.buttonImage.Size = new System.Drawing.Size(244, 36);
+            this.buttonImage.TabIndex = 7;
+            this.buttonImage.Text = "Выбрать";
+            this.buttonImage.UseVisualStyleBackColor = false;
+            this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
+            // 
+            // buttonAddS
+            // 
+            this.buttonAddS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
+            this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonAddS.Enabled = false;
+            this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddS.ForeColor = System.Drawing.Color.White;
+            this.buttonAddS.Location = new System.Drawing.Point(516, 311);
+            this.buttonAddS.Name = "buttonAddS";
+            this.buttonAddS.Size = new System.Drawing.Size(264, 44);
+            this.buttonAddS.TabIndex = 74;
+            this.buttonAddS.Text = "Добавить";
+            this.buttonAddS.UseVisualStyleBackColor = false;
+            this.buttonAddS.Click += new System.EventHandler(this.buttonAddS_Click);
             // 
             // AddS
             // 
@@ -383,13 +383,13 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button buttonImage;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button exit;
-        private System.Windows.Forms.Button buttonAddS;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button buttonImage;
+        private System.Windows.Forms.Button buttonAddS;
     }
 }

@@ -50,6 +50,7 @@ namespace Agent
                 buttonImage.Visible = false;
                 buttonAddS.Visible = false;
                 label1.Text = "Подробная информация";
+                label8.Visible = false;
             }
 
         }

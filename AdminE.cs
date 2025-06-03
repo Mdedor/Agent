@@ -20,26 +20,17 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            port.move = 1;
-            MenuAdmin menuAdmin = new MenuAdmin();
-            menuAdmin.Show();
-            this.Close();
+           
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            port.move = 1;
-            AddE add = new AddE(0);
-            add.Show();
-            this.Close();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            port.move = 1;
-            SeeEmp seeEmp = new SeeEmp();
-            seeEmp.Show();
-            this.Close();
+            
         }
 
         private void AdminE_Load(object sender, EventArgs e)
@@ -50,6 +41,30 @@ namespace Agent
         private void AdminE_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this);
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            port.move = 1;
+            AddE add = new AddE(0);
+            add.Show();
+            this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            port.move = 1;
+            SeeEmp seeEmp = new SeeEmp();
+            seeEmp.Show();
+            this.Close();
+        }
+
+        private void exit_Click_1(object sender, EventArgs e)
+        {
+            port.move = 1;
+            Auntification auntification = new Auntification();
+            auntification.Show();
+            this.Close();
         }
     }
 }
