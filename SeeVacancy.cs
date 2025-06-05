@@ -789,7 +789,16 @@ namespace Agent
                 dataGridView1.ClearSelection();
                 change();
                 editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
-
+                if (statusForm)
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
             }
             else
             {
@@ -797,12 +806,26 @@ namespace Agent
                 dataGridView2.ClearSelection();
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+                if (statusForm)
+                {
+
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+
+
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                }
             }
             if (statusForm)
             {
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
                 foreach (DataGridViewRow row in dataGridView2.Rows)
@@ -833,6 +856,16 @@ namespace Agent
                 change();
                 editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
                 }
+                if (statusForm)
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
 
             }
             else
@@ -842,26 +875,22 @@ namespace Agent
 
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
-            }
-            if (statusForm)
-            {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                if (statusForm)
                 {
-                    row.Height = procentHight * 8; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
 
-                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
 
+
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                }
             }
+           
         }
 
         private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -877,9 +906,19 @@ namespace Agent
                 dataGridView1.ClearSelection();
                 change();
                 editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
-                //}
+                if (statusForm)
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                    //}
 
-            }
+                }
             else
             {
                 //if (comboBox1.SelectedIndex != idSortResume && comboBox2.SelectedIndex != idFilterResume)
@@ -887,23 +926,32 @@ namespace Agent
                 dataGridView1.ClearSelection();
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+                if (statusForm)
+                {
+
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+
+
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                }
 
             }
             if (statusForm)
             {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    row.Height = procentHight * 8; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
+                
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
                     row.Height = procentHight * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
 
-                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+               
                 dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                 dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
@@ -1030,7 +1078,7 @@ namespace Agent
             {
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
                 foreach (DataGridViewRow row in dataGridView2.Rows)
@@ -1106,7 +1154,7 @@ namespace Agent
 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
                 foreach (DataGridViewRow row in dataGridView2.Rows)
@@ -1126,7 +1174,7 @@ namespace Agent
                 statusForm = true;
                 pictureBox3.Location = new Point(resolution.Width - 27 - 10, 10);
                 label13.Font = new Font(label13.Font.FontFamily, 22, FontStyle.Bold);
-                panel1.Location = new Point(procentWidth+comboBox2.Width+comboBox2.Location.X, procentWidth * 2);
+                panel1.Location = new Point(resolution.Width-procentWidth-panel1.Width, procentWidth * 2-10);
                 panel2.Location = new Point(procentWidth, dataGridView1.Height + dataGridView1.Location.Y + procentHight);
                 panel3.Location = new Point(procentWidth + dataGridView1.Width + dataGridView1.Location.X+procentWidth, dataGridView1.Height + dataGridView1.Location.Y + procentHight);
             }

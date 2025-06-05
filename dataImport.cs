@@ -186,14 +186,14 @@ namespace Agent
 
                     string whereCondition = string.Join(" AND ", titleField.Select((field, index) => $"{field} = '{valField[index]}'"));
 
-                    string checkQuery = $"SELECT COUNT(*) FROM {tableName} WHERE {whereCondition}";
+                    string checkQuery = $"SELECT COUNT(*) FROM `{tableName}` WHERE {whereCondition}";
                     MySqlCommand checkCmd = new MySqlCommand(checkQuery, con);
                     long count = (long)checkCmd.ExecuteScalar();
 
                     if (count == 0)
                     {
                         // Если дубликата нет, выполняем вставку
-                        string insertQuery = $"INSERT INTO {tableName}({string.Join(",", titleField)}) VALUES (";
+                        string insertQuery = $"INSERT INTO `{tableName}`({string.Join(",", titleField)}) VALUES (";
                         for (int i  = 0; i < valField.Length; i++)
                         {
                             if (valField[i].ToString() == "NULL")

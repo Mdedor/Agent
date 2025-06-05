@@ -110,7 +110,7 @@ namespace Agent
                 string exePath = Assembly.GetEntryAssembly().Location;
                 string baseDir = Path.GetDirectoryName(exePath);
                 baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                string docPath = Path.Combine(baseDir, "document", "cost.docx");
+                string docPath = Path.Combine(baseDir, "document", "dogovor.docx");
 
 
                 WordApp.Document doc = null;

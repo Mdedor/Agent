@@ -465,6 +465,7 @@ namespace Agent
             change();
 
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -539,7 +540,7 @@ namespace Agent
                 dataGridView1.Height = procentHight * 86;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
                 }
                 dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
