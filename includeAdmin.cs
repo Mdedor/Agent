@@ -25,6 +25,7 @@ namespace Agent
         string filePath;
         int currentValue;
         int currentValue2;
+        int timr;
         public includeAdmin()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace Agent
 
         private void includeAdmin_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
         void load()
         {
@@ -56,10 +57,11 @@ namespace Agent
         private void includeAdmin_Load(object sender, EventArgs e)
         {
             load();
-            //currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
-            //currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
+           
+            currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
 
-            int timr = currentValue * 60 + currentValue2;
+
+            timr = currentValue ;
             textBox2.Text = timr.ToString();
         }
 
@@ -122,14 +124,7 @@ namespace Agent
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            double time = Convert.ToInt32(textBox2.Text);
-            double min = Math.Round(time/60);
-
-            double second = time - min * 60;
-            UpdateAppSettings("minut", $"{min}");
-            UpdateAppSettings("secund", $"{second}");
-
-            MessageBox.Show("Время изменено");
+           
             
         }
 
@@ -169,15 +164,15 @@ namespace Agent
                     writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `agent`;");
                     writer.WriteLine($"USE `agent`;");
                     writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
+                        /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+                        /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+                        /*!50503 SET NAMES utf8 */;
+                        /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+                        /*!40103 SET TIME_ZONE='+00:00' */;
+                        /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+                        /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+                        /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+                        /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
                     foreach (string table in tables)
                     {
                        
@@ -324,6 +319,28 @@ namespace Agent
             dataImport dataImport = new dataImport(1);
             dataImport.Show();
             this.Close();
+        }
+
+        private void includeAdmin_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void textBox2_TextChanged_2(object sender, EventArgs e)
+        {
+            button3.Enabled = true;
+            
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            double time = Convert.ToInt32(textBox2.Text);
+
+            UpdateAppSettings("time", $"{time}");
+
+            currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
+            
+            MessageBox.Show($"Время бездействия изменено");
         }
     }
 }

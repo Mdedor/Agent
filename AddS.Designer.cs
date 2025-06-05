@@ -273,7 +273,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::Agent.Properties.Resources.logo;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(10, 10);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(40, 37);
@@ -360,6 +360,7 @@
             this.Text = "AddS";
             this.Load += new System.EventHandler(this.AddS_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AddS_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AddS_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
+using Font = System.Drawing.Font;
 using Point = System.Drawing.Point;
 
 namespace Agent
@@ -53,6 +56,37 @@ namespace Agent
         string searchNowCountResume;
         double allPageCountVacancy;
         double allPageCountResume;
+
+        string docPath;
+        Size sizeStart;
+        Size sizeButton;
+        Size data2;
+        Point locationTextBox1;
+        Point locationComboBox1;
+        Point locationComboBox2;
+
+        int procentHight ;
+        int procentWidth;
+        Size resolution;
+        int sizeFont = 0;
+
+        Point locationButton;
+        Point locationPanel1;
+        Point locationPanel2;
+        Point locationPanel3;
+
+        Point locationStart;
+        Point locationData1;
+        Point locationData2;
+
+        Point locationPictire;
+        Point locationLabel;
+        int hightRow;
+        float fontRow;
+        int widthData;
+        int heightData;
+        bool statusForm = false;
+
         //ИЗМЕНИТЬ ВСЮ СТРАНИЧКУ, ДИЗАЙН ГОВНО!! КОМУ Я ЭТО ПИШУ ?! Самому себе из будующего)) тоже самое с формой просмотра резюме!! да и со всем формами, пересмотреть дизайн
         public SeeVacancy(int idResume = 0, string profession = "")
         {
@@ -381,6 +415,41 @@ namespace Agent
                     textBox1.MaxLength = 3;
                 else
                     textBox1.MaxLength = 4;
+                 resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+                procentHight = resolution.Height / 100;
+                 procentWidth = resolution.Width / 100;
+                if (resolution.Width > 1024 || resolution.Height > 768)
+                {
+                    sizeFont = 10;
+                    if (resolution.Width > 1600 || resolution.Height > 900)
+                    {
+                        sizeFont = 12;
+                        if (resolution.Width > 1920 || resolution.Height > 1200)
+                        {
+                            sizeFont = 14;
+                        }
+                    }
+                }
+                locationStart = this.Location;
+                sizeStart = this.Size;
+                locationData1 = dataGridView1.Location;
+                widthData = dataGridView1.Width;
+                heightData = dataGridView1.Height;
+                locationData2 = dataGridView2.Location;
+                data2 = dataGridView2.Size;
+
+                locationButton = exit.Location;
+                sizeButton = exit.Size;
+                locationPictire = pictureBox3.Location;
+                locationLabel = label13.Location;
+                hightRow = dataGridView1.RowTemplate.Height;
+                fontRow = 10;
+                locationTextBox1 = textBoxSearch.Location;
+                locationComboBox1 = comboBox1.Location;
+                locationComboBox2 = comboBox2.Location;
+                locationPanel2 = panel2.Location;
+                locationPanel1 = panel1.Location;
+                locationPanel3 = panel3.Location;
             }
 
         }
@@ -642,11 +711,11 @@ namespace Agent
         }
         private void SeeVacancy_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
         private void SeeVacancy_MouseMove(object sender, MouseEventArgs e)
         {
-
+            port.move = 1;
         }
         private void exit_Click_2(object sender, EventArgs e)
         {
@@ -729,6 +798,25 @@ namespace Agent
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
             }
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+            }
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -755,6 +843,25 @@ namespace Agent
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
             }
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+            }
         }
 
         private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -780,6 +887,25 @@ namespace Agent
                 dataGridView1.ClearSelection();
                 editColumnsResume();
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
+
+            }
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
             }
         }
@@ -900,7 +1026,29 @@ namespace Agent
             stingSearchingResume = "";
             stingSearchingVacancy = "";
             textBoxSearch.Text = "";
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
 
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Columns["Зарплат"].Width = procentWidth * 10;
+            }
+            else
+            {
+                dataGridView2.Columns["Зарплат"].Width = 100;
+            }
             pageResume = 1;
             pageVacancy = 1;
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
@@ -919,6 +1067,112 @@ namespace Agent
         private void dataGridView2_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             currentRowIndex = e.RowIndex;
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+            func.FormPaint(this, Color.White);
+
+            
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+            
+            if (!statusForm)
+            {
+
+                this.Size = resolution;
+                this.Location = new Point(0, 0);
+                docPath = Path.Combine(baseDir, "photo", "mini.png");
+                pictureBox3.Image = Image.FromFile(docPath);
+                textBoxSearch.Location = new Point(procentWidth, procentWidth * 3);
+                comboBox1.Location = new Point(procentWidth + textBoxSearch.Width + textBoxSearch.Location.X, procentWidth * 3);
+                comboBox2.Location = new Point(procentWidth + comboBox1.Location.X + comboBox1.Width, procentWidth * 3);
+
+                dataGridView1.Location = new Point(procentWidth, textBoxSearch.Location.Y + textBoxSearch.Height + procentWidth);
+                dataGridView1.Width = resolution.Width - procentWidth * 52;
+                dataGridView1.Height = procentHight * 86;
+
+                dataGridView2.Location = new Point(procentWidth+dataGridView1.Location.X+dataGridView1.Width, textBoxSearch.Location.Y + textBoxSearch.Height + procentWidth);
+                dataGridView2.Width = resolution.Width - procentWidth * 53;
+                dataGridView2.Height = procentHight * 86;
+
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 8; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Columns["Зарплат"].Width = procentWidth*10;
+                exit.Location = new Point(resolution.Width - procentWidth * 10, procentHight * 87 + dataGridView1.Location.Y);
+                exit.Size = new Size(procentWidth * 9, procentHight * 5);
+                exit.Font = new Font(label13.Font.FontFamily, sizeFont + 2, FontStyle.Bold);
+                statusForm = true;
+                pictureBox3.Location = new Point(resolution.Width - 27 - 10, 10);
+                label13.Font = new Font(label13.Font.FontFamily, 22, FontStyle.Bold);
+                panel1.Location = new Point(procentWidth+comboBox2.Width+comboBox2.Location.X, procentWidth * 2);
+                panel2.Location = new Point(procentWidth, dataGridView1.Height + dataGridView1.Location.Y + procentHight);
+                panel3.Location = new Point(procentWidth + dataGridView1.Width + dataGridView1.Location.X+procentWidth, dataGridView1.Height + dataGridView1.Location.Y + procentHight);
+            }
+            else
+            {
+                statusForm = false;
+
+                this.Size = sizeStart;
+                this.Location = locationStart;
+                docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                pictureBox3.Image = Image.FromFile(docPath);
+                dataGridView1.Height = heightData;
+                dataGridView1.Width = widthData;
+                dataGridView1.Location = locationData1;
+                dataGridView2.Location = locationData2;
+                dataGridView2.Size = data2;
+                exit.Location = locationButton;
+                exit.Size = sizeButton;
+                pictureBox3.Location = locationPictire;
+                label13.Location = locationLabel;
+                textBoxSearch.Location = locationTextBox1;
+                comboBox1.Location = locationComboBox1;
+                comboBox2.Location = locationComboBox2;
+                panel2.Location = locationPanel2;
+                panel1.Location = locationPanel1;
+                panel3.Location = locationPanel3;
+                exit.Font = new Font(label13.Font.FontFamily, 14, FontStyle.Bold);
+
+                dataGridView1.Font = new Font(label13.Font.FontFamily, 12);
+                dataGridView2.Font = new Font(label13.Font.FontFamily, 12);
+
+                label13.Font = new Font(label13.Font.FontFamily, 18, FontStyle.Bold);
+                dataGridView2.Columns["Зарплат"].Width = 100;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, fontRow);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, fontRow);
+                }
+            }
+
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

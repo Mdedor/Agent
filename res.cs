@@ -145,7 +145,7 @@ namespace Agent
 
         private void res_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void labelProfession_Click(object sender, EventArgs e)
@@ -156,6 +156,11 @@ namespace Agent
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void res_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

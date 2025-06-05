@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 using Label = System.Windows.Forms.Label;
 using TextBox = System.Windows.Forms.TextBox;
 
@@ -19,38 +22,36 @@ namespace Agent
     {
         int currentRowIndex;
         int currentColumnIndex;
-
         string roleEmp;
         string searchIn;
         int resume;
-        string profession;
         int applicantId;
-        double countRecordsBD;
-        double countRecords;
-        int page = 1;
-        string searchNowCount;
         double allPageCount;
         double countRecordsBDVacancy;
         double countRecordsVacancy;
-        int idFilterResume = 0;
-        int idFilterVacancy = 0;
-        int idSortVacancy = -1;
-        int idSortResume = -1;
-
-        int aplicantID = 0;
-        int vacancyID = 0;
-
-        double countRecordsBDResume;
-        double countRecordsResume;
-        int pageResume = 1;
         int pageVacancy = 1;
-        int flag = 1;
-        string vacancyProfession = "0";
-        string resumeProfession = "0";
         string searchNowCountVacancy;
-        string searchNowCountResume;
         double allPageCountVacancy;
-        double allPageCountResume;
+
+        string docPath;
+        Size sizeStart;
+        Size sizeButton;
+        Point locationTextBox1;
+        Point locationComboBox1;
+        Point locationComboBox2;
+
+        Point locationButton;
+        Point locationPanel;
+
+        Point locationStart;
+        Point locationData;
+        Point locationPictire;
+        Point locationLabel;
+        int hightRow;
+        float fontRow;
+        int widthData;
+        int heightData;
+        bool statusForm = false;
         public SeeVacancyNew(int idResume = 0, string profession = "")
         {
             InitializeComponent();
@@ -302,6 +303,22 @@ namespace Agent
                 //dataGridView2.Visible = true;
             }
 
+            locationStart = this.Location;
+            sizeStart = this.Size;
+            locationData = dataGridView1.Location;
+            widthData = dataGridView1.Width;
+            heightData = dataGridView1.Height;
+
+            locationButton = exit.Location;
+            sizeButton = exit.Size;
+            locationPictire = pictureBox2.Location;
+            locationLabel = ladelHeader.Location;
+            hightRow = dataGridView1.RowTemplate.Height;
+            fontRow = 10;
+            locationTextBox1 = textBoxSearch.Location;
+            locationComboBox1 = comboBox1.Location;
+            locationComboBox2 = comboBox2.Location;
+            locationPanel = panel1.Location;
 
 
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
@@ -477,5 +494,101 @@ namespace Agent
             menu(sender, e);
 
         }
+
+        private void SeeVacancyNew_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            int sizeFont = 0;
+            func.FormPaint(this, Color.White);
+            Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+            if (resolution.Width > 1024 || resolution.Height > 768)
+            {
+                sizeFont = 10;
+                if (resolution.Width > 1600 || resolution.Height > 900)
+                {
+                    sizeFont = 12;
+                    if (resolution.Width > 1920 || resolution.Height > 1200)
+                    {
+                        sizeFont = 14;
+                    }
+                }
+            }
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+            int procentHight = resolution.Height / 100;
+            int procentWidth = resolution.Width / 100;
+            if (!statusForm)
+            {
+
+                this.Size = resolution;
+                this.Location = new Point(0, 0);
+                docPath = Path.Combine(baseDir, "photo", "mini.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                textBoxSearch.Location = new Point(procentWidth, procentWidth * 3);
+                comboBox1.Location = new Point(procentWidth+textBoxSearch.Width+textBoxSearch.Location.X, procentWidth * 3);
+                comboBox2.Location = new Point(procentWidth+comboBox1.Location.X+comboBox1.Width, procentWidth * 3);
+
+                dataGridView1.Location = new Point(procentWidth, textBoxSearch.Location.Y+textBoxSearch.Height+procentWidth);
+                dataGridView1.Width = resolution.Width - procentWidth * 2;
+                dataGridView1.Height = procentHight * 86;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                exit.Location = new Point(resolution.Width - procentWidth * 10, procentHight * 87 + dataGridView1.Location.Y);
+                exit.Size = new Size(procentWidth * 9, procentHight * 5);
+                exit.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2, FontStyle.Bold);
+                statusForm = true;
+                pictureBox2.Location = new Point(resolution.Width - 27 - 10, 10);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 22, FontStyle.Bold);
+                panel1.Location = new Point(procentWidth, dataGridView1.Height + dataGridView1.Location.Y+procentHight);
+            }
+            else
+            {
+                statusForm = false;
+
+                this.Size = sizeStart;
+                this.Location = locationStart;
+                docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                dataGridView1.Height = heightData;
+                dataGridView1.Width = widthData;
+                dataGridView1.Location = locationData;
+                exit.Location = locationButton;
+                exit.Size = sizeButton;
+                pictureBox2.Location = locationPictire;
+                ladelHeader.Location = locationLabel;
+                textBoxSearch.Location = locationTextBox1;
+                comboBox1.Location = locationComboBox1;
+                comboBox2.Location = locationComboBox2;
+                panel1.Location = locationPanel;
+                exit.Font = new Font(ladelHeader.Font.FontFamily, 14, FontStyle.Bold);
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, 12);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 18, FontStyle.Bold);
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                }
+            }
+
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
+    
 }

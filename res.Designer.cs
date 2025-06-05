@@ -320,6 +320,7 @@ namespace Agent
             this.Text = "res";
             this.Load += new System.EventHandler(this.res_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.res_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.res_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

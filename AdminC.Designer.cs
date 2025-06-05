@@ -137,6 +137,7 @@ namespace Agent
             this.Text = "adminC";
             this.Load += new System.EventHandler(this.AdminC_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminC_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AdminC_MouseMove);
             this.ResumeLayout(false);
 
         }

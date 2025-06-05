@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +20,19 @@ namespace Agent
         int currentColumnIndex;
         string roleEmp;
         int pos;
+        string docPath;
+        Size sizeStart;
+        Size sizeButton;
+        Point locationButton;
+        Point locationStart;
+        Point locationData;
+        Point locationPictire;
+        Point locationLabel;
+        int hightRow;
+        float fontRow;
+        int widthData;
+        int heightData;
+        bool statusForm = false;
         public SeeCompany(int position=0)
         {
             InitializeComponent();
@@ -62,6 +77,19 @@ namespace Agent
 
             }
             manager.ResumeBinding();
+
+            locationStart = this.Location;
+            sizeStart = this.Size;
+            locationData = dataGridView1.Location;
+            widthData = dataGridView1.Width;
+            heightData = dataGridView1.Height;
+
+            locationButton = button1.Location;
+            sizeButton = button1.Size;
+            locationPictire = pictureBox2.Location;
+            locationLabel = ladelHeader.Location;
+            hightRow = dataGridView1.RowTemplate.Height;
+            fontRow = 10;
 
         }
         void menu(object sender, MouseEventArgs e)
@@ -167,7 +195,7 @@ namespace Agent
 
         private void SeeCompany_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -175,6 +203,87 @@ namespace Agent
             AdminC adminC = new AdminC();
             adminC.Show();
             this.Close();
+        }
+
+        private void SeeCompany_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            int sizeFont = 0;
+            func.FormPaint(this, Color.White);
+            Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+            if (resolution.Width > 1024 || resolution.Height > 768)
+            {
+                sizeFont = 10;
+                if (resolution.Width > 1600 || resolution.Height > 900)
+                {
+                    sizeFont = 12;
+                    if (resolution.Width > 1920 || resolution.Height > 1200)
+                    {
+                        sizeFont = 14;
+                    }
+                }
+            }
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+            int procentHight = resolution.Height / 100;
+            int procentWidth = resolution.Width / 100;
+            if (!statusForm)
+            {
+
+                this.Size = resolution;
+                this.Location = new Point(0, 0);
+                docPath = Path.Combine(baseDir, "photo", "mini.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                dataGridView1.Location = new Point(procentWidth, procentWidth * 3);
+                dataGridView1.Width = resolution.Width - procentWidth * 2;
+                dataGridView1.Height = procentHight * 90;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                button1.Location = new Point(resolution.Width - procentWidth * 10, procentHight * 91 + dataGridView1.Location.Y);
+                button1.Size = new Size(procentWidth * 9, procentHight * 5);
+                button1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont+2, FontStyle.Bold);
+                statusForm = true;
+                pictureBox2.Location = new Point(resolution.Width - 27 - 10, 10);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 22, FontStyle.Bold);
+            }
+            else
+            {
+                statusForm = false;
+
+                this.Size = sizeStart;
+                this.Location = locationStart;
+                docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                dataGridView1.Height = heightData;
+                dataGridView1.Width = widthData;
+                dataGridView1.Location = locationData;
+                button1.Location = locationButton;
+                button1 .Size = sizeButton;
+                pictureBox2.Location = locationPictire;
+                ladelHeader.Location = locationLabel;
+                button1.Font = new Font(ladelHeader.Font.FontFamily, 14, FontStyle.Bold);
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, 12);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 18, FontStyle.Bold);
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                }
+            }
+
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

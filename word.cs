@@ -205,5 +205,10 @@ namespace Agent
         {
 
         }
+
+        private void word_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
     }
 }

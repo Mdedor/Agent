@@ -296,7 +296,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Agent.Properties.Resources.logo;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(10, 10);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(40, 37);
@@ -337,6 +337,7 @@
             this.Text = "AddE";
             this.Load += new System.EventHandler(this.AddE_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AddE_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AddE_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

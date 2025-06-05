@@ -134,7 +134,12 @@ namespace Agent
 
         private void SeeEmp_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void SeeEmp_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

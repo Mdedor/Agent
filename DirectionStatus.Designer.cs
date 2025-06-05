@@ -33,6 +33,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.exit = new System.Windows.Forms.Button();
             this.enter = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -93,12 +95,23 @@
             this.enter.UseVisualStyleBackColor = false;
             this.enter.Click += new System.EventHandler(this.enter_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(33, 22);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(40, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 137;
+            this.pictureBox1.TabStop = false;
+            // 
             // DirectionStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(303, 229);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.enter);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.comboBox1);
@@ -111,6 +124,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DirectionStatus";
             this.Load += new System.EventHandler(this.DirectionStatus_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DirectionStatus_MouseMove);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,5 +137,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Button enter;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

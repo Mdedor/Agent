@@ -227,5 +227,10 @@ namespace Agent
         {
             change();
         }
+
+        private void dataImport_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
     }
 }

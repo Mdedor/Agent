@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -35,12 +36,12 @@ namespace Agent
 
         private void AdminE_Load(object sender, EventArgs e)
         {
-
+            
         }
-
+        
         private void AdminE_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void button3_Click_1(object sender, EventArgs e)
@@ -65,6 +66,11 @@ namespace Agent
             Auntification auntification = new Auntification();
             auntification.Show();
             this.Close();
+        }
+
+        private void AdminE_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

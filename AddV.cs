@@ -404,7 +404,7 @@ namespace Agent
 
         private void AddV_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void comboBoxProfessioin_TextChanged(object sender, EventArgs e)

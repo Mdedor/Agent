@@ -257,6 +257,7 @@ namespace Agent
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            func.StartTimer();
             port.move = 1;
             string loginAdmin = ConfigurationManager.AppSettings["loginAdmin"].ToString();
             string pwdAdmin = ConfigurationManager.AppSettings["paswordAdmin"].ToString();
@@ -508,12 +509,17 @@ namespace Agent
 
         private void Auntification_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             
+        }
+
+        private void Auntification_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

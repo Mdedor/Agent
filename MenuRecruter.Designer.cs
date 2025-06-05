@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Button();
             this.buttonAplicant = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -76,12 +78,23 @@
             this.buttonAplicant.UseVisualStyleBackColor = false;
             this.buttonAplicant.Click += new System.EventHandler(this.buttonAplicant_Click_2);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(68, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(40, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 137;
+            this.pictureBox1.TabStop = false;
+            // 
             // MenuRecruter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(357, 221);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.buttonAplicant);
             this.Controls.Add(this.label1);
@@ -92,6 +105,8 @@
             this.Text = "Menu_anager";
             this.Load += new System.EventHandler(this.MenuManager_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MenuManager_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MenuRecruter_MouseMove);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,5 +116,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Button buttonAplicant;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

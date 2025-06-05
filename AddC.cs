@@ -454,7 +454,7 @@ namespace Agent
 
         private void AddC_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void maskedTextBoxPhoneNumber_TextChanged(object sender, EventArgs e)
@@ -483,6 +483,11 @@ namespace Agent
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             func.salary(e);
+        }
+
+        private void AddC_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

@@ -99,5 +99,10 @@ namespace Agent
         {
 
         }
+
+        private void DirectionStatus_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
     }
 }

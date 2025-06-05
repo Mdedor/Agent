@@ -574,7 +574,7 @@ namespace Agent
 
         private void AddS_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void maskedTextBoxPhoneNumber_TextChanged(object sender, EventArgs e)
@@ -592,6 +592,11 @@ namespace Agent
         private void label6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void AddS_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

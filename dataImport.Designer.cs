@@ -37,6 +37,8 @@ namespace Agent
             this.comboBoxTables = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -128,12 +130,23 @@ namespace Agent
             this.exit.UseVisualStyleBackColor = true;
             this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(51, 7);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(40, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 137;
+            this.pictureBox1.TabStop = false;
+            // 
             // dataImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(375, 295);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.buttonAddS);
             this.Controls.Add(this.button1);
@@ -146,6 +159,8 @@ namespace Agent
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "dataImport";
             this.Load += new System.EventHandler(this.dataImport_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataImport_MouseMove);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,5 +174,6 @@ namespace Agent
         private System.Windows.Forms.ComboBox comboBoxTables;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button exit;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

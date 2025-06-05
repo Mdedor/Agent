@@ -138,6 +138,7 @@ namespace Agent
             this.Text = "alminS";
             this.Load += new System.EventHandler(this.alminS_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AdminS_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AdminS_MouseMove);
             this.ResumeLayout(false);
 
         }

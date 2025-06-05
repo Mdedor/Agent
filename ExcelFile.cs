@@ -48,12 +48,12 @@ namespace Agent
                 worksheet.Cells[1, 1].Value = "Название компании";
                 worksheet.Cells[1, 2].Value = "Сумма полученная от компании";
 
-                MySqlConnection connection = new MySqlConnection(Connection.connect());
-                connection.Open();
-                MySqlCommand command = new MySqlCommand($@"SELECT company_name, sum(company_vacancy_cost) FROM agent.direction
-INNER JOIN vacancy ON vacancy.id = direction_vacancy
-INNER JOIN company ON company.id = vacancy_company
-WHERE direction_status = 'Принято' and direction_date BETWEEN '{dateTimePicker3.Value.ToString("yyyy-MM-dd")}' AND  '{dateTimePicker1.Value.ToString("yyyy-MM-dd")}' GROUP BY company.id;", connection);
+                                MySqlConnection connection = new MySqlConnection(Connection.connect());
+                                connection.Open();
+                                MySqlCommand command = new MySqlCommand($@"SELECT company_name, sum(company_vacancy_cost) FROM agent.direction
+                INNER JOIN vacancy ON vacancy.id = direction_vacancy
+                INNER JOIN company ON company.id = vacancy_company
+                WHERE direction_status = 'Принято' and direction_date BETWEEN '{dateTimePicker3.Value.ToString("yyyy-MM-dd")}' AND  '{dateTimePicker1.Value.ToString("yyyy-MM-dd")}' GROUP BY company.id;", connection);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 int row = 2;
@@ -137,6 +137,11 @@ WHERE direction_status = 'Принято' and direction_date BETWEEN '{dateTimeP
         private void dateTimePicker3_ValueChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void ExcelFile_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

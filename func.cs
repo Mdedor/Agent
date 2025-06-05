@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Drawing;
+using System.Configuration;
 
 namespace Agent
 {
@@ -69,10 +70,10 @@ namespace Agent
             }
         }
 
-        public static void FormPaint(Form form)
+        public static void FormPaint(Form form,Color color)
         {
             Graphics g = form.CreateGraphics();
-            Pen p1 = new Pen(Color.FromArgb(213, 213, 213),5);
+            Pen p1 = new Pen(color,5);
             g.DrawLine(p1, 0, 0, form.Width - 1, 0);
             g.DrawLine(p1, 0, 0, 0, form.Height - 1);
             g.DrawLine(p1, form.Width - 1, 0, form.Width - 1, form.Height - 1);
@@ -125,6 +126,39 @@ namespace Agent
         {
             int count = Convert.ToInt32(func.search(search));
             return count;
+        }
+        public static async void StartTimer()
+        {
+            int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
+            TimeSpan ts = new TimeSpan(0, 0, currentValue);
+            while (ts > TimeSpan.Zero)
+            {
+                await Task.Delay(1000);
+                ts -= TimeSpan.FromSeconds(1);
+
+                if (port.move == 1)
+                {
+                    ts = new TimeSpan(0, 0, currentValue);
+                    port.move = 0;
+                }
+            }
+            Auntification auntification = new Auntification();
+            CloseAllAndOpenNew(auntification);
+        }
+        public static void CloseAllAndOpenNew(Form newForm)
+        {
+            var forms = Application.OpenForms.Cast<Form>().ToList();
+            foreach (Form form in forms)
+            {
+                newForm = forms[0];
+                if (form == newForm)
+                    continue;
+                else
+                    form.Close();
+            }
+
+            // Открыть новую форму
+            newForm.Show();
         }
 
     }

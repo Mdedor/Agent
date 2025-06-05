@@ -58,5 +58,10 @@ namespace Agent
         {
 
         }
+
+        private void MenuManager_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using OfficeOpenXml.Packaging.Ionic.Zlib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -30,9 +32,9 @@ namespace Agent
 
         private void MenuManager_Load(object sender, EventArgs e)
         {
-
+            
         }
-
+        
         private void button3_Click(object sender, EventArgs e)
         {
             seeDirection seeDirection = new seeDirection();
@@ -52,7 +54,7 @@ namespace Agent
 
         private void MenuManager_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void buttonAplicant_Click_1(object sender, EventArgs e)
@@ -86,6 +88,11 @@ namespace Agent
             Auntification auntification = new Auntification();
             auntification.Show();
             this.Close();
+        }
+
+        private void MenuRecruter_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

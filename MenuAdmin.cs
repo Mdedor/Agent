@@ -21,46 +21,9 @@ namespace Agent
 
         private void MenuAdmin_Load(object sender, EventArgs e)
         {
-            //StartTimer();
+            
         }
-    //    private async void StartTimer()
-    //    {
-    //        int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["minut"].ToString());
-    //        int currentValue2 = Convert.ToInt32(ConfigurationManager.AppSettings["secund"].ToString());
-    //        TimeSpan ts = new TimeSpan(0, currentValue, currentValue2);
-    //        while (ts > TimeSpan.Zero)
-    //        {
-    //            await Task.Delay(1000);
-    //             ts -= TimeSpan.FromSeconds(1);
-
-    //            if (port.move == 1)
-    //            {
-    //                ts = new TimeSpan(0, 0, 40);
-    //                port.move = 0;
-    //            }
-    //        }
-    //        Auntification auntification = new Auntification();
-    //        CloseAllAndOpenNew(auntification);
-           
         
-        
-
-    //}
-        public static void CloseAllAndOpenNew(Form newForm)
-        {
-            var forms = Application.OpenForms.Cast<Form>().ToList();
-            foreach (Form form in forms)
-            {
-                newForm = forms[0];
-                if (form == newForm)
-                    continue;
-                else
-                    form.Close();
-            }
-
-            // Открыть новую форму
-            newForm.Show();
-        }
         private void buttonAplicant_Click(object sender, EventArgs e)
         {
             port.move = 1;
@@ -94,7 +57,7 @@ namespace Agent
 
         private void MenuAdmin_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

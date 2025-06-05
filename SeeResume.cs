@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,40 +26,38 @@ namespace Agent
         int idVacancy;
         string searcIn;
         string roleEmp;
-        int countRecords;
-        string searchNowCount;
-        int countRecordsBD;
 
-        int currentColumnIndex;
-
-        string searchIn;
-        string stingSearchingVacancy;
-        string stingSearchingResume;
-        int resume;
-        string profession;
-        int applicantId;
-
-        double countRecordsBDVacancy;
-        double countRecordsVacancy;
-        int idFilterResume = 0;
-        int idFilterVacancy = 0;
-        int idSortVacancy = -1;
-        int idSortResume = -1;
-
-        int aplicantID = 0;
-        int vacancyID = 0;
 
         double countRecordsBDResume;
         double countRecordsResume;
         int pageResume = 1;
-        int pageVacancy = 1;
-        int flag = 1;
+
         string vacancyProfession = "0";
         string resumeProfession = "0";
-        string searchNowCountVacancy;
+
         string searchNowCountResume;
-        double allPageCountVacancy;
+
         double allPageCountResume;
+
+        string docPath;
+        Size sizeStart;
+        Size sizeButton;
+        Point locationTextBox1;
+        Point locationComboBox1;
+        Point locationComboBox2;
+
+        Point locationButton;
+        Point locationPanel;
+
+        Point locationStart;
+        Point locationData;
+        Point locationPictire;
+        Point locationLabel;
+        int hightRow;
+        float fontRow;
+        int widthData;
+        int heightData;
+        bool statusForm = false;
         public SeeResume(string profession = " ", int VacancyID = 0) // ИЗМЕНИТЬ РАЗМЕР СТРАНИЦЫ!!!!!!!!!!!!!
         {
             professions = profession;
@@ -239,6 +239,22 @@ namespace Agent
 
             loadResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
+            locationStart = this.Location;
+            sizeStart = this.Size;
+            locationData = dataGridView1.Location;
+            widthData = dataGridView1.Width;
+            heightData = dataGridView1.Height;
+
+            locationButton = exit.Location;
+            sizeButton = exit.Size;
+            locationPictire = pictureBox2.Location;
+            locationLabel = ladelHeader.Location;
+            hightRow = dataGridView1.RowTemplate.Height;
+            fontRow = 10;
+            locationTextBox1 = textBoxSearch.Location;
+            locationComboBox1 = comboBox1.Location;
+            locationComboBox2 = comboBox2.Location;
+            locationPanel = panel1.Location;
         }
         void menu(object sender, MouseEventArgs e)
         {
@@ -419,7 +435,7 @@ namespace Agent
 
         private void SeeResume_Paint(object sender, PaintEventArgs e)
         {
-            func.FormPaint(this);
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
         private void exit_Click_1(object sender, EventArgs e)
@@ -498,6 +514,96 @@ namespace Agent
         private void dataGridView1_MouseDown_1(object sender, MouseEventArgs e)
         {
             menu(sender, e);
+        }
+
+        private void SeeResume_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            int sizeFont = 0;
+            func.FormPaint(this, Color.White);
+            Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+            if (resolution.Width > 1024 || resolution.Height > 768)
+            {
+                sizeFont = 10;
+                if (resolution.Width > 1600 || resolution.Height > 900)
+                {
+                    sizeFont = 12;
+                    if (resolution.Width > 1920 || resolution.Height > 1200)
+                    {
+                        sizeFont = 14;
+                    }
+                }
+            }
+            string exePath = Assembly.GetEntryAssembly().Location;
+            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+            int procentHight = resolution.Height / 100;
+            int procentWidth = resolution.Width / 100;
+            if (!statusForm)
+            {
+
+                this.Size = resolution;
+                this.Location = new Point(0, 0);
+                docPath = Path.Combine(baseDir, "photo", "mini.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                textBoxSearch.Location = new Point(procentWidth, procentWidth * 3);
+                comboBox1.Location = new Point(procentWidth + textBoxSearch.Width + textBoxSearch.Location.X, procentWidth * 3);
+                comboBox2.Location = new Point(procentWidth + comboBox1.Location.X + comboBox1.Width, procentWidth * 3);
+
+                dataGridView1.Location = new Point(procentWidth, textBoxSearch.Location.Y + textBoxSearch.Height + procentWidth);
+                dataGridView1.Width = resolution.Width - procentWidth * 2;
+                dataGridView1.Height = procentHight * 86;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                exit.Location = new Point(resolution.Width - procentWidth * 10, procentHight * 87 + dataGridView1.Location.Y);
+                exit.Size = new Size(procentWidth * 9, procentHight * 5);
+                exit.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2, FontStyle.Bold);
+                statusForm = true;
+                pictureBox2.Location = new Point(resolution.Width - 27 - 10, 10);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 22, FontStyle.Bold);
+                panel1.Location = new Point(procentWidth, dataGridView1.Height + dataGridView1.Location.Y + procentHight);
+            }
+            else
+            {
+                statusForm = false;
+
+                this.Size = sizeStart;
+                this.Location = locationStart;
+                docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                pictureBox2.Image = Image.FromFile(docPath);
+                dataGridView1.Height = heightData;
+                dataGridView1.Width = widthData;
+                dataGridView1.Location = locationData;
+                exit.Location = locationButton;
+                exit.Size = sizeButton;
+                pictureBox2.Location = locationPictire;
+                ladelHeader.Location = locationLabel;
+                textBoxSearch.Location = locationTextBox1;
+                comboBox1.Location = locationComboBox1;
+                comboBox2.Location = locationComboBox2;
+                panel1.Location = locationPanel;
+                exit.Font = new Font(ladelHeader.Font.FontFamily, 14, FontStyle.Bold);
+                dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, 12);
+                ladelHeader.Font = new Font(ladelHeader.Font.FontFamily, 18, FontStyle.Bold);
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                }
+            }
+
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }
