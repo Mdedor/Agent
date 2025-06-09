@@ -54,8 +54,9 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            MenuManager menuManager = new MenuManager();
-            menuManager.Show();
+           
+           MenuManager m = new MenuManager();
+            m.Show();
             this.Close();
         }
         void loadDate()

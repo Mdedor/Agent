@@ -210,7 +210,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.exit.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.exit.Location = new System.Drawing.Point(803, 661);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(230, 47);

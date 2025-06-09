@@ -14,6 +14,10 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
+using Brush = System.Drawing.Brush;
+using Pen = System.Drawing.Pen;
 
 namespace Agent
 {
@@ -30,6 +34,7 @@ namespace Agent
         int pictureX;
         int buttonX;
         int countEr;
+        int status = 1;
         PictureBox pb = new PictureBox();
         Button updateCaptcha = new Button();
         TextBox textBoxCaptcha = new TextBox();
@@ -40,6 +45,8 @@ namespace Agent
         {
             InitializeComponent();
         }
+        
+
         // ДОДЕЛАТЬ ТЗ
         // сделать проверку на подключение и проверку на наличиие базы данных !!
         // Востановление базы данных автоматическое и ручное
@@ -49,9 +56,24 @@ namespace Agent
         // протестировать каждый комбо бокс
         private void Auntification_Load(object sender, EventArgs e)
         {
-            textBoxLogin.Text = "1";
-            textBoxPwd.Text = "1";
-            updateCaptcha.Click += buttonClicl;
+            //try
+            //{
+            //    string cons = $"server={server};user={user};pwd={passworddd};database={db};";
+            //    MySqlConnection connection = new MySqlConnection(cons);
+            //    connection.Open();
+            //    connection.Close();
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    MessageBox.Show("Соединение c базой данных не уставнолено. Вызовите локального администратора для настройки подключения к бд.");
+            //    status = 0;
+            //    return;
+            //}
+            //textBoxLogin.Text = "1";
+            //textBoxPwd.Text = "1";
+            //updateCaptcha.Click += buttonClicl;
             
         }
         void buckup()
@@ -234,25 +256,80 @@ namespace Agent
         {
             string post = func.search($"SELECT employe_post FROM employe WHERE employe_login = '{login}'");
             empId = Convert.ToInt32(func.search($"SELECT id FROM employe WHERE employe_login = '{login}'"));
-            port.empIds = empId;
-            if (post == "1")
+            //var formsы = Application.OpenForms.Cast<Form>().ToList();
+            if (port.empIds == 0)
             {
-                AdminE adminE = new AdminE();
-                adminE.Show();
-                this.Hide();
+                
+                port.empIds = empId;
+                if (post == "1")
+                {
+                    AdminE adminE = new AdminE();
+                    adminE.Show();
+                    this.Hide();
+                }
+                else if (post == "2")
+                {
+                    MenuManager manager = new MenuManager();
+                    manager.Show();
+                    this.Hide();
+                }
+                else if (post == "3")
+                {
+                    SeeVacancy seeVacancy = new SeeVacancy();
+                    seeVacancy.Show();
+                    this.Hide();
+                }
+                nextCaptcha = false;
+                this.Size = new Size(346, 311);
             }
-            else if (post == "2")
+            else
             {
-                MenuManager manager = new MenuManager();
-                manager.Show();
-                this.Hide();
+                if (empId == port.empIds) 
+                {
+                    var forms = Application.OpenForms.Cast<Form>().ToList();
+                    foreach (Form form in forms)
+                    {
+
+                        if (form.Name == port.block.Name && form.Text == port.block.Text)
+                        {
+                            form.Show();
+                            continue;
+
+                        }
+
+                        
+                    }
+                    this.Size = new Size(346, 311);
+                    nextCaptcha = false;
+                    this.Hide();
+                }
+                else
+                {
+                    port.empIds = empId;
+                    if (post == "1")
+                    {
+                        AdminE adminE = new AdminE();
+                        adminE.Show();
+                        this.Hide();
+                    }
+                    else if (post == "2")
+                    {
+                        MenuManager manager = new MenuManager();
+                        manager.Show();
+                        this.Hide();
+                    }
+                    else if (post == "3")
+                    {
+                        SeeVacancy seeVacancy = new SeeVacancy();
+                        seeVacancy.Show();
+                        this.Hide();
+                    }
+                    this.Size = new Size(346, 311);
+                    nextCaptcha = false;
+                }
             }
-            else if (post == "3")
-            {
-                SeeVacancy seeVacancy = new SeeVacancy();
-                seeVacancy.Show();
-                this.Hide();
-            }
+
+            
             
         }
         private void button1_Click(object sender, EventArgs e)
@@ -271,128 +348,154 @@ namespace Agent
             
                 login = textBoxLogin.Text;
                 password = textBoxPwd.Text;
-            if (!nextCaptcha)
+            if (status == 1)
             {
-                if (login == loginAdmin && password == pwdAdmin)
+                if (!nextCaptcha)
                 {
-                    includeAdmin includeAdmin = new includeAdmin();
-                    includeAdmin.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
-                    if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
+                    if (login == loginAdmin && password == pwdAdmin)
                     {
-                        auntification();
+                        includeAdmin includeAdmin = new includeAdmin();
+                        includeAdmin.Show();
+                        this.Hide();
                     }
                     else
                     {
-                        MessageBox.Show(
-                            "Авторизация не пройдена. Ошибка в логине или пароле.",
-                            "Ошибка",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation
-
-                            );
-                        textBoxLogin.Text = "";
-                        textBoxPwd.Text = "";
-                        nextCaptcha = true;
-                        pbWidth = textBoxLogin.Width;
-                        pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
-                        pb.Size = new Size(pbWidth, pbHeight);
-                        updateCaptcha.Size = new Size(enter.Width, enter.Height);
-                        textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
-                        pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
-                        buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
-                        this.Width += this.Width;
-                        pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
-                        textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
-                        labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
-
-                        textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
-                        textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
-                        labelPods.Width = pbWidth;
-                        labelPods.Text = "Введите текст, изображенный на картинке";
-                        updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
-                        updateCaptcha.Text = "Обновить";
-                        updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
-                        updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
-                        updateCaptcha.ForeColor = Color.White;
-                        updateCaptcha.FlatStyle = FlatStyle.Flat;
-                        updateCaptcha.Cursor = new Cursor(Handle);
-                        pb.Name = "pictureBox2";
-                        this.Controls.Add(pb);
-                        this.Controls.Add(textBoxCaptcha);
-                        this.Controls.Add(updateCaptcha);
-                        this.Controls.Add(labelPods);
-                        edit();
-                    }
-                }
-            }
-            else
-            {
-                countEr++;
-                if (textBoxCaptcha.Text != "")
-                {
-                    passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
-                    if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text == capcha)
-                    {
-                        auntification();
-                    }else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
-                    {
-                        MessageBox.Show(
-                                "Капча не пройдена. Программа заблокируется на 10 секунд",
+                        passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
+                        if (BCrypt.Net.BCrypt.Verify(password, passwordBD))
+                        {
+                            auntification();
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Авторизация не пройдена. Ошибка в логине или пароле.",
                                 "Ошибка",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation
 
                                 );
-                        edit();
-                        textBoxCaptcha.Text = "";
-                        enter.Enabled = false;
-                        sleep();
-                        enter.Enabled = true;
-                        
+                            func.FormPaint(this, Color.White);
+                            textBoxLogin.Text = "";
+                            textBoxPwd.Text = "";
+                            nextCaptcha = true;
+                            pbWidth = textBoxLogin.Width;
+                            pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
+                            pb.Size = new Size(pbWidth, pbHeight);
+                            updateCaptcha.Size = new Size(enter.Width, enter.Height);
+                            textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
+                            pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
+                            buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
+                            this.Width += this.Width;
+                            pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
+                            textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
+                            labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
+
+                            textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
+                            textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
+                            labelPods.Width = pbWidth;
+                            labelPods.Text = "Введите текст, изображенный на картинке";
+                            updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
+                            updateCaptcha.Text = "Обновить";
+                            updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
+                            updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
+                            updateCaptcha.ForeColor = Color.White;
+                            updateCaptcha.FlatStyle = FlatStyle.Flat;
+                            updateCaptcha.Cursor = new Cursor(Handle);
+                            pb.Name = "pictureBox2";
+                            this.Controls.Add(pb);
+                            this.Controls.Add(textBoxCaptcha);
+                            this.Controls.Add(updateCaptcha);
+                            this.Controls.Add(labelPods);
+                            edit();
+                            func.FormPaint(this, Color.FromArgb(213, 213, 213));
+                        }
                     }
-                    else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
+                }
+                else
+                {
+                    countEr++;
+                    if (textBoxCaptcha.Text != "")
+                    {
+                        passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
+                        if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text == capcha)
                         {
+                            textBoxCaptcha.Text = "";
+                            auntification();
+                        }
+                        else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
+                        {
+                            MessageBox.Show(
+                                    "Капча не пройдена. Программа заблокируется на 10 секунд",
+                                    "Ошибка",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation
+
+                                    );
+                            edit();
+                            textBoxCaptcha.Text = "";
+                            enter.Enabled = false;
+                            sleep();
+                            enter.Enabled = true;
+
+                        }
+                        else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
+
+                        {
+                            textBoxCaptcha.Text = "";
                             includeAdmin includeAdmin = new includeAdmin();
                             includeAdmin.Show();
                             this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Авторизация не пройдена. Программа заблокируется на 10 секунд",
+                                "Ошибка",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation
+                                );
+                            edit();
+                            textBoxCaptcha.Text = "";
+                            enter.Enabled = false;
+                            sleep();
+                            enter.Enabled = true;
+                        }
                     }
-                    else 
+                    else
                     {
                         MessageBox.Show(
-                            "Авторизация не пройдена. Программа заблокируется на 10 секунд",
-                            "Ошибка",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation
-                            );
-                        edit();
-                        textBoxCaptcha.Text = "";
-                        enter.Enabled = false;
-                        sleep();
-                        enter.Enabled = true;
+                               "Введите капчу",
+                               "Ошибка",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Exclamation
+
+                               );
                     }
-                 }
+
+
+                }
+            }
+            else
+            {
+                if (login == loginAdmin && password == pwdAdmin)
+                {
+                    includeAdmin includeAdmin = new includeAdmin(1);
+                    includeAdmin.Show();
+                    this.Hide();
+                    textBoxLogin.Text = "";
+                    textBoxPwd.Text = "";
+                }
                 else
                 {
-                    MessageBox.Show(
-                           "Введите капчу",
-                           "Ошибка",
-                           MessageBoxButtons.OK,
-                           MessageBoxIcon.Exclamation
-
-                           );
+                    MessageBox.Show("Нет доступа к базе данных. Вызовите администратора");
                 }
-                
-                
             }
+            
             
         }
         void edit()
         {
+
             capcha = "";
             string alfEng = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
             char[] masAlf = alfEng.ToCharArray();
@@ -465,8 +568,12 @@ namespace Agent
               );
             if (results == DialogResult.Yes)
             {
-                buckup();
-                deleteBuckup(); 
+                if (status == 1)
+                {
+                    buckup();
+                    deleteBuckup();
+                }
+                 
                 Application.Exit();
             }
             
@@ -520,6 +627,40 @@ namespace Agent
         private void Auntification_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void Auntification_Shown(object sender, EventArgs e)
+        {
+            
+            
+        }
+
+        private void Auntification_VisibleChanged(object sender, EventArgs e)
+        {
+            
+            if (this.Visible)
+            {
+                string server = ConfigurationManager.ConnectionStrings["server"].ConnectionString;
+                string user = ConfigurationManager.ConnectionStrings["user"].ConnectionString;
+                string passworddd = ConfigurationManager.ConnectionStrings["pwd"].ConnectionString;
+                string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+                try
+                {
+                    string cons = $"server={server};user={user};pwd={passworddd};database={db};";
+                    MySqlConnection connection = new MySqlConnection(cons);
+                    connection.Open();
+                    connection.Close();
+                    status = 1;
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Соединение c базой данных не уставнолено. Вызовите локального администратора для настройки подключения к бд.");
+                    status = 0;
+                    return;
+                }
+            }
         }
     }
 }

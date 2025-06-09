@@ -85,7 +85,7 @@
             this.enter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.enter.Enabled = false;
             this.enter.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.enter.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.enter.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.enter.ForeColor = System.Drawing.Color.White;
             this.enter.Location = new System.Drawing.Point(61, 113);
             this.enter.Name = "enter";

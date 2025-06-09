@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,9 +13,10 @@ using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
+using Application = System.Windows.Forms.Application;
 using Font = System.Drawing.Font;
 using Point = System.Drawing.Point;
-
+using WordApp = Microsoft.Office.Interop.Word;
 namespace Agent
 {
     public partial class SeeVacancy : Form
@@ -532,6 +534,7 @@ namespace Agent
                 else
                 {
                     contextMenu.MenuItems.Add(new MenuItem("Создать направление", dir2));
+                    contextMenu.MenuItems.Add(new MenuItem("Посмотреть подробную информацию", clickToResume));
                 }
                 //else if (roleEmp == "1")
                 //{
@@ -557,8 +560,8 @@ namespace Agent
         {
             int resume = Convert.ToInt32(dataGridView2.Rows[currentRowIndex].Cells["id"].Value);
             res res = new res(0, resume);
-            res.Show();
-            this.Hide();
+            res.ShowDialog();
+
 
         }
         void menuVacancy(object sender, MouseEventArgs e)
@@ -617,6 +620,7 @@ namespace Agent
               "Направление успешно создано",
               "Уведомление"
               );
+                navigate(aplicantID, vacancyID);
                 restart();
             }
         }
@@ -637,7 +641,110 @@ namespace Agent
                "Направление успешно создано",
                "Уведомление"
                );
+                navigate(aplicantID, vacancyID);
                 restart();
+            }
+        }
+        void navigate(int applicant,int vacancy)
+        {
+            string fio ="";
+            string company="";
+            string adress = "";
+            string profession = "";
+            MySqlConnection connection = new MySqlConnection(Connection.connect());
+            connection.Open();
+            string finds = $@"SELECT concat_ws(' ', applicant_surname,applicant_name,applicant_patronymic)as 'fio', company_name,company_address,profession.name FROM direction 
+                            INNER JOIN applicant ON applicant.applicant_id = direction.direction_aplicant
+                            INNER JOIN vacancy ON vacancy.id = direction.direction_vacancy
+                            INNER JOIN company ON company.id = vacancy.vacancy_company
+                            INNER JOIN profession ON profession.id = vacancy.vacancy_profession
+                            WHERE direction_aplicant = 1 and direction_vacancy = 1";
+            MySqlCommand com = new MySqlCommand(finds, connection);
+
+            MySqlDataReader reader = com.ExecuteReader();
+            while (reader.Read())
+            {
+                fio=reader.GetString(0);
+                company = reader.GetString(1);
+                adress = reader.GetString(2);
+                profession = reader.GetString(3);
+
+            }
+            connection.Close();
+
+            var wordApp = new WordApp.Application();
+            try
+            {
+                string exePath = Assembly.GetEntryAssembly().Location;
+                string baseDir = Path.GetDirectoryName(exePath);
+                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                string docPath = Path.Combine(baseDir, "document", "navigate.docx");
+
+
+                WordApp.Document doc = null;
+
+                try
+                {
+                    doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+
+                    // Fetch data from database
+
+
+                    var replacements = new Dictionary<string, string>
+                        {
+                            { "<applicant>", fio },
+                            { "<company>", company },
+                            { "<address>", adress },
+                             { "<profession>",profession }
+                        };
+
+                    foreach (var item in replacements)
+                    {
+                        WordApp.Find find = wordApp.Selection.Find;
+                        find.Text = item.Key;
+                        find.Replacement.Text = item.Value;
+                        find.Replacement.Font.Bold = 1;
+                        object wrap = WordApp.WdFindWrap.wdFindContinue;
+                        object replace = WordApp.WdReplace.wdReplaceAll;
+
+                        find.Execute(
+                            FindText: find.Text,
+                            ReplaceWith: find.Replacement.Text,
+                            Replace: replace,
+                            Wrap: wrap
+                            
+                        );
+                    }
+
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    {
+                        Filter = "Word Documents|*.docx",
+                        Title = "Сохранить документ",
+                        FileName =  $"Направление_{fio}_{company}_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".docx"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        doc.SaveAs2(saveFileDialog.FileName);
+                        Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
+                    }
+                }
+                finally
+                {
+                    if (doc != null)
+                    {
+                        doc.Close(false);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
+                    }
+                }
+            }
+            finally
+            {
+                if (wordApp != null)
+                {
+                    wordApp.Quit();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
+                }
             }
         }
         void clickToClient(object sender, EventArgs e)
@@ -719,9 +826,30 @@ namespace Agent
         }
         private void exit_Click_2(object sender, EventArgs e)
         {
+            port.empIds = 0;
             Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
+            //auntification.Show();
+            //this.Close();
+
+            var forms = Application.OpenForms.Cast<Form>().ToList();
+            foreach (Form form in forms)
+            {
+
+                if (form.Name == auntification.Name && form.Text == auntification.Text)
+                {
+                    form.Show();
+
+                    continue;
+
+                }
+
+                else
+                {
+                    form.Close();
+                }
+
+            }
+
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -1221,6 +1349,11 @@ namespace Agent
             }
 
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void SeeVacancy_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           
         }
     }
 }

@@ -178,7 +178,7 @@ namespace Agent
                     textBoxPatronomic.Clear();
                     textBoxSurname.Clear();
                     maskedTextBoxPhoneNumber.Clear();
-                    dateTimePicker1.Value = new DateTime(2006, 01, 01);
+                    dateTimePicker1.Value = DateTime.Now.AddYears(-14);
                     comboBoxGender.SelectedIndex = 0;
                     try
                     {
@@ -312,6 +312,8 @@ namespace Agent
         {
             comboBoxGender.Items.Add("Мужской");
             comboBoxGender.Items.Add("Женский");
+            dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
+            dateTimePicker1.Value = DateTime.Now.AddYears(-14);
             if (aplicantIds == 0)
             {
                 comboBoxGender.SelectedIndex = 0;

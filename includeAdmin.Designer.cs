@@ -43,6 +43,7 @@ namespace Agent
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,7 +70,7 @@ namespace Agent
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Location = new System.Drawing.Point(12, 471);
+            this.button3.Location = new System.Drawing.Point(12, 498);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(311, 44);
             this.button3.TabIndex = 111;
@@ -81,7 +82,7 @@ namespace Agent
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(44, 427);
+            this.label2.Location = new System.Drawing.Point(40, 463);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 23);
             this.label2.TabIndex = 110;
@@ -91,7 +92,7 @@ namespace Agent
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(30, 389);
+            this.label1.Location = new System.Drawing.Point(26, 425);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(277, 26);
             this.label1.TabIndex = 109;
@@ -104,7 +105,7 @@ namespace Agent
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(144, 422);
+            this.textBox2.Location = new System.Drawing.Point(145, 458);
             this.textBox2.MaxLength = 5;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(64, 34);
@@ -118,7 +119,7 @@ namespace Agent
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exit.Location = new System.Drawing.Point(103, 521);
+            this.exit.Location = new System.Drawing.Point(103, 548);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(126, 39);
             this.exit.TabIndex = 107;
@@ -134,7 +135,7 @@ namespace Agent
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(12, 153);
+            this.button1.Location = new System.Drawing.Point(12, 162);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(311, 68);
             this.button1.TabIndex = 106;
@@ -150,7 +151,7 @@ namespace Agent
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button4.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button4.ForeColor = System.Drawing.Color.Black;
-            this.button4.Location = new System.Drawing.Point(12, 53);
+            this.button4.Location = new System.Drawing.Point(12, 62);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(311, 44);
             this.button4.TabIndex = 105;
@@ -166,7 +167,7 @@ namespace Agent
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.ForeColor = System.Drawing.Color.Black;
-            this.button2.Location = new System.Drawing.Point(12, 227);
+            this.button2.Location = new System.Drawing.Point(12, 236);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(311, 44);
             this.button2.TabIndex = 112;
@@ -182,7 +183,7 @@ namespace Agent
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button5.ForeColor = System.Drawing.Color.Black;
-            this.button5.Location = new System.Drawing.Point(12, 103);
+            this.button5.Location = new System.Drawing.Point(12, 112);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(311, 44);
             this.button5.TabIndex = 113;
@@ -198,7 +199,7 @@ namespace Agent
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button6.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button6.ForeColor = System.Drawing.Color.Black;
-            this.button6.Location = new System.Drawing.Point(12, 277);
+            this.button6.Location = new System.Drawing.Point(12, 286);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(311, 63);
             this.button6.TabIndex = 114;
@@ -216,12 +217,29 @@ namespace Agent
             this.pictureBox1.TabIndex = 137;
             this.pictureBox1.TabStop = false;
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(204)))), ((int)(((byte)(153)))));
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button7.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button7.ForeColor = System.Drawing.Color.Black;
+            this.button7.Location = new System.Drawing.Point(12, 355);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(311, 63);
+            this.button7.TabIndex = 138;
+            this.button7.Text = "Настройка подключения к БД";
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // includeAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(335, 566);
+            this.ClientSize = new System.Drawing.Size(335, 593);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -262,5 +280,6 @@ namespace Agent
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button7;
     }
 }

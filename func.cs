@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Drawing;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace Agent
 {
@@ -129,6 +130,7 @@ namespace Agent
         }
         public static async void StartTimer()
         {
+            Auntification auntification = new Auntification();
             int currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
             TimeSpan ts = new TimeSpan(0, 0, currentValue);
             while (ts > TimeSpan.Zero)
@@ -141,24 +143,41 @@ namespace Agent
                     ts = new TimeSpan(0, 0, currentValue);
                     port.move = 0;
                 }
+
+
             }
-            Auntification auntification = new Auntification();
+            
             CloseAllAndOpenNew(auntification);
+
         }
         public static void CloseAllAndOpenNew(Form newForm)
         {
+
             var forms = Application.OpenForms.Cast<Form>().ToList();
             foreach (Form form in forms)
             {
-                newForm = forms[0];
-                if (form == newForm)
-                    continue;
-                else
-                    form.Close();
-            }
 
+                if (form.Name == newForm.Name && form.Text == newForm.Text)
+                {
+                    form.Show();
+
+                    continue;
+
+                }
+
+                else
+                {
+                    port.block = form;
+                    form.Hide();
+                }
+                   
+            }
+            
             // Открыть новую форму
-            newForm.Show();
+
+
+
+
         }
 
     }

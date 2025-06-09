@@ -63,9 +63,29 @@ namespace Agent
         private void exit_Click_1(object sender, EventArgs e)
         {
             port.move = 1;
+            port.empIds = 0;
             Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
+            //auntification.Show();
+            //this.Close();
+
+            var forms = Application.OpenForms.Cast<Form>().ToList();
+            foreach (Form form in forms)
+            {
+
+                if (form.Name == auntification.Name && form.Text == auntification.Text)
+                {
+                    form.Show();
+
+                    continue;
+
+                }
+
+                else
+                {
+                    form.Close();
+                }
+
+            }
         }
 
         private void AdminE_MouseMove(object sender, MouseEventArgs e)

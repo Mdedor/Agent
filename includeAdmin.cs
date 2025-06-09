@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 using System.IO;
 using System.Reflection;
 using Microsoft.Office.Interop.Word;
+using Application = System.Windows.Forms.Application;
 
 namespace Agent
 {
@@ -26,9 +27,12 @@ namespace Agent
         int currentValue;
         int currentValue2;
         int timr;
-        public includeAdmin()
+        int error = 0;
+        public includeAdmin(int err = 0)
         {
+             error = err;
             InitializeComponent();
+
         }
 
         private void includeAdmin_Paint(object sender, PaintEventArgs e)
@@ -42,21 +46,33 @@ namespace Agent
                 MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
 
-                string find = "USE agent;SHOW tables;";
+                string find = $"USE {db};SHOW tables;";
                 MySqlCommand com = new MySqlCommand(find, connection);
                 MySqlDataReader reader = com.ExecuteReader();
                 connection.Close();
                 button4.Enabled = true;
+                button5.Enabled = true;
             }
             catch
             {
                 button4.Enabled = false;
+                button5.Enabled = false;
             }
             
         }
         private void includeAdmin_Load(object sender, EventArgs e)
         {
-            load();
+            if (error == 0)
+            {
+                load();
+            }
+            else
+            {
+                button4.Enabled = false;
+                button5.Enabled = false;
+                button2.Enabled = false;
+            }
+            
            
             currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
 
@@ -302,9 +318,30 @@ namespace Agent
 
         private void exit_Click_2(object sender, EventArgs e)
         {
+            port.move = 1;
+            port.empIds = 0;
             Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
+            //auntification.Show();
+            //this.Close();
+
+            var forms = Application.OpenForms.Cast<Form>().ToList();
+            foreach (Form form in forms)
+            {
+
+                if (form.Name == auntification.Name && form.Text == auntification.Text)
+                {
+                    form.Show();
+
+                    continue;
+
+                }
+
+                else
+                {
+                    form.Close();
+                }
+
+            }
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -341,6 +378,13 @@ namespace Agent
             currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
             
             MessageBox.Show($"Время бездействия изменено");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Setting setting = new Setting();
+            setting.Show();
+            this.Close();
         }
     }
 }

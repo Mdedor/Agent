@@ -221,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.exit.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.exit.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.exit.Location = new System.Drawing.Point(456, 340);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(264, 47);
@@ -248,7 +248,7 @@
             this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddS.Enabled = false;
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
             this.buttonAddS.Location = new System.Drawing.Point(150, 340);
             this.buttonAddS.Name = "buttonAddS";

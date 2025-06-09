@@ -237,6 +237,12 @@
     <Compile Include="SeeVacancyNew.Designer.cs">
       <DependentUpon>SeeVacancyNew.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setting.Designer.cs">
+      <DependentUpon>Setting.cs</DependentUpon>
+    </Compile>
     <Compile Include="word.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,12 +331,18 @@
     <EmbeddedResource Include="SeeVacancyNew.resx">
       <DependentUpon>SeeVacancyNew.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Setting.resx">
+      <DependentUpon>Setting.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="word.resx">
       <DependentUpon>word.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="doc.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="document\doc.docx" />
+    <None Include="document\dogovor.docx" />
+    <None Include="document\navigate.docx" />
     <None Include="packages.config" />
     <None Include="packages\BCrypt.Net-Next.4.0.3\.signature.p7s" />
     <None Include="packages\BCrypt.Net-Next.4.0.3\BCrypt.Net-Next.4.0.3.nupkg" />
@@ -420,9 +432,7 @@
   <ItemGroup>
     <None Include="photo\default_user.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="document\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>

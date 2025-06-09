@@ -49,9 +49,29 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
+            port.empIds = 0;
             Auntification auntification = new Auntification();
-            auntification.Show();
-            this.Close();
+            //auntification.Show();
+            //this.Close();
+
+            var forms = Application.OpenForms.Cast<Form>().ToList();
+            foreach (Form form in forms)
+            {
+
+                if (form.Name == auntification.Name && form.Text == auntification.Text)
+                {
+                    form.Show();
+
+                    continue;
+
+                }
+
+                else
+                {
+                    form.Close();
+                }
+
+            }
         }
 
         private void MenuManager_Load(object sender, EventArgs e)

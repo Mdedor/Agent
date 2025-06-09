@@ -33,6 +33,10 @@ namespace Agent
         string searchNowCountVacancy;
         double allPageCountVacancy;
 
+        int procentHight ;
+        int procentWidth;
+        int sizeFont = 0;
+        Size resolution;
         string docPath;
         Size sizeStart;
         Size sizeButton;
@@ -286,23 +290,23 @@ namespace Agent
         {
             if (resume != 0)
             {
-                //string searcNow = $@"SELECT resume.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', profession.name as 'Профессия', resume.resume_knowledge_of_languages as 'Знание языков', resume.resume_personal_qualities as 'Личностные качества', resume.salary as 'Зарплата', applicant.applicant_delete_status as 'Status'
-                //        FROM resume  
-                //        INNER JOIN applicant ON resume.resume_applicant = applicant.applicant_id 
-                //        INNER JOIN profession ON resume.resume_profession = profession.id 
-                //        WHERE resume.id = '{resume}'";
-                //func.load(dataGridView2, searcNow);
-                //dataGridView2.Columns["id"].Visible = false;
-                //dataGridView2.Columns["Status"].Visible = false;
-                //dataGridView2.Columns["Соискатель"].Width = 270;
-                //dataGridView2.Columns["Профессия"].Width = 250;
-                //dataGridView2.Columns["Знание языков"].Width = 208;
-                //dataGridView2.Columns["Личностные качества"].Width = 300;
-                //dataGridView2.Columns["Зарплата"].Width = 140;
-
-                //dataGridView2.Visible = true;
+                
             }
-
+            resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+             procentHight = resolution.Height / 100;
+            procentWidth = resolution.Width / 100;
+            if (resolution.Width > 1024 || resolution.Height > 768)
+            {
+                sizeFont = 10;
+                if (resolution.Width > 1600 || resolution.Height > 900)
+                {
+                    sizeFont = 12;
+                    if (resolution.Width > 1920 || resolution.Height > 1200)
+                    {
+                        sizeFont = 14;
+                    }
+                }
+            }
             locationStart = this.Location;
             sizeStart = this.Size;
             locationData = dataGridView1.Location;
@@ -465,7 +469,14 @@ namespace Agent
             change();
 
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
-            
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Height = procentHight * 10; // Установка высоты для каждой строки
+                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+            }
+            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -477,6 +488,13 @@ namespace Agent
             dataGridView1.ClearSelection();
             change();
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Height = procentHight * 10; // Установка высоты для каждой строки
+                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+            }
+            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -488,6 +506,13 @@ namespace Agent
             dataGridView1.ClearSelection();
             change();
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Height = procentHight * 10; // Установка высоты для каждой строки
+                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+            }
+            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
         }
 
         private void dataGridView1_MouseDown(object sender, MouseEventArgs e)
@@ -503,27 +528,15 @@ namespace Agent
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            int sizeFont = 0;
+
             func.FormPaint(this, Color.White);
-            Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
-            if (resolution.Width > 1024 || resolution.Height > 768)
-            {
-                sizeFont = 10;
-                if (resolution.Width > 1600 || resolution.Height > 900)
-                {
-                    sizeFont = 12;
-                    if (resolution.Width > 1920 || resolution.Height > 1200)
-                    {
-                        sizeFont = 14;
-                    }
-                }
-            }
+
+            
             string exePath = Assembly.GetEntryAssembly().Location;
             // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
             string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
             baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-            int procentHight = resolution.Height / 100;
-            int procentWidth = resolution.Width / 100;
+            
             if (!statusForm)
             {
 

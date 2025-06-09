@@ -154,6 +154,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Авторизация";
             this.Load += new System.EventHandler(this.Auntification_Load);
+            this.Shown += new System.EventHandler(this.Auntification_Shown);
+            this.VisibleChanged += new System.EventHandler(this.Auntification_VisibleChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Auntification_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Auntification_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

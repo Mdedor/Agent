@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Agent
 {
@@ -13,5 +14,6 @@ namespace Agent
         public static string haveStatus;
         public static int empIds;
         public static int move;
+        public static Form block;
     }
 }
