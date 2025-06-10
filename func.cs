@@ -119,7 +119,7 @@ namespace Agent
             con.Open();
             MySqlCommand com = new MySqlCommand(search, con);
 
-            int num =com.ExecuteNonQuery();
+            port.directionStatus =com.ExecuteNonQuery();
             
             con.Close();
         }

@@ -29,6 +29,7 @@ namespace Agent
         string photo;
         int empIds;
         string bdPhoto;
+        string nowPhoto;
         int flag;
         int aplicantIds;
         int sees;
@@ -98,7 +99,7 @@ namespace Agent
                     count++;
                 if (maskedTextBoxPhoneNumber.Text != phone)
                     count++;
-                if (bdPhoto != pictureBox1.ToString())
+                if (bdPhoto != nowPhoto && nowPhoto != "default_user.png")
                     count++;
 
                 if (count > 0)
@@ -178,6 +179,7 @@ namespace Agent
                     textBoxPatronomic.Clear();
                     textBoxSurname.Clear();
                     maskedTextBoxPhoneNumber.Clear();
+                    dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
                     dateTimePicker1.Value = DateTime.Now.AddYears(-14);
                     comboBoxGender.SelectedIndex = 0;
                     try
@@ -275,6 +277,7 @@ namespace Agent
                 photoName= photoName.Replace('\\', 't');
                 photoName= photoName.Replace('/', 't');
                 photo = photoName + "." + namePhoto[namePhoto.Length-1];
+                nowPhoto = photo;
                 string newFilePath = $@"\photo\{photo}";
                 try
                 {
@@ -306,6 +309,14 @@ namespace Agent
                     photo = "";
                 
             }
+            if (aplicantIds == 0)
+                checkEnable();
+            else
+            {
+                checkEnable();
+                checkEnableUpdate();
+
+            }
         }
 
         private void AddS_Load(object sender, EventArgs e)
@@ -314,6 +325,7 @@ namespace Agent
             comboBoxGender.Items.Add("Женский");
             dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
             dateTimePicker1.Value = DateTime.Now.AddYears(-14);
+            flag = 1;
             if (aplicantIds == 0)
             {
                 comboBoxGender.SelectedIndex = 0;
@@ -346,22 +358,34 @@ namespace Agent
                 MySqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    textBoxSurname.Text = reader[1].ToString();
-                    textBoxName.Text = reader[2].ToString();
-                    textBoxPatronomic.Text = reader[3].ToString();
-                    maskedTextBoxPhoneNumber.Text = reader[4].ToString();
-                    textBoxAdress.Text = reader[5].ToString();
-                    dateTimePicker1.Text = reader[6].ToString();
+                    surname = reader[1].ToString();
+                    name = reader[2].ToString();
+                    patronomic = reader[3].ToString();
+                    phone = reader[4].ToString();
+                    adress = reader[5].ToString();
+                    date = reader[6].ToString();
                     bdPhoto = reader[7].ToString();
+                    nowPhoto = reader[7].ToString();
+                    
+
                     if (reader[7].ToString().Length > 0)
                         try
                         {
-                            pictureBox1.Image = Image.FromFile($@"..\..\photo\{reader[7].ToString()}.png");
+                            pictureBox1.Image = Image.FromFile($@"..\..\photo\{bdPhoto}");
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"{ex.Message}");
-                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\{reader[7].ToString()}.png");
+                            try
+                            {
+                                pictureBox1.Image = Image.FromFile(pathError + $@"\photo\{bdPhoto}");
+                            }
+                            catch
+                            {
+                                
+                                pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                            }
+                            
 
                         }
                     
@@ -382,16 +406,19 @@ namespace Agent
                     else
                         comboBoxGender.SelectedIndex = 1;
                 }
-                name = textBoxName.Text;
-                surname = textBoxSurname.Text;
-                patronomic = textBoxPatronomic.Text;
-                adress = textBoxAdress.Text;
-                date = dateTimePicker1.Value.ToString();
-                phone = maskedTextBoxPhoneNumber.Text.ToString();
-                connection.Close();
-                flag = 1;
-            }
+                textBoxSurname.Text = surname;
+                textBoxName.Text = name;
+                textBoxPatronomic.Text = patronomic;
+                maskedTextBoxPhoneNumber.Text = phone;
+                textBoxAdress.Text = adress;
+                dateTimePicker1.Text = date;
 
+
+                
+                connection.Close();
+
+            }
+                            
         }
         
         private void textBoxSurname_KeyPress(object sender, KeyPressEventArgs e)
@@ -418,8 +445,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -430,8 +458,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -463,8 +492,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
         
@@ -474,8 +504,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -530,8 +561,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
                 
         }
@@ -563,8 +595,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
 
         }
@@ -586,8 +619,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 

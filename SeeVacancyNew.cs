@@ -200,10 +200,10 @@ namespace Agent
             {
                 if (roleEmp == "3")
                 {
-                    if (resume == 0)
-                        contextMenu.MenuItems.Add(new MenuItem("Выбрать соискателя", click_to));
-                    else
-                        contextMenu.MenuItems.Add(new MenuItem("Создать направление", dir));
+                    //if (resume == 0)
+                    //    contextMenu.MenuItems.Add(new MenuItem("Выбрать соискателя", click_to));
+                    //else
+                        //contextMenu.MenuItems.Add(new MenuItem("Создать направление", dir));
 
                 }
                 else
@@ -226,42 +226,72 @@ namespace Agent
             }
 
         }
-        void dir(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show(
-               "Создать направление с этим резюме?",
-               "Подтверждение",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Information
-               );
-            if (result == DialogResult.Yes)
-            {
-                string vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
-                int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
-                DateTime now = DateTime.Now;
-                func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{applicantId}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{applicantId}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
-                MessageBox.Show(
-              "Направление успешно создано",
-              "Уведомление"
-              );
-                SeeResume resume = new SeeResume();
-                resume.Show();
-                this.Close();
-            }
-        }
+        //void dir(object sender, EventArgs e)
+        //{
+        //    DialogResult result = MessageBox.Show(
+        //       "Создать направление с этим резюме?",
+        //       "Подтверждение",
+        //       MessageBoxButtons.YesNo,
+        //       MessageBoxIcon.Information
+        //       );
+        //    if (result == DialogResult.Yes)
+        //    {
+        //        string vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
+        //        int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+        //        DateTime now = DateTime.Now;
+        //        func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{applicantId}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{applicantId}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
+        //        MessageBox.Show(
+        //      "Направление успешно создано",
+        //      "Уведомление"
+        //      );
+        //        SeeResume resume = new SeeResume();
+        //        resume.Show();
+        //        this.Close();
+        //    }
+        //}
 
-        void click_to(object sender, EventArgs e)
-        {
-            string vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
-            int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
-            SeeResume seeResume = new SeeResume(vacancyProfession, vacancyID);
-            seeResume.Show();
-            this.Hide();
-            dataGridView1.Rows[currentRowIndex].Selected = false;
-        }
+        //void click_to(object sender, EventArgs e)
+        //{
+        //    string vacancyProfession = dataGridView1.Rows[currentRowIndex].Cells["Профессия"].Value.ToString();
+        //    int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+        //    SeeResume seeResume = new SeeResume(vacancyProfession, vacancyID);
+        //    seeResume.Show();
+        //    this.Hide();
+        //    dataGridView1.Rows[currentRowIndex].Selected = false;
+        //}
         void update(object sender, EventArgs e)
         {
-            int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+
+            int vacancyID;
+            try
+            {
+                vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Ошибка: значение ID вакансии имеет неверный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // или другой способ прервать дальнейшее выполнение
+            }
+            catch (InvalidCastException)
+            {
+                MessageBox.Show("Ошибка: невозможно преобразовать значение ID вакансии в число.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Ошибка: индекс строки выходит за пределы.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Ошибка: значение ID вакансии отсутствует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвестная ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             AddV addV = new AddV(0, vacancyID);
             addV.Show();
             this.Close();
@@ -269,20 +299,39 @@ namespace Agent
         }
         void delete(object sender, EventArgs e)
         {
-            int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
-            DialogResult results = MessageBox.Show(
-               "Вы действительно хотите удалить вакансию?",
-               "Подтверждение",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Information
-               );
-            if (results == DialogResult.Yes)
+            try
             {
-                func.direction($@"UPDATE vacancy
-                             SET vacancy_delete_status = 1
-                             WHERE id = {vacancyID}");
-                MessageBox.Show("Ваканисия успешно удалена", "Уведомление");
-                load_load();
+                int vacancyID = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
+                DialogResult results = MessageBox.Show(
+                   "Вы действительно хотите удалить вакансию?",
+                   "Подтверждение",
+                   MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Information
+                );
+                if (results == DialogResult.Yes)
+                {
+                    func.direction($@"UPDATE vacancy
+                     SET vacancy_delete_status = 1
+                     WHERE id = {vacancyID}");
+                    if (port.directionStatus == 1)
+                        MessageBox.Show("Вакансия успешно удалена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else if (port.directionStatus == 0)
+                        MessageBox.Show("Вакансия не удалена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    load_load();
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Ошибка: неверный формат ID вакансии. Пожалуйста, проверьте данные.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Ошибка: не удалось получить данные о вакансии. Возможно, строка не выбрана.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при удалении вакансии:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

@@ -223,11 +223,11 @@ namespace Agent
 
             loadResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
-
-            int procentHight = resolution.Height / 100;
-            int procentWidth = resolution.Width / 100;
-
             resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+            procentHight = resolution.Height / 100;
+             procentWidth = resolution.Width / 100;
+
+
             if (resolution.Width > 1024 || resolution.Height > 768)
             {
                 sizeFont = 10;

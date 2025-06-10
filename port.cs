@@ -15,5 +15,6 @@ namespace Agent
         public static int empIds;
         public static int move;
         public static Form block;
+        public static int directionStatus;
     }
 }

@@ -55,7 +55,8 @@ namespace Agent
                     count++;
                 if (maskedTextBoxPhoneNumber.Text != phoneNumber)
                     count++;
-                
+                if (textBox1.Text != cost )
+                    count++;
                 if (count > 0)
                 {
                     buttonAddS.Enabled = true;
@@ -68,7 +69,7 @@ namespace Agent
         }
         void checkEnable()
         {
-            if (flag == 0)
+            if (flag == 1)
             {
                 var count = 0;
                 if (textBoxDesc.Text.Length > 0)
@@ -79,7 +80,7 @@ namespace Agent
                     count++;
                 if (maskedTextBoxPhoneNumber.MaskFull)
                     count++;
-                if (textBox1.Text.Length > 0)
+               if (textBox1.Text.Length > 0)
                     count++;
                 if (count >= 5)
                 {
@@ -203,14 +204,16 @@ namespace Agent
         }
         private void AddC_Load(object sender, EventArgs e)
         {
+            flag = 1;
+
             Graphics g = CreateGraphics();
             Pen p1 = new Pen(Color.Pink);
             g.DrawLine(p1, 0, 0, this.Width - 10, 0);
             g.DrawLine(p1, 0, 0, 0, this.Height - 10);
             g.DrawLine(p1, this.Width - 10, 0, this.Width - 10, this.Height - 10);
             g.DrawLine(p1, 0, this.Height - 10, Width - 10, this.Height - 10);
-        
 
+            
             if (componys != 0)
             {
                 buttonAddS.Text = "Изменить";
@@ -223,22 +226,24 @@ namespace Agent
                 while (readerr.Read())
                 {
 
-                    textBoxName.Text = readerr[1].ToString();
-                    textBoxDesc.Text = readerr[2].ToString();
-                    maskedTextBoxPhoneNumber.Text = readerr[3].ToString();
-                    textBoxAdress.Text = readerr[4].ToString();
-                    textBoxLink.Text = readerr[5].ToString();
-                    textBox1.Text = readerr[7].ToString();
+                   
+
+                    name = readerr[1].ToString();
+                    description = readerr[2].ToString();
+                    phoneNumber = readerr[3].ToString();
+                    adress = readerr[4].ToString();
+                    link = readerr[5].ToString();
+                    cost = readerr[7].ToString();
 
                 }
-                name = textBoxName.Text;
-                adress = textBoxAdress.Text;
-                link = textBoxLink.Text;
-                phoneNumber = maskedTextBoxPhoneNumber.Text;
-                description = textBoxDesc.Text;
-                cost = textBox1.Text;
-                flag = 1;
+                
             }
+            textBoxName.Text = name;
+            textBoxDesc.Text = description;
+            maskedTextBoxPhoneNumber.Text = phoneNumber;
+            textBoxAdress.Text = adress;
+            textBoxLink.Text = link;
+            textBox1.Text = cost;
         }
         private void exit_Click(object sender, EventArgs e)
         {
@@ -246,6 +251,12 @@ namespace Agent
             AdminC adminC = new AdminC();
             adminC.Show();
             this.Close();
+            if (componys != 0)
+            {
+                SeeCompany seeCompany = new SeeCompany();
+                seeCompany.Show();
+                this.Close();
+            }
         }
 
         private void buttonAddS_Click(object sender, EventArgs e)
@@ -256,6 +267,7 @@ namespace Agent
             link = textBoxLink.Text;
             phoneNumber = maskedTextBoxPhoneNumber.Text;
             description = textBoxDesc.Text;
+            cost = textBox1.Text;
             
 
             if (componys == 0)
@@ -272,7 +284,7 @@ namespace Agent
                     {
                         func.direction($@"
                                 INSERT INTO company (company_name, company_desceiption, company_phone_number, company_address, companyc_linq,company_vacancy_cost) 
-                                SELECT '{name}', '{description}', '{phoneNumber}', '{adress}', '{link}',{textBox1.Text} 
+                                SELECT '{name}', '{description}', '{phoneNumber}', '{adress}', '{link}',{cost} 
                                 WHERE NOT EXISTS (
                                     SELECT 1 FROM company 
                                     WHERE company_name = '{name}' AND company_phone_number = '{phoneNumber}' AND company_address = '{adress}' AND  (company_delete_status IS NULL OR company_delete_status = 3 OR company_delete_status = 4)
@@ -369,8 +381,8 @@ namespace Agent
                         MessageBox.Show($"Непредвиденная ошибка: {ex.Message}");
                     }
                     MessageBox.Show("Запись успешно изменена", "Уведомление");
-                    SeeVacancy seeVacancy = new SeeVacancy();
-                    seeVacancy.Show();
+                    SeeCompany seeCompany = new SeeCompany();
+                    seeCompany.Show();
                     this.Close();
                 }
             }
@@ -386,8 +398,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -398,8 +411,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -415,8 +429,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -427,8 +442,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -463,8 +479,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -475,8 +492,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 

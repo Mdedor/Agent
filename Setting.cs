@@ -72,7 +72,7 @@ namespace Agent
                 MySqlConnection connection = new MySqlConnection(cons);
                 connection.Open();
                 connection.Close();
-                MessageBox.Show("Настройка подключения прошла успешано. Соединение установлено.");
+                MessageBox.Show("Настройка подключения прошла успешано. Соединение установлено.","Уведомление",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 status = 0;
                 includeAdmin includeAdmin = new includeAdmin();
                 includeAdmin.Show();
@@ -81,7 +81,7 @@ namespace Agent
             catch (Exception ex)
             {
                 status = 1;
-                MessageBox.Show("Соединение не установнело. Попробуйте снова");
+                MessageBox.Show("Соединение не установнело. Попробуйте снова","Предупреждение",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
         }
 

@@ -35,6 +35,7 @@ namespace Agent
         int buttonX;
         int countEr;
         int status = 1;
+        Point Point;
         PictureBox pb = new PictureBox();
         Button updateCaptcha = new Button();
         TextBox textBoxCaptcha = new TextBox();
@@ -56,6 +57,7 @@ namespace Agent
         // протестировать каждый комбо бокс
         private void Auntification_Load(object sender, EventArgs e)
         {
+            Point = this.Location;
             //try
             //{
             //    string cons = $"server={server};user={user};pwd={passworddd};database={db};";
@@ -100,7 +102,7 @@ namespace Agent
                 baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
                                                                              // Добавляем относительный путь к документу
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Отчет_auto_" + fileName);
+                string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
                 // Создаем SQL-дамп
                 using (StreamWriter writer = new StreamWriter(docPath))
                 {
@@ -341,8 +343,8 @@ namespace Agent
             if(string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPwd.Text))
             {
                 string message = string.IsNullOrEmpty(textBoxLogin.Text) ? "Введите логин" : "Введите пароль";
-                MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                nextCaptcha = true;
+                MessageBox.Show(message, "Педупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                
                 return; 
             }//добавить сообщение о незаполненности capcha
             
@@ -369,45 +371,56 @@ namespace Agent
                         {
                             MessageBox.Show(
                                 "Авторизация не пройдена. Ошибка в логине или пароле.",
-                                "Ошибка",
+                                "Педупреждение",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Exclamation
+                                MessageBoxIcon.Warning
 
                                 );
-                            func.FormPaint(this, Color.White);
                             textBoxLogin.Text = "";
                             textBoxPwd.Text = "";
-                            nextCaptcha = true;
-                            pbWidth = textBoxLogin.Width;
-                            pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
-                            pb.Size = new Size(pbWidth, pbHeight);
-                            updateCaptcha.Size = new Size(enter.Width, enter.Height);
-                            textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
-                            pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
-                            buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
-                            this.Width += this.Width;
-                            pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
-                            textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
-                            labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
+                            if (countEr >= 2)
+                            {
+                                func.FormPaint(this, Color.White);
+                                
+                                nextCaptcha = true;
+                                pbWidth = textBoxLogin.Width;
+                                pbHeight = (textBoxPwd.Location.Y - textBoxLogin.Location.Y) + textBoxPwd.Height;
+                                pb.Size = new Size(pbWidth, pbHeight);
+                                updateCaptcha.Size = new Size(enter.Width, enter.Height);
+                                textBoxCaptcha.Size = new Size(pbWidth, pbHeight);
+                                pictureX = (this.Width / 2) - (((Point)pb.Size).X / 2) + this.Width;
+                                buttonX = (this.Width / 2) - (((Point)updateCaptcha.Size).X / 2) + this.Width;
+                                int width = this.Width;
+                                this.Width += this.Width;
+                                pb.Location = new Point(pictureX, textBoxLogin.Location.Y);
+                                textBoxCaptcha.Location = new Point(pictureX, enter.Location.Y);
+                                labelPods.Location = new Point(pictureX, checkBox1.Location.Y + 10);
 
-                            textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
-                            textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
-                            labelPods.Width = pbWidth;
-                            labelPods.Text = "Введите текст, изображенный на картинке";
-                            updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
-                            updateCaptcha.Text = "Обновить";
-                            updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
-                            updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
-                            updateCaptcha.ForeColor = Color.White;
-                            updateCaptcha.FlatStyle = FlatStyle.Flat;
-                            updateCaptcha.Cursor = new Cursor(Handle);
-                            pb.Name = "pictureBox2";
-                            this.Controls.Add(pb);
-                            this.Controls.Add(textBoxCaptcha);
-                            this.Controls.Add(updateCaptcha);
-                            this.Controls.Add(labelPods);
-                            edit();
-                            func.FormPaint(this, Color.FromArgb(213, 213, 213));
+                                textBoxCaptcha.BackColor = Color.FromArgb(255, 204, 153);
+                                textBoxCaptcha.Font = new Font("Comic Sans MS", 18);
+                                labelPods.Width = pbWidth;
+                                labelPods.Text = "Введите текст, изображенный на картинке";
+                                updateCaptcha.Location = new Point(buttonX, exit.Location.Y);
+                                updateCaptcha.Text = "Обновить";
+                                updateCaptcha.Font = new Font("Comic Sans MS", 18, FontStyle.Bold);
+                                updateCaptcha.BackColor = Color.FromArgb(204, 102, 0);
+                                updateCaptcha.ForeColor = Color.White;
+                                updateCaptcha.FlatStyle = FlatStyle.Flat;
+                                updateCaptcha.Cursor = new Cursor(Handle);
+                                pb.Name = "pictureBox2";
+                                this.Controls.Add(pb);
+                                this.Controls.Add(textBoxCaptcha);
+                                this.Controls.Add(updateCaptcha);
+                                this.Controls.Add(labelPods);
+                                edit();
+                                func.FormPaint(this, Color.FromArgb(213, 213, 213));
+                                this.Location = new Point(Point.X- width/2, Point.Y);
+                            }
+                            else
+                            {
+                                countEr++;
+                            }
+                            
                         }
                     }
                 }
@@ -426,13 +439,15 @@ namespace Agent
                         {
                             MessageBox.Show(
                                     "Капча не пройдена. Программа заблокируется на 10 секунд",
-                                    "Ошибка",
+                                    "Предуапреждение",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation
+                                    MessageBoxIcon.Warning
 
                                     );
                             edit();
                             textBoxCaptcha.Text = "";
+                            textBoxLogin.Text = "";
+                            textBoxPwd.Text = "";
                             enter.Enabled = false;
                             sleep();
                             enter.Enabled = true;
@@ -450,12 +465,14 @@ namespace Agent
                         {
                             MessageBox.Show(
                                 "Авторизация не пройдена. Программа заблокируется на 10 секунд",
-                                "Ошибка",
+                                "Предупреждение",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Exclamation
+                                MessageBoxIcon.Warning
                                 );
                             edit();
                             textBoxCaptcha.Text = "";
+                            textBoxLogin.Text = "";
+                            textBoxPwd.Text = "";
                             enter.Enabled = false;
                             sleep();
                             enter.Enabled = true;
@@ -465,9 +482,9 @@ namespace Agent
                     {
                         MessageBox.Show(
                                "Введите капчу",
-                               "Ошибка",
+                               "Предупреждение",
                                MessageBoxButtons.OK,
-                               MessageBoxIcon.Exclamation
+                               MessageBoxIcon.Warning
 
                                );
                     }
@@ -487,7 +504,7 @@ namespace Agent
                 }
                 else
                 {
-                    MessageBox.Show("Нет доступа к базе данных. Вызовите администратора");
+                    MessageBox.Show("Нет доступа к базе данных. Вызовите администратора", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             
@@ -656,7 +673,7 @@ namespace Agent
                 catch (Exception ex)
                 {
 
-                    MessageBox.Show("Соединение c базой данных не уставнолено. Вызовите локального администратора для настройки подключения к бд.");
+                    MessageBox.Show("Соединение c базой данных не уставнолено. Вызовите локального администратора для настройки подключения к бд.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     status = 0;
                     return;
                 }

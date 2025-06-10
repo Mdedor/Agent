@@ -340,6 +340,7 @@
     <None Include="doc.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="document\cost.docx" />
     <None Include="document\doc.docx" />
     <None Include="document\dogovor.docx" />
     <None Include="document\navigate.docx" />

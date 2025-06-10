@@ -102,6 +102,8 @@ namespace Agent
         {
            comboBoxPost.Items.Add("Администратор");
            comboBoxPost.Items.Add("Менеджер");
+           comboBoxPost.Items.Add("Рекрутер");
+            flag = 1;
             if (empoyIds != 0)
             {
                 buttonAddS.Text = "Изменить";
@@ -113,15 +115,18 @@ namespace Agent
                 MySqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    textBoxSurname.Text = reader[1].ToString();
-                    textBoxName.Text = reader[2].ToString();
-                    textBoxPatronomic.Text = reader[3].ToString();
-                    maskedTextBoxPhoneNumber.Text = reader[4].ToString();
-                    textBoxAdress.Text = reader[5].ToString();
-                    textBoxLogin.Text = reader[6].ToString();
+                   
+
+                    surname = reader[1].ToString();
+                    name = reader[2].ToString();
+                    patronomic = reader[3].ToString();
+                    phone = reader[4].ToString();
+                    adress = reader[5].ToString();
+                    login = reader[6].ToString();
                     pwd = reader[7].ToString();
-                    
-                    post = Convert.ToInt32(reader[8].ToString());
+
+                    post = Convert.ToInt32(reader[8].ToString())-1;
+
                     if (post == 1)
                     {
                         comboBoxPost.SelectedIndex = 0;
@@ -131,13 +136,17 @@ namespace Agent
                         comboBoxPost.SelectedIndex = 1;
                     }
                 }
-                name = textBoxName.Text;
-                surname = textBoxSurname.Text;
-                patronomic = textBoxPatronomic.Text;
-                adress = textBoxAdress.Text;
-                phone = maskedTextBoxPhoneNumber.Text.ToString();
-                login = textBoxLogin.Text;
-                post = comboBoxPost.SelectedIndex;
+
+
+                
+
+                textBoxSurname.Text = surname;
+                textBoxName.Text = name;
+                textBoxPatronomic.Text = patronomic;
+                maskedTextBoxPhoneNumber.Text = phone;
+                textBoxAdress.Text = adress;
+                textBoxLogin.Text = login;
+                comboBoxPost.SelectedIndex = post;
                 connection.Close();
                 flag = 1;
             }

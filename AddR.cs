@@ -91,7 +91,7 @@ namespace Agent
         }
         private void AddR_Load(object sender, EventArgs e)
         {
-            
+            flag = 1;
             MySqlConnection connection = new MySqlConnection(Connection.connect());
             connection.Open();
             string find = $"SELECT name FROM profession;";
@@ -118,21 +118,26 @@ namespace Agent
                 while (readerr.Read())
                 {
                     aplicantID = Convert.ToInt32(readerr[1].ToString());
-                    comboBoxProfessioin.SelectedIndex = Convert.ToInt32(readerr[2].ToString()) - 1;
-                    textBoxSalary.Text = readerr[3].ToString();
-                    textBoxEducation.Text = readerr[4].ToString();
-                    textBoxExp.Text = readerr[5].ToString();
-                    textBoxLang.Text = readerr[6].ToString();
-                    textBoxPers.Text = readerr[7].ToString();
+                    prof = Convert.ToInt32(readerr[2].ToString()) - 1;
+                    salary = readerr[3].ToString();
+                    educ = readerr[4].ToString();
+                    exp = readerr[5].ToString();
+                    lang = readerr[6].ToString();
+                    pers = readerr[7].ToString();
+
+                   
                 }
-                prof = comboBoxProfessioin.SelectedIndex;
-                salary = textBoxSalary.Text;
-                educ = textBoxEducation.Text;
-                exp = textBoxExp.Text;
-                lang = textBoxLang.Text;
-                pers = textBoxPers.Text;
+                
+
+
+                comboBoxProfessioin.SelectedIndex = prof;
+                textBoxSalary.Text = salary;
+                textBoxEducation.Text = educ;
+                textBoxExp.Text = exp;
+                textBoxLang.Text = lang;
+                textBoxPers.Text = pers;
                 buttonAddS.Text = "Изменить";
-                flag = 1;
+
             }
         }
 
@@ -257,8 +262,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -269,8 +275,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -281,8 +288,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -293,8 +301,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -305,8 +314,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 

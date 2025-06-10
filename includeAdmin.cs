@@ -173,7 +173,7 @@ namespace Agent
                 baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
                                                                              // Добавляем относительный путь к документу
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Отчет_" +fileName );
+                string docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" +fileName );
                 // Создаем SQL-дамп
                 using (StreamWriter writer = new StreamWriter(docPath))
                 {
@@ -377,7 +377,7 @@ namespace Agent
 
             currentValue = Convert.ToInt32(ConfigurationManager.AppSettings["time"].ToString());
             
-            MessageBox.Show($"Время бездействия изменено");
+            MessageBox.Show($"Время бездействия изменено","Уведомление",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -385,6 +385,11 @@ namespace Agent
             Setting setting = new Setting();
             setting.Show();
             this.Close();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }

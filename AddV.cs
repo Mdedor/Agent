@@ -363,8 +363,8 @@ namespace Agent
                         MessageBox.Show($"Непредвиденная ошибка: {ex.Message}");
                     }
                     MessageBox.Show("Запись успешно изменена", "Уведомление");
-                    SeeVacancy seeVacancy = new SeeVacancy();
-                    seeVacancy.Show();
+                   SeeVacancyNew seeVacancyNew = new SeeVacancyNew();
+                    seeVacancyNew.Show();
                     this.Close();
                 }
             }

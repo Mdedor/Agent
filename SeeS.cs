@@ -47,7 +47,7 @@ namespace Agent
             else
             {
                 ladelHeader.Text = "Выберете соискателя для создания резюме";
-                searchStering = @"SELECT  applicant_id,CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель', applicant.applicant_phone_number as 'Номер телефона', applicant.applicant_address as 'Адресс', applicant.applicant_image, applicant.applicant_delete_status as 'Status' FROM applicant INNER JOIN gender ON applicant.applicant_gender = gender.id WHERE applicant_id NOT IN (SELECT resume_applicant  FROM resume);";
+                searchStering = @"SELECT  applicant_id,CONCAT(applicant.applicant_surname, ' ',LEFT(applicant.applicant_name,1), '.', LEFT(applicant.applicant_patronymic,1),'.') as 'Соискатель', applicant.applicant_phone_number as 'Номер телефона', applicant.applicant_address as 'Адресс', applicant.applicant_image, applicant.applicant_delete_status as 'Status' FROM applicant INNER JOIN gender ON applicant.applicant_gender = gender.id WHERE applicant_id NOT IN (SELECT resume_applicant  FROM resume);";
                 
                 
             }
@@ -161,8 +161,15 @@ namespace Agent
                 }
                 catch
                 {
-                    string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    row.Cells["Изображение"].Value = Image.FromFile(pathError+$@"\photo\{path}");
+                    try
+                    {
+                        string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        row.Cells["Изображение"].Value = Image.FromFile(pathError + $@"\photo\{path}");
+                    }
+                    catch {
+                        row.Cells["Изображение"].Value = Image.FromFile($@"..\..\photo\default_user.png");
+                    }
+                    
                 }
 
             }
