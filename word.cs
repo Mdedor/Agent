@@ -73,13 +73,29 @@ namespace Agent
         private void exportToWord(System.Data.DataTable dataTable)
         {
             var wordApp = new WordApp.Application();
-            // Получаем путь к исполняемому файлу
-            string exePath = Assembly.GetEntryAssembly().Location;
-            // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
-            string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
-                                                                        // Добавляем относительный путь к документу
-            string docPath = Path.Combine(baseDir, "document", "doc.docx");
+           
+
+
+            string exePath = "";
+
+            string baseDir = "";
+
+
+            string docPath = "";
+            try
+            {
+                exePath = Assembly.GetEntryAssembly().Location;
+                baseDir = Path.GetDirectoryName(exePath);
+
+                 docPath = Path.Combine(baseDir, "document", "doc.docx");
+            }
+            catch
+            {
+                exePath = Assembly.GetEntryAssembly().Location;
+                baseDir = Path.GetDirectoryName(exePath);
+                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                docPath = Path.Combine(baseDir, "document", "doc.docx");
+            }
             Document doc = wordApp.Documents.Open(docPath, ReadOnly: false);
 
             try

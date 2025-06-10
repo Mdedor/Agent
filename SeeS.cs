@@ -157,7 +157,7 @@ namespace Agent
                 }
                 try
                 {
-                    row.Cells["Изображение"].Value = Image.FromFile($@"..\..\photo\{path}");
+                    row.Cells["Изображение"].Value = Image.FromFile($@"\photo\{path}");
                 }
                 catch
                 {

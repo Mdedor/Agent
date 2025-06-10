@@ -108,11 +108,27 @@ namespace Agent
             var wordApp = new WordApp.Application();
             try
             {
-                string exePath = Assembly.GetEntryAssembly().Location;
-                string baseDir = Path.GetDirectoryName(exePath);
-                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                string docPath = Path.Combine(baseDir, "document", "dogovor.docx");
+               
+                string exePath = "";
 
+                string baseDir = "";
+
+
+                string docPath = "";
+                try
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+
+                    docPath = Path.Combine(baseDir, "document", "dogovor.docx");
+                }
+                catch
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "document", "dogovor.docx");
+                }
 
                 WordApp.Document doc = null;
 

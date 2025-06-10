@@ -95,14 +95,28 @@ namespace Agent
                     }
                 }
 
-                // Получаем путь к исполняемому файлу
-                string exePath = Assembly.GetEntryAssembly().Location;
-                // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
-                string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
-                                                                             // Добавляем относительный путь к документу
+
+                string exePath = "";
+
+                string baseDir = "";
+                                                                           
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
+                string docPath = "";
+                try
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+
+                    docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
+                }
+                catch
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
+                }
+                
                 // Создаем SQL-дамп
                 using (StreamWriter writer = new StreamWriter(docPath))
                 {

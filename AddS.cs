@@ -281,23 +281,24 @@ namespace Agent
                 string newFilePath = $@"\photo\{photo}";
                 try
                 {
-                    fileInfo.CopyTo($@"..\.." + $"{newFilePath}", true);
+                    fileInfo.CopyTo($"{newFilePath}", true);
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show($"{ex.Message}");
-                    fileInfo.CopyTo($@"{newFilePath}", true);
+                    fileInfo.CopyTo($@"..\.." +$@"{newFilePath}", true);
 
                 }
 
                 try
                 {
-                    pictureBox1.Image = Image.FromFile($@"..\..\" + $"{newFilePath}");
+                    pictureBox1.Image = Image.FromFile(pathError + $@"{newFilePath}");
+                    
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"{ex.Message}");
-                    pictureBox1.Image = Image.FromFile(pathError + $@"{newFilePath}");
+                    pictureBox1.Image = Image.FromFile($@"..\..\" + $"{newFilePath}");
 
                 }
                 
@@ -331,12 +332,13 @@ namespace Agent
                 comboBoxGender.SelectedIndex = 0;
                 try
                 {
-                    pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                    pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"{ex.Message}");
-                    pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
+                    
+                    pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
 
                 }
                 
@@ -371,19 +373,20 @@ namespace Agent
                     if (reader[7].ToString().Length > 0)
                         try
                         {
-                            pictureBox1.Image = Image.FromFile($@"..\..\photo\{bdPhoto}");
+                            
+                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\{bdPhoto}");
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"{ex.Message}");
                             try
                             {
-                                pictureBox1.Image = Image.FromFile(pathError + $@"\photo\{bdPhoto}");
+                                pictureBox1.Image = Image.FromFile($@"..\..\photo\{bdPhoto}");
                             }
                             catch
                             {
                                 
-                                pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                                pictureBox1.Image = Image.FromFile($@"\photo\default_user.png");
                             }
                             
 
@@ -392,12 +395,13 @@ namespace Agent
                     else
                         try
                         {
-                            pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"{ex.Message}");
-                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
+                            
+                            pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
 
                         }
 

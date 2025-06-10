@@ -504,6 +504,7 @@
     <Content Include="backup\Ручное резервное копирование\Отчет_20250601_234553.sql" />
     <Content Include="backup\Ручное резервное копирование\Отчет_20250601_235438.sql" />
     <Content Include="backup\Ручное резервное копирование\Отчет_20250603_115726.sql" />
+    <Content Include="copy\Отчет_20250603_115726.sql" />
     <Content Include="logo.ico" />
     <Content Include="copy\Резервная_копия %281%29.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.IO;
+using static OfficeOpenXml.ExcelErrorValue;
+
 namespace Agent
 {
     public partial class dataImport : Form
@@ -196,10 +198,23 @@ namespace Agent
                         string insertQuery = $"INSERT INTO `{tableName}`({string.Join(",", titleField)}) VALUES (";
                         for (int i  = 0; i < valField.Length; i++)
                         {
+                           
                             if (valField[i].ToString() == "NULL")
                                 insertQuery += $"{valField[i].ToString()}";
                             else
-                                insertQuery += $"'{valField[i].ToString()}'";
+                            {
+                                Type fieldType = valField[i].GetType();
+                                if (fieldType == typeof(DateTime))
+                                {
+                                    DateTime dateValue = Convert.ToDateTime(valField[i]);
+                                    insertQuery += $"{dateValue.ToString("yyyy-MM-dd")}";
+                                }
+                                else
+                                {
+                                    insertQuery += $"'{valField[i].ToString()}'";
+                                }
+                            }
+                                
                             int q = i;
                             if (valField.Length - (q + 1) != 0)
                             {

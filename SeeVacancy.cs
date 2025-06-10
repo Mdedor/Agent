@@ -675,12 +675,26 @@ namespace Agent
             var wordApp = new WordApp.Application();
             try
             {
-                string exePath = Assembly.GetEntryAssembly().Location;
-                string baseDir = Path.GetDirectoryName(exePath);
-                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                string docPath = Path.Combine(baseDir, "document", "navigate.docx");
+               
+                string exePath = "";
 
+                string baseDir = "";
 
+                string docPath = "";
+                try
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+
+                    docPath = Path.Combine(baseDir, "document", "navigate.docx");
+                }
+                catch
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "document", "navigate.docx");
+                }
                 WordApp.Document doc = null;
 
                 try
@@ -948,25 +962,8 @@ namespace Agent
                     dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
                 }
-            }
-            if (statusForm)
-            {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
-
-                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
+            
+            
             }
         }
 
@@ -1070,20 +1067,7 @@ namespace Agent
                 }
 
             }
-            if (statusForm)
-            {
-                
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
-                }
-
-               
-                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
-                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
-            }
+            
         }
 
         private void dataGridView1_MouseDown_2(object sender, MouseEventArgs e)

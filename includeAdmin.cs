@@ -14,6 +14,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Office.Interop.Word;
 using Application = System.Windows.Forms.Application;
+using MySqlX.XDevAPI.Relational;
 
 namespace Agent
 {
@@ -167,13 +168,28 @@ namespace Agent
                 }
 
                 // Получаем путь к исполняемому файлу
-                string exePath = Assembly.GetEntryAssembly().Location;
-                // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
-                string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
-                                                                             // Добавляем относительный путь к документу
+                string exePath = "";
+
+                string baseDir = "";
+
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" +fileName );
+                string docPath = "";
+                try
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+
+                     docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                }
+                catch
+                {
+                    exePath = Assembly.GetEntryAssembly().Location;
+                    baseDir = Path.GetDirectoryName(exePath);
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                }
+
+
                 // Создаем SQL-дамп
                 using (StreamWriter writer = new StreamWriter(docPath))
                 {
@@ -264,6 +280,7 @@ namespace Agent
                 string exePath = Assembly.GetEntryAssembly().Location;
                 // Поднимаемся на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
                 string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+
                 baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 2 уровня вверх
                                                                             // Добавляем относительный путь к папке с резервными копиями
                 string backupDir = Path.Combine(baseDir, "backup");
@@ -302,9 +319,11 @@ namespace Agent
                 );
             if (result == DialogResult.Yes)
             {
-                filePath = "copy\\Резервная_копия (1).sql";
+                string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+                filePath = "\\copy\\Резервная_копия (1).sql";
                 string cons = $"server={server}; uid={user}; pwd={pwd}";
-                string readText = File.ReadAllText(filePath);
+                string readText = File.ReadAllText(pathError+filePath);
                 MySqlConnection con = new MySqlConnection(cons);
                 con.Open();
 
