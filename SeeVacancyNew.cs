@@ -584,7 +584,7 @@ namespace Agent
             string exePath = Assembly.GetEntryAssembly().Location;
             // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
             string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+           
             
             if (!statusForm)
             {
@@ -592,7 +592,16 @@ namespace Agent
                 this.Size = resolution;
                 this.Location = new Point(0, 0);
                 docPath = Path.Combine(baseDir, "photo", "mini.png");
-                pictureBox2.Image = Image.FromFile(docPath);
+                try
+                {
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "photo", "mini.png");
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
                 textBoxSearch.Location = new Point(procentWidth, procentWidth * 3);
                 comboBox1.Location = new Point(procentWidth+textBoxSearch.Width+textBoxSearch.Location.X, procentWidth * 3);
                 comboBox2.Location = new Point(procentWidth+comboBox1.Location.X+comboBox1.Width, procentWidth * 3);
@@ -623,7 +632,16 @@ namespace Agent
                 this.Size = sizeStart;
                 this.Location = locationStart;
                 docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
-                pictureBox2.Image = Image.FromFile(docPath);
+                try
+                {
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
                 dataGridView1.Height = heightData;
                 dataGridView1.Width = widthData;
                 dataGridView1.Location = locationData;

@@ -124,23 +124,29 @@ namespace Agent
                 MySqlDataReader readerr = comm.ExecuteReader();
                 while (readerr.Read())
                 {
+
                     comboBoxProfessioin.SelectedIndex = Convert.ToInt32(readerr[2].ToString()) - 1;
-                    profession = Convert.ToInt32(readerr[2].ToString()) - 1;
-                    textBoxTreb.Text = readerr[3].ToString();
-                    textBoxObz.Text = readerr[4].ToString();
-                    textBoxCond.Text = readerr[5].ToString();
-                    textBoxAdress.Text = readerr[6].ToString();
-                    textBoxSalaryBy.Text = readerr[7].ToString();
-                    textBoxSalaryBefore.Text = readerr[8].ToString();
+                    requerements = readerr[3].ToString();
+                    responsibilities = readerr[4].ToString();
+                    conditions = readerr[5].ToString();
+                    adress = readerr[6].ToString();
+                    salary_by = readerr[7].ToString();
+                    salary_before = readerr[8].ToString();
+
+                    
                 }
-                responsibilities = textBoxObz.Text.ToString();
-                requerements = textBoxTreb.Text.ToString();
-                conditions=textBoxCond.Text.ToString();
-                adress=textBoxAdress.Text.ToString();
-                salary_before = textBoxSalaryBefore.Text.ToString();
-                salary_by = textBoxSalaryBy.Text.ToString();
-                flag = 1;
+                
+
+                
+                profession = comboBoxProfessioin.SelectedIndex;
+                textBoxTreb.Text = requerements;
+                textBoxObz.Text = responsibilities;
+                textBoxCond.Text = conditions;
+                textBoxAdress.Text = adress;
+                textBoxSalaryBy.Text = salary_by;
+                textBoxSalaryBefore.Text = salary_before;
             }
+            flag = 1;
         }
 
         
@@ -152,8 +158,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -164,8 +171,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -176,8 +184,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -188,8 +197,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -200,8 +210,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -212,8 +223,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 
@@ -224,8 +236,9 @@ namespace Agent
                 checkEnable();
             else
             {
-                checkEnableUpdate();
                 checkEnable();
+                checkEnableUpdate();
+
             }
         }
 

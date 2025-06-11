@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection;
+using Microsoft.Office.Interop.Excel;
 
 namespace Agent
 {
@@ -33,6 +34,7 @@ namespace Agent
         int flag;
         int aplicantIds;
         int sees;
+        string pathError;
         Random Random = new Random();
         public AddS(int aplicantId, int see=0)
         {
@@ -55,7 +57,7 @@ namespace Agent
             }
 
         }
-        string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        
 
         void checkEnable()
         {
@@ -115,6 +117,9 @@ namespace Agent
         }
         private void buttonAddS_Click(object sender, EventArgs e)
         {
+            pathError = Assembly.GetEntryAssembly().Location;
+            string path;
+            string baseDir = Path.GetDirectoryName(pathError);
             if (aplicantIds == 0)
             {
                 name = textBoxName.Text;
@@ -184,15 +189,17 @@ namespace Agent
                     comboBoxGender.SelectedIndex = 0;
                     try
                     {
-                        pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                        path = Path.Combine(baseDir, $"photo", "default_user.png");
+                        pictureBox1.Image = Image.FromFile(path);
                     }
-                    catch
+                    catch (Exception ex)
                     {
 
-                        pictureBox1.Image = Image.FromFile(pathError+$@"\photo\default_user.png");
-                        throw;
+                        path = Path.Combine(baseDir, @"..\..", "photo", "default_user.png");
+                        pictureBox1.Image = Image.FromFile(path);
+
                     }
-                    
+
                     MessageBox.Show("Запись успешно добавлена", "Уведомление");
                     DialogResult results = MessageBox.Show(
                        "Создать резюме?",
@@ -258,6 +265,8 @@ namespace Agent
 
         private void buttonImage_Click(object sender, EventArgs e)
         {
+            string baseDir = Path.GetDirectoryName(pathError);
+            string spath;
             port.move = 1;
             openFileDialog1.InitialDirectory = "C:\\";
             openFileDialog1.Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*";
@@ -281,24 +290,37 @@ namespace Agent
                 string newFilePath = $@"\photo\{photo}";
                 try
                 {
-                    fileInfo.CopyTo($"{newFilePath}", true);
+                    spath = Path.Combine(baseDir, $@"photo",$"{photo}");
+                    fileInfo.CopyTo(spath, true);
                 }
+
+
+                //string exePath = Assembly.GetEntryAssembly().Location;
+                //// Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
+                //string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+                //baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
+                //                                                             // Добавляем относительный путь к документу
+
+                //string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование");
                 catch(Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}");
-                    fileInfo.CopyTo($@"..\.." +$@"{newFilePath}", true);
+                   
+                    spath = Path.Combine(baseDir, @"..\..", $@"photo", $"{photo}");
+                    fileInfo.CopyTo(spath, true);
 
                 }
 
                 try
                 {
-                    pictureBox1.Image = Image.FromFile(pathError + $@"{newFilePath}");
+                    spath =Path.Combine(baseDir, $@"photo", $"{photo}");
+                    pictureBox1.Image = Image.FromFile(spath);
                     
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"{ex.Message}");
-                    pictureBox1.Image = Image.FromFile($@"..\..\" + $"{newFilePath}");
+                    spath = Path.Combine(baseDir, @"..\..", $@"photo", $"{photo}");
+                    pictureBox1.Image = Image.FromFile(spath);
 
                 }
                 
@@ -324,21 +346,33 @@ namespace Agent
         {
             comboBoxGender.Items.Add("Мужской");
             comboBoxGender.Items.Add("Женский");
+            pathError = Assembly.GetEntryAssembly().Location;
+            string path;
+            string baseDir = Path.GetDirectoryName(pathError);
+
             dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
-            dateTimePicker1.Value = DateTime.Now.AddYears(-14);
+
+            var valueToSet = DateTime.Now.AddYears(-14);
+            if (valueToSet < dateTimePicker1.MinDate)
+                valueToSet = dateTimePicker1.MinDate;
+            else if (valueToSet > dateTimePicker1.MaxDate)
+                valueToSet = dateTimePicker1.MaxDate;
+
+            dateTimePicker1.Value = valueToSet;
             flag = 1;
             if (aplicantIds == 0)
             {
                 comboBoxGender.SelectedIndex = 0;
                 try
                 {
-                    pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
+                    path = Path.Combine(baseDir, $"photo","default_user.png");
+                    pictureBox1.Image = Image.FromFile(path);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}");
                     
-                    pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                    path = Path.Combine(baseDir, @"..\..","photo","default_user.png");
+                    pictureBox1.Image = Image.FromFile(path);
 
                 }
                 
@@ -373,15 +407,17 @@ namespace Agent
                     if (reader[7].ToString().Length > 0)
                         try
                         {
-                            
-                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\{bdPhoto}");
+                           
+                            path = Path.Combine(baseDir, "photo", $"{bdPhoto}");
+                            pictureBox1.Image = Image.FromFile(path);
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"{ex.Message}");
                             try
                             {
-                                pictureBox1.Image = Image.FromFile($@"..\..\photo\{bdPhoto}");
+                                path = Path.Combine(baseDir, $@"..\..","photo",$"{bdPhoto}");
+                                pictureBox1.Image = Image.FromFile(path);
                             }
                             catch
                             {
@@ -395,13 +431,14 @@ namespace Agent
                     else
                         try
                         {
-                            pictureBox1.Image = Image.FromFile(pathError + $@"\photo\default_user.png");
+                            path = Path.Combine(baseDir, $@"photo","default_user.png");
+                            pictureBox1.Image = Image.FromFile(path);
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"{ex.Message}");
-                            
-                            pictureBox1.Image = Image.FromFile($@"..\..\photo\default_user.png");
+                            path = Path.Combine(baseDir, $@"..\..","photo","default_user.png");
+                            pictureBox1.Image = Image.FromFile(path);
 
                         }
 

@@ -658,7 +658,7 @@ namespace Agent
                             INNER JOIN vacancy ON vacancy.id = direction.direction_vacancy
                             INNER JOIN company ON company.id = vacancy.vacancy_company
                             INNER JOIN profession ON profession.id = vacancy.vacancy_profession
-                            WHERE direction_aplicant = 1 and direction_vacancy = 1";
+                            WHERE direction_aplicant = {applicant} and direction_vacancy = {vacancy} ";
             MySqlCommand com = new MySqlCommand(finds, connection);
 
             MySqlDataReader reader = com.ExecuteReader();
@@ -699,7 +699,23 @@ namespace Agent
 
                 try
                 {
-                    doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+                    try
+                    {
+                        exePath = Assembly.GetEntryAssembly().Location;
+                        baseDir = Path.GetDirectoryName(exePath);
+
+                        docPath = Path.Combine(baseDir, "document", "navigate.docx");
+                        doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+                    }
+                    catch
+                    {
+                        exePath = Assembly.GetEntryAssembly().Location;
+                        baseDir = Path.GetDirectoryName(exePath);
+                        baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                        docPath = Path.Combine(baseDir, "document", "navigate.docx");
+                        doc = wordApp.Documents.Open(docPath, ReadOnly: false);
+                    }
+
 
                     // Fetch data from database
 
@@ -1243,15 +1259,26 @@ namespace Agent
             string exePath = Assembly.GetEntryAssembly().Location;
             // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
             string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-            
+            baseDir = Path.GetDirectoryName(exePath);
+
             if (!statusForm)
             {
 
                 this.Size = resolution;
                 this.Location = new Point(0, 0);
                 docPath = Path.Combine(baseDir, "photo", "mini.png");
-                pictureBox3.Image = Image.FromFile(docPath);
+                try
+                {
+                    pictureBox3.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+
+                    docPath = Path.Combine(baseDir, "photo", "mini.png");
+                    pictureBox3.Image = Image.FromFile(docPath);
+                }
+                
                 textBoxSearch.Location = new Point(procentWidth, procentWidth * 3);
                 comboBox1.Location = new Point(procentWidth + textBoxSearch.Width + textBoxSearch.Location.X, procentWidth * 3);
                 comboBox2.Location = new Point(procentWidth + comboBox1.Location.X + comboBox1.Width, procentWidth * 3);
@@ -1297,7 +1324,17 @@ namespace Agent
                 this.Size = sizeStart;
                 this.Location = locationStart;
                 docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                try
+                {
+                    pictureBox3.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
                 pictureBox3.Image = Image.FromFile(docPath);
+            }
+            
                 dataGridView1.Height = heightData;
                 dataGridView1.Width = widthData;
                 dataGridView1.Location = locationData1;

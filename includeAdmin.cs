@@ -304,6 +304,17 @@ namespace Agent
                 {
                     string selectedFile = openFileDialog.FileName;
                     MessageBox.Show($"Выбран файл: {selectedFile}");
+                    string readText = File.ReadAllText(selectedFile);
+                    MySqlConnection con = new MySqlConnection(Connection.connect());
+                    con.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(readText, con);
+                    int resulst = cmd.ExecuteNonQuery();
+                    if(resulst > 0)
+                    {
+                        MessageBox.Show("Данные успешно импортированы");
+                    }
+                    con.Close();
                 }
                 
             }

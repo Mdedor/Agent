@@ -132,6 +132,9 @@ namespace Agent
         
         void load()
         {
+            string pathError = Assembly.GetEntryAssembly().Location;
+            string baseDir = Path.GetDirectoryName(pathError);
+            string spath;
             func.load(dataGridView1, searchStering);
 
 
@@ -157,18 +160,16 @@ namespace Agent
                 }
                 try
                 {
-                    row.Cells["Изображение"].Value = Image.FromFile($@"\photo\{path}");
+                    spath = Path.Combine(baseDir, "photo", $"{path}");
+                    row.Cells["Изображение"].Value = Image.FromFile(spath);
                 }
                 catch
                 {
-                    try
-                    {
-                        string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                        row.Cells["Изображение"].Value = Image.FromFile(pathError + $@"\photo\{path}");
-                    }
-                    catch {
-                        row.Cells["Изображение"].Value = Image.FromFile($@"..\..\photo\default_user.png");
-                    }
+
+                    spath = Path.Combine(baseDir, @"..\..", "photo",  $"{path}");
+                    row.Cells["Изображение"].Value = Image.FromFile(spath);
+                    
+                    
                     
                 }
 
@@ -281,7 +282,7 @@ namespace Agent
             string exePath = Assembly.GetEntryAssembly().Location;
             // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
             string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+            
             int procentHight = resolution.Height /100;
             int procentWidth = resolution.Width /100;
             if (!statusForm)
@@ -290,7 +291,16 @@ namespace Agent
                 this.Size = resolution;
                 this.Location = new Point(0, 0);
                 docPath = Path.Combine(baseDir, "photo", "mini.png");
-                pictureBox2.Image = Image.FromFile(docPath);
+                try
+                {
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "photo", "mini.png");
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
                 dataGridView1.Location = new Point(procentWidth, procentWidth*3);
                 dataGridView1.Width = resolution.Width - procentWidth*2;
                 dataGridView1.Height = procentHight * 90;
@@ -314,7 +324,16 @@ namespace Agent
                 this.Size = sizeStart;
                 this.Location = locationStart;
                 docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
-                pictureBox2.Image = Image.FromFile(docPath);
+                try
+                {
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
+                catch
+                {
+                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                    docPath = Path.Combine(baseDir, "photo", "fullsrcean.png");
+                    pictureBox2.Image = Image.FromFile(docPath);
+                }
                 dataGridView1.Height = heightData;
                 dataGridView1.Width = widthData;
                 dataGridView1.Location = locationData;
