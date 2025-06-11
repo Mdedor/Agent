@@ -189,13 +189,15 @@ namespace Agent
                     comboBoxGender.SelectedIndex = 0;
                     try
                     {
-                        path = Path.Combine(baseDir, $"photo", "default_user.png");
+                        var combinedPath = Path.Combine(baseDir, "photo", "default_user.png");
+                        path = Path.GetFullPath(combinedPath);
                         pictureBox1.Image = Image.FromFile(path);
                     }
                     catch (Exception ex)
                     {
 
-                        path = Path.Combine(baseDir, @"..\..", "photo", "default_user.png");
+                        var combinedPath = Path.Combine(baseDir, "..\\..", "photo", "default_user.png");
+                        path = Path.GetFullPath(combinedPath);
                         pictureBox1.Image = Image.FromFile(path);
 
                     }
@@ -290,36 +292,31 @@ namespace Agent
                 string newFilePath = $@"\photo\{photo}";
                 try
                 {
-                    spath = Path.Combine(baseDir, $@"photo",$"{photo}");
+                    var combinedPath = Path.Combine(baseDir,  "photo", photo);
+                    spath = Path.GetFullPath(combinedPath);
                     fileInfo.CopyTo(spath, true);
                 }
-
-
-                //string exePath = Assembly.GetEntryAssembly().Location;
-                //// Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
-                //string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
-                //baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..")); // Поднимаемся на 3 уровня вверх
-                //                                                             // Добавляем относительный путь к документу
-
-                //string docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование");
                 catch(Exception ex)
                 {
                    
-                    spath = Path.Combine(baseDir, @"..\..", $@"photo", $"{photo}");
+                    
+                    var combinedPath = Path.Combine(baseDir, "..\\..", "photo", photo);
+                     spath = Path.GetFullPath(combinedPath);
                     fileInfo.CopyTo(spath, true);
 
                 }
 
                 try
                 {
-                    spath =Path.Combine(baseDir, $@"photo", $"{photo}");
+                    var combinedPath = Path.Combine(baseDir,"photo", photo);
+                    spath = Path.GetFullPath(combinedPath);
                     pictureBox1.Image = Image.FromFile(spath);
                     
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}");
-                    spath = Path.Combine(baseDir, @"..\..", $@"photo", $"{photo}");
+                    var combinedPath = Path.Combine(baseDir, "..\\..", "photo", photo);
+                    spath = Path.GetFullPath(combinedPath);
                     pictureBox1.Image = Image.FromFile(spath);
 
                 }
@@ -365,13 +362,15 @@ namespace Agent
                 comboBoxGender.SelectedIndex = 0;
                 try
                 {
-                    path = Path.Combine(baseDir, $"photo","default_user.png");
+                    var combinedPath = Path.Combine(baseDir, "photo", "default_user.png");
+                    path = Path.GetFullPath(combinedPath);
+
                     pictureBox1.Image = Image.FromFile(path);
                 }
                 catch (Exception ex)
                 {
-                    
-                    path = Path.Combine(baseDir, @"..\..","photo","default_user.png");
+                    var combinedPath = Path.Combine(baseDir, "..\\..", "photo", "default_user.png");
+                    path = Path.GetFullPath(combinedPath);
                     pictureBox1.Image = Image.FromFile(path);
 
                 }
@@ -421,8 +420,9 @@ namespace Agent
                             }
                             catch
                             {
-                                
-                                pictureBox1.Image = Image.FromFile($@"\photo\default_user.png");
+
+                                path = Path.Combine(baseDir, $@"photo", "default_user.png");
+                                pictureBox1.Image = Image.FromFile(path);
                             }
                             
 

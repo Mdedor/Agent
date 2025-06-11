@@ -160,13 +160,15 @@ namespace Agent
                 }
                 try
                 {
-                    spath = Path.Combine(baseDir, "photo", $"{path}");
+
+                    var combinedPath = Path.Combine(baseDir,  "photo", path);
+                    spath = Path.GetFullPath(combinedPath);
                     row.Cells["Изображение"].Value = Image.FromFile(spath);
                 }
                 catch
                 {
-
-                    spath = Path.Combine(baseDir, @"..\..", "photo",  $"{path}");
+                    var combinedPath = Path.Combine(baseDir,"..\\..", "photo", path);
+                    spath = Path.GetFullPath(combinedPath);
                     row.Cells["Изображение"].Value = Image.FromFile(spath);
                     
                     
