@@ -102,12 +102,16 @@ namespace Agent
                                                                            
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
                 string docPath = "";
+                StreamWriter writer;
                 try
+                {
+                    try
                 {
                     exePath = Assembly.GetEntryAssembly().Location;
                     baseDir = Path.GetDirectoryName(exePath);
 
                     docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
+                    writer = new StreamWriter(docPath);
                 }
                 catch
                 {
@@ -115,13 +119,13 @@ namespace Agent
                     baseDir = Path.GetDirectoryName(exePath);
                     baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
                     docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
+                    writer = new StreamWriter(docPath);
                 }
-                
+                string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
                 // Создаем SQL-дамп
-                using (StreamWriter writer = new StreamWriter(docPath))
-                {
-                    writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `agent`;");
-                    writer.WriteLine($"USE `agent`;");
+                
+                    writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `{db}`;");
+                    writer.WriteLine($"USE `{db}`;");
                     writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
                         /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
                         /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -135,7 +139,7 @@ namespace Agent
                     foreach (string table in tables)
                     {
 
-                        
+
                         writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
 
 
@@ -187,8 +191,18 @@ namespace Agent
                             }
                         }
                     }
-                   // MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведобление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 }
+                catch 
+                {
+                    MessageBox.Show(
+                 "Авторматическое создание резевной копии не удалось",
+                 "Ошибка",
+                 MessageBoxButtons.OK,
+                 MessageBoxIcon.Error);
+                }
+                    
+                   // MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведобление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                
             }
         }
         void deleteBuckup()
@@ -443,54 +457,63 @@ namespace Agent
                     countEr++;
                     if (textBoxCaptcha.Text != "")
                     {
-                        passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
-                        if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text == capcha)
+                        try
                         {
-                            textBoxCaptcha.Text = "";
-                            auntification();
-                        }
-                        else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
-                        {
-                            MessageBox.Show(
-                                    "Капча не пройдена. Программа заблокируется на 10 секунд",
-                                    "Предуапреждение",
+                            passwordBD = func.search($"SELECT employe_pwd FROM employe WHERE employe_login = '{login}'");
+                            if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text == capcha)
+                            {
+                                textBoxCaptcha.Text = "";
+                                auntification();
+                            }
+                            else if (BCrypt.Net.BCrypt.Verify(password, passwordBD) && textBoxCaptcha.Text != capcha)
+                            {
+                                MessageBox.Show(
+                                        "Капча не пройдена. Программа заблокируется на 10 секунд",
+                                        "Предуапреждение",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning
+
+                                        );
+                                edit();
+                                textBoxCaptcha.Text = "";
+                                textBoxLogin.Text = "";
+                                textBoxPwd.Text = "";
+                                enter.Enabled = false;
+                                sleep();
+                                enter.Enabled = true;
+
+                            }
+                            else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
+
+                            {
+                                textBoxCaptcha.Text = "";
+                                includeAdmin includeAdmin = new includeAdmin();
+                                includeAdmin.Show();
+                                this.Hide();
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    "Авторизация не пройдена. Программа заблокируется на 10 секунд",
+                                    "Предупреждение",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning
-
                                     );
-                            edit();
-                            textBoxCaptcha.Text = "";
-                            textBoxLogin.Text = "";
-                            textBoxPwd.Text = "";
-                            enter.Enabled = false;
-                            sleep();
-                            enter.Enabled = true;
+                                edit();
+                                textBoxCaptcha.Text = "";
+                                textBoxLogin.Text = "";
+                                textBoxPwd.Text = "";
+                                enter.Enabled = false;
+                                sleep();
+                                enter.Enabled = true;
+                            }
+                        }
+                        catch
+                        {
 
                         }
-                        else if (login == loginAdmin && password == pwdAdmin && textBoxCaptcha.Text == capcha)
-
-                        {
-                            textBoxCaptcha.Text = "";
-                            includeAdmin includeAdmin = new includeAdmin();
-                            includeAdmin.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show(
-                                "Авторизация не пройдена. Программа заблокируется на 10 секунд",
-                                "Предупреждение",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning
-                                );
-                            edit();
-                            textBoxCaptcha.Text = "";
-                            textBoxLogin.Text = "";
-                            textBoxPwd.Text = "";
-                            enter.Enabled = false;
-                            sleep();
-                            enter.Enabled = true;
-                        }
+                        
+                        
                     }
                     else
                     {
@@ -680,6 +703,8 @@ namespace Agent
                     string cons = $"server={server};user={user};pwd={passworddd};database={db};";
                     MySqlConnection connection = new MySqlConnection(cons);
                     connection.Open();
+                    MySqlCommand mySqlCommand = new MySqlCommand("SHOW TABLES", connection);
+                    mySqlCommand.ExecuteNonQuery();
                     connection.Close();
                     status = 1;
 
@@ -691,6 +716,8 @@ namespace Agent
                     status = 0;
                     return;
                 }
+                textBoxLogin.Text = "";
+                textBoxPwd.Text = "";
             }
         }
     }

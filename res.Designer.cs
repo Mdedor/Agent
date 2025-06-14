@@ -77,7 +77,7 @@ namespace Agent
             // 
             this.labelSalary.AutoSize = true;
             this.labelSalary.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSalary.Location = new System.Drawing.Point(21, 598);
+            this.labelSalary.Location = new System.Drawing.Point(283, 509);
             this.labelSalary.Name = "labelSalary";
             this.labelSalary.Size = new System.Drawing.Size(69, 23);
             this.labelSalary.TabIndex = 37;
@@ -87,7 +87,7 @@ namespace Agent
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(20, 572);
+            this.label14.Location = new System.Drawing.Point(324, 483);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(191, 26);
             this.label14.TabIndex = 36;
@@ -97,7 +97,7 @@ namespace Agent
             // 
             this.labelQual.AutoSize = true;
             this.labelQual.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelQual.Location = new System.Drawing.Point(283, 510);
+            this.labelQual.Location = new System.Drawing.Point(283, 367);
             this.labelQual.Name = "labelQual";
             this.labelQual.Size = new System.Drawing.Size(69, 23);
             this.labelQual.TabIndex = 35;
@@ -107,7 +107,7 @@ namespace Agent
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(324, 484);
+            this.label12.Location = new System.Drawing.Point(351, 341);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(164, 26);
             this.label12.TabIndex = 34;
@@ -137,7 +137,7 @@ namespace Agent
             // 
             this.labelEducate.AutoSize = true;
             this.labelEducate.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelEducate.Location = new System.Drawing.Point(237, 402);
+            this.labelEducate.Location = new System.Drawing.Point(21, 581);
             this.labelEducate.Name = "labelEducate";
             this.labelEducate.Size = new System.Drawing.Size(69, 23);
             this.labelEducate.TabIndex = 31;
@@ -147,7 +147,7 @@ namespace Agent
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(334, 370);
+            this.label8.Location = new System.Drawing.Point(22, 555);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(135, 26);
             this.label8.TabIndex = 30;
@@ -157,7 +157,7 @@ namespace Agent
             // 
             this.labelWorkExp.AutoSize = true;
             this.labelWorkExp.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelWorkExp.Location = new System.Drawing.Point(291, 234);
+            this.labelWorkExp.Location = new System.Drawing.Point(283, 234);
             this.labelWorkExp.Name = "labelWorkExp";
             this.labelWorkExp.Size = new System.Drawing.Size(69, 23);
             this.labelWorkExp.TabIndex = 29;
@@ -167,7 +167,7 @@ namespace Agent
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(324, 208);
+            this.label5.Location = new System.Drawing.Point(351, 208);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(140, 26);
             this.label5.TabIndex = 28;

@@ -73,7 +73,8 @@ namespace Agent
                 func.direction($@"UPDATE vacancy 
                            SET vacancy_delete_status = '4'
                            WHERE id = '{vacancy}';");
-            } 
+            }
+            MessageBox.Show("Статус направления изменен", "Уведомления", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
 
@@ -103,6 +104,11 @@ namespace Agent
         private void DirectionStatus_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void DirectionStatus_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

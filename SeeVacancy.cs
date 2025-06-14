@@ -218,7 +218,7 @@ namespace Agent
             allPageCountResume = Math.Ceiling(countRecordsResume / 20);
 
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
-            label5.Text = allPageCountResume.ToString();
+           
             if (allPageCountResume > 10)
                 textBox1.MaxLength = 2;
             if (allPageCountResume > 100)
@@ -252,8 +252,8 @@ namespace Agent
                 }
                 if (resumeProfession != "0")
                 {
-
-                    basis += $" (profession.name = '{resumeProfession}') ";
+                    searchNowCount += $" AND (profession.name = '{comboBox2.SelectedItem}')";
+                    basis += $"and  (profession.name = '{resumeProfession}') ";
                 }
                 if (comboBox1.SelectedIndex == 1)
                 {
@@ -272,6 +272,7 @@ namespace Agent
                 pageVacancy = 1;
                 allPageCountVacancy = Math.Ceiling(countRecordsVacancy / 20);
                 label5.Text = allPageCountVacancy.ToString();
+                editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
                 return basis;
             }
             else
@@ -616,12 +617,23 @@ namespace Agent
 
                 DateTime now = DateTime.Now;
                 func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{aplicantID}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{applicantId}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
-                MessageBox.Show(
-              "Направление успешно создано",
+                if (port.directionStatus != 0)
+                {
+                    MessageBox.Show(
+               "Направление успешно создано",
+               "Уведомление"
+               );
+                    navigate(aplicantID, vacancyID);
+                    restart();
+
+                }
+                else
+                {
+                    MessageBox.Show(
+              "Такое направление уже создано",
               "Уведомление"
               );
-                navigate(aplicantID, vacancyID);
-                restart();
+                }
             }
         }
         void dir2(object sender, EventArgs e)
@@ -637,13 +649,30 @@ namespace Agent
             {
                 DateTime now = DateTime.Now;
                 func.direction($"INSERT INTO direction(direction_aplicant,direction_vacancy,direction_employee,direction_date,direction_status) SELECT'{aplicantID}','{vacancyID}','{port.empIds}','{now.ToString("yyyy-MM-dd")}','Ожидание' WHERE NOT EXISTS ( SELECT 1 FROM direction WHERE direction_aplicant = '{aplicantID}' AND direction_vacancy = '{vacancyID}' AND  direction_status = 'Ожидание');");
-                MessageBox.Show(
+                
+                if (port.directionStatus != 0)
+                {
+                    MessageBox.Show(
                "Направление успешно создано",
                "Уведомление"
                );
-                navigate(aplicantID, vacancyID);
-                restart();
+                    navigate(aplicantID, vacancyID);
+                    restart();
+
+                }
+                else
+                {
+                    MessageBox.Show(
+              "Такое направление уже создано",
+              "Уведомление"
+              );
+                }
             }
+            else
+            {
+
+            }
+                    
         }
         void navigate(int applicant,int vacancy)
         {
@@ -791,7 +820,27 @@ namespace Agent
             load_load();
             pageVacancy = 1;
             editPage(countRecordsVacancy, countRecordsBDVacancy, label2, label5, textBox1, allPageCountVacancy, pageVacancy, dataGridView1);
-            
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                }
+                dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            }
+            else
+            {
+                
+            }
             //SeeResume seeResume = new SeeResume( vacancyProfession,vacancyID);
             //seeResume.Show();
             //this.Hide();
@@ -812,8 +861,28 @@ namespace Agent
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
 
             loadResume(Search());
-            pageResume = 1;
-            
+
+            if (statusForm)
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                else
+                {
+                    
+                }
             //SeeResume seeResume = new SeeResume( vacancyProfession,vacancyID);
             //seeResume.Show();
             //this.Hide();
@@ -954,8 +1023,19 @@ namespace Agent
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                else
+                {
+                   
                 }
             }
             else
@@ -966,20 +1046,27 @@ namespace Agent
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
                 if (statusForm)
                 {
-
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
-
-
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
                     dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
                 }
-            
-            
+                else
+                {
+                    
+                }
+
+
             }
         }
 
@@ -1004,8 +1091,19 @@ namespace Agent
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                else
+                {
+                    
                 }
 
             }
@@ -1018,17 +1116,24 @@ namespace Agent
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
                 if (statusForm)
                 {
-
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
-
-
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
                     dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
+                }
+                else
+                {
+                   
                 }
             }
            
@@ -1054,8 +1159,19 @@ namespace Agent
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                    dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                else
+                {
+                    
                 }
                     //}
 
@@ -1069,18 +1185,27 @@ namespace Agent
                 editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView2);
                 if (statusForm)
                 {
-
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
+                    }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
                         row.Height = procentHight * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
-
-
+                    dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
+                    dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
                     dataGridView2.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
                     dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                }
+                else
+                {
+                   
 
                 }
+
 
             }
             

@@ -97,7 +97,28 @@ namespace Agent
             }
 
         }
+        static bool CheckString(string s)
+        {
+            if (s.Length < 6)
+            {
+                MessageBox.Show("Строка должна быть не менее 6 символов");
+                return false;
+            }
+            if (!s.Any(char.IsDigit))
+            {
+                MessageBox.Show("Строка должна содержать хотя бы одну цифру");
+                return false;
+            }
+            if (!s.Any(char.IsUpper))
+            {
+                MessageBox.Show("Строка должна содержать хотя бы одну заглавную букву");
+                return false;
+            }
+           
 
+           
+            return true;
+        }
         private void AddE_Load(object sender, EventArgs e)
         {
            comboBoxPost.Items.Add("Администратор");
@@ -155,26 +176,27 @@ namespace Agent
         private void buttonAddS_Click_1(object sender, EventArgs e)
         {
             if (empoyIds == 0) {
-
-                name = textBoxName.Text;
-                surname = textBoxSurname.Text;
-                patronomic = textBoxPatronomic.Text;
-                adress = textBoxAdress.Text;
-                phone = maskedTextBoxPhoneNumber.Text;
-                login = textBoxLogin.Text;
-                pwd = BCrypt.Net.BCrypt.HashPassword(textBoxPwd.Text);
-
-                DialogResult result = MessageBox.Show(
-               "Добавить сотрудника?",
-               "Подтверждение",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Information
-               );
-                if (result == DialogResult.Yes)
+                if (CheckString(textBoxPwd.Text))
                 {
-                    try
+                    name = textBoxName.Text;
+                    surname = textBoxSurname.Text;
+                    patronomic = textBoxPatronomic.Text;
+                    adress = textBoxAdress.Text;
+                    phone = maskedTextBoxPhoneNumber.Text;
+                    login = textBoxLogin.Text;
+                    pwd = BCrypt.Net.BCrypt.HashPassword(textBoxPwd.Text);
+
+                    DialogResult result = MessageBox.Show(
+                   "Добавить сотрудника?",
+                   "Подтверждение",
+                   MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Information
+                   );
+                    if (result == DialogResult.Yes)
                     {
-                        func.direction($@"
+                        try
+                        {
+                            func.direction($@"
                                 INSERT INTO employe (employe_surname, employe_name, employe_partronymic, employe_phone_number, employe_adress, employe_login, employe_pwd, employe_post) 
                                 SELECT '{surname}', '{name}', '{patronomic}', '{phone}', '{adress}', '{login}', '{pwd}', {comboBoxPost.SelectedIndex + 1} 
                                 WHERE NOT EXISTS (
@@ -182,34 +204,36 @@ namespace Agent
                                     WHERE employe_login = '{login}' AND  (employe_delete_status IS NULL OR employe_delete_status = 3 OR employe_delete_status = 4)
                                 );
                             ");
+                        }
+                        catch (MySqlException ex)
+                        {
+                            MessageBox.Show($"Ошибка SQL: {ex.Message}, Number: {ex.Number}");
+                            // Обработка специфических ошибок SQL, например, проверка номера ошибки (ex.Number)
+                            // для определения типа ошибки (нарушение целостности, дубликат ключа и т.д.)
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            MessageBox.Show($"Ошибка операции с базой данных: {ex.Message}");
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            MessageBox.Show($"Ошибка аргумента: {ex.Message}"); // Например, некорректный запрос
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Непредвиденная ошибка: {ex.Message}");
+                        }
+
+                        textBoxName.Clear();
+                        textBoxAdress.Clear();
+                        textBoxPatronomic.Clear();
+                        textBoxSurname.Clear();
+                        maskedTextBoxPhoneNumber.Clear();
+                        textBoxLogin.Clear();
+                        textBoxPwd.Clear();
                     }
-                    catch (MySqlException ex)
-                    {
-                        MessageBox.Show($"Ошибка SQL: {ex.Message}, Number: {ex.Number}");
-                        // Обработка специфических ошибок SQL, например, проверка номера ошибки (ex.Number)
-                        // для определения типа ошибки (нарушение целостности, дубликат ключа и т.д.)
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        MessageBox.Show($"Ошибка операции с базой данных: {ex.Message}");
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        MessageBox.Show($"Ошибка аргумента: {ex.Message}"); // Например, некорректный запрос
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Непредвиденная ошибка: {ex.Message}");
-                    }
-                    
-                    textBoxName.Clear();
-                    textBoxAdress.Clear();
-                    textBoxPatronomic.Clear();
-                    textBoxSurname.Clear();
-                    maskedTextBoxPhoneNumber.Clear();
-                    textBoxLogin.Clear();
-                    textBoxPwd.Clear();
                 }
+                
 
                 
             }

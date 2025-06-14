@@ -51,6 +51,7 @@ namespace Agent
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAddS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
             this.buttonAddS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonAddS.Enabled = false;
             this.buttonAddS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAddS.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddS.ForeColor = System.Drawing.Color.White;
@@ -159,6 +160,7 @@ namespace Agent
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "dataImport";
             this.Load += new System.EventHandler(this.dataImport_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.dataImport_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataImport_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

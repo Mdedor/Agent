@@ -146,13 +146,15 @@ namespace Agent
             try
             {
                 dataGridView1.Columns.Remove("Зарплат");
+
             }
             catch
             {
 
             }
 
-            dataGridView1.Columns.Add("Зарплат", "Зарплата");
+            dataGridView1.Columns.Add("Зарплат", "Зарплата"); 
+
             foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
             {
 
@@ -179,6 +181,17 @@ namespace Agent
                     comboBox2.Items.Add(reader[0].ToString());
             }
             connection.Close();
+           
+            try
+            {
+                dataGridView1.Columns.Remove("Соискатели");
+
+            }
+            catch
+            {
+
+            }
+            dataGridView1.ClearSelection();
             dataGridView1.Columns.Add("Соискатели", "Соискатели");
             func.load(dataGridView1, searcIn);
 
@@ -364,7 +377,10 @@ namespace Agent
             {
                 int resume = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value);
                 func.direction($"DELETE FROM resume WHERE id ={resume}");
-                func.load(dataGridView1, searcIn);
+
+                func.load(dataGridView1, Search());
+                dataGridView1.ClearSelection();
+                editColumnsResume();
             }
         }
 
@@ -492,11 +508,9 @@ namespace Agent
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                row.Height = procentHight * 4; // Установка высоты для каждой строки
-                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                row.Height = hightRow; // Установка высоты для каждой строки
+                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
             }
-            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
         }
 
         private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -506,12 +520,10 @@ namespace Agent
             editColumnsResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
             foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                row.Height = procentHight * 4; // Установка высоты для каждой строки
-                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
-            }
-            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                {
+                    row.Height = hightRow; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                }
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -522,11 +534,9 @@ namespace Agent
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                row.Height = procentHight * 4; // Установка высоты для каждой строки
-                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                row.Height = hightRow; // Установка высоты для каждой строки
+                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
             }
-            dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
         }
 
         private void label11_Click(object sender, EventArgs e)

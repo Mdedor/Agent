@@ -252,7 +252,7 @@
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(244, 47);
             this.exit.TabIndex = 75;
-            this.exit.Text = "Назад в меню\r\n";
+            this.exit.Text = "Назад";
             this.exit.UseVisualStyleBackColor = true;
             this.exit.Click += new System.EventHandler(this.exit_Click_1);
             // 

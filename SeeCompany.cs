@@ -101,8 +101,10 @@ namespace Agent
             {
                 if (pos == 0)
                 {
+                    contextMenu.MenuItems.Add(new MenuItem("Посмотреть подробную информацию", see));
                     contextMenu.MenuItems.Add(new MenuItem("Редактировать компанию", update));
                     contextMenu.MenuItems.Add(new MenuItem("Удалить компанию", delete));
+
                 }
                 else
                 {
@@ -122,6 +124,14 @@ namespace Agent
                 }
 
             }
+
+        }
+        void see(object sender, EventArgs e)
+        {
+            int company = Convert.ToInt32(dataGridView1.Rows[currentRowIndex].Cells["id"].Value.ToString());
+            AddC addC = new AddC(company,1);
+            addC.Show();
+            this.Close();
 
         }
         void update(object sender, EventArgs e)
@@ -159,6 +169,31 @@ namespace Agent
                              SET vacancy_delete_status = 1
                              WHERE vacancy_company = {company}");
                 MessageBox.Show("Компания и ее вакансии успешно удалены", "Уведомление");
+                func.load(dataGridView1, "SELECT id, company_name as 'Название', company_desceiption as 'Описание', company_phone_number as 'Номер для связи', company_address as 'Адресс расположения', companyc_linq as 'Cсылка', company_delete_status as 'Status' FROM company");
+                foreach (DataGridViewRow r in dataGridView1.Rows)
+                {
+                    if (System.Uri.IsWellFormedUriString(r.Cells["Cсылка"].Value.ToString(), UriKind.Absolute))
+                    {
+                        r.Cells["Название"] = new DataGridViewLinkCell();
+                        DataGridViewLinkCell c = r.Cells["Название"] as DataGridViewLinkCell;
+                        c.LinkColor = Color.Green;
+
+                    }
+                }
+                dataGridView1.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+                CurrencyManager manager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                manager.SuspendBinding();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+                    if (status == "1")
+                        row.Visible = false;
+
+                }
             }
 
         }

@@ -46,12 +46,41 @@ namespace Agent
         }
         private void word_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.MaxDate = DateTime.Now;
-            dateTimePicker1.Value = DateTime.Now;
-            dateTimePicker3.MaxDate = DateTime.Now;
-            dateTimePicker3.Value = DateTime.Now;
+            try
+            {
+                DateTime now = DateTime.Now;
 
-            
+                // Проверяем и устанавливаем для dateTimePicker1
+                if (dateTimePicker1.MinDate <= now)
+                {
+                    dateTimePicker1.MaxDate = now;
+                    dateTimePicker1.Value = now;
+                }
+                else
+                {
+                    // Если MinDate больше now, то устанавливаем Value в MinDate
+                    dateTimePicker1.MaxDate = now;
+                    dateTimePicker1.Value = dateTimePicker1.MinDate;
+                }
+
+                // Аналогично для dateTimePicker3
+                if (dateTimePicker3.MinDate <= now)
+                {
+                    dateTimePicker3.MaxDate = now;
+                    dateTimePicker3.Value = now;
+                }
+                else
+                {
+                    dateTimePicker3.MaxDate = now;
+                    dateTimePicker3.Value = dateTimePicker3.MinDate;
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Ошибка установки даты: " + ex.Message);
+            }
+
+
             count = 0;
             cool = 0;
             bad = 0;
@@ -121,7 +150,23 @@ namespace Agent
                     for (int i = 0; i < dataTable.Rows.Count; i++)
                     {
                         for (int j = 0; j < dataTable.Columns.Count; j++)
-                        { table.Cell(i + 2, j + 1).Range.Text = dataTable.Rows[i][j].ToString(); }
+                        {
+                            object cellValue = dataTable.Rows[i][j];
+                            string text;
+
+                            if (cellValue != null && DateTime.TryParse(cellValue.ToString(), out DateTime dateValue))
+                            {
+                                // Если значение — дата, форматируем её
+                                text = dateValue.ToString("yyyy-MM-dd");
+                            }
+                            else
+                            {
+                                // Иначе просто приводим к строке
+                                text = cellValue?.ToString() ?? string.Empty;
+                            }
+
+                            table.Cell(i + 2, j + 1).Range.Text = text;
+                        }
                     }
                 }
 
@@ -225,6 +270,11 @@ namespace Agent
         private void word_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void word_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

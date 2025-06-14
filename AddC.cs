@@ -17,6 +17,7 @@ using WordApp = Microsoft.Office.Interop.Word;
 using System.Reflection;
 using Microsoft.Office.Interop.Word;
 using System.Diagnostics;
+using System.Data.SqlTypes;
 
 namespace Agent
 {
@@ -34,11 +35,24 @@ namespace Agent
         string wordCompany;
         string wordDate;
         int wordCost;
-
-        public AddC(int compony =0)
+        int se;
+        public AddC(int compony = 0, int see = 0)
         {
             InitializeComponent();
             componys = compony;
+            se = see;
+            if (se == 1)
+            {
+                textBoxAdress.Enabled = false;
+                textBoxLink.Enabled = false;
+                textBoxDesc.Enabled = false;
+                textBoxName.Enabled = false;
+                maskedTextBoxPhoneNumber.Enabled = false;
+                textBox1.Enabled = false;
+                buttonAddS.Enabled = false;
+                buttonAddS.Visible = false;
+                label1.Text = "Подробная информация";
+            }
         }
         void checkEnableUpdate()
         {
@@ -152,6 +166,7 @@ namespace Agent
                         WordApp.Find find = wordApp.Selection.Find;
                         find.Text = item.Key;
                         find.Replacement.Text = item.Value;
+                        find.Replacement.Font.Bold = 1;
                         object wrap = WordApp.WdFindWrap.wdFindContinue;
                         object replace = WordApp.WdReplace.wdReplaceAll;
 
@@ -171,7 +186,7 @@ namespace Agent
                     {
                         Filter = "Word Documents|*.docx",
                         Title = "Сохранить документ",
-                        FileName = "Отчет_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".docx"
+                        FileName = "Договор" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".docx"
                     };
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -233,7 +248,8 @@ namespace Agent
             if (componys != 0)
             {
                 buttonAddS.Text = "Изменить";
-                label1.Text = "Редактирование компании";
+                if (se!=1)
+                    label1.Text = "Редактирование компании";
                 MySqlConnection con = new MySqlConnection(Connection.connect());
                 con.Open();
                 string search = $"SELECT * FROM company WHERE id = {componys};";
@@ -267,7 +283,7 @@ namespace Agent
             AdminC adminC = new AdminC();
             adminC.Show();
             this.Close();
-            if (componys != 0)
+            if (componys != 0 && se !=1)
             {
                 SeeCompany seeCompany = new SeeCompany();
                 seeCompany.Show();

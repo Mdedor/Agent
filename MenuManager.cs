@@ -76,12 +76,17 @@ namespace Agent
 
         private void MenuManager_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void MenuManager_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void MenuManager_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

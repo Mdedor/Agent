@@ -124,6 +124,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DirectionStatus";
             this.Load += new System.EventHandler(this.DirectionStatus_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.DirectionStatus_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DirectionStatus_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

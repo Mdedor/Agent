@@ -138,6 +138,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MenuRecrut";
             this.Load += new System.EventHandler(this.MenuManager_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MenuManager_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MenuManager_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

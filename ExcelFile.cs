@@ -121,10 +121,39 @@ namespace Agent
 
         private void ExcelFile_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.MaxDate = DateTime.Now;
-            dateTimePicker1.Value = DateTime.Now;
-            dateTimePicker3.Value = DateTime.Now;
-            dateTimePicker3.MaxDate = DateTime.Now;
+            try
+            {
+                DateTime now = DateTime.Now;
+
+                // Проверяем и устанавливаем для dateTimePicker1
+                if (dateTimePicker1.MinDate <= now)
+                {
+                    dateTimePicker1.MaxDate = now;
+                    dateTimePicker1.Value = now;
+                }
+                else
+                {
+                    // Если MinDate больше now, то устанавливаем Value в MinDate
+                    dateTimePicker1.MaxDate = now;
+                    dateTimePicker1.Value = dateTimePicker1.MinDate;
+                }
+
+                // Аналогично для dateTimePicker3
+                if (dateTimePicker3.MinDate <= now)
+                {
+                    dateTimePicker3.MaxDate = now;
+                    dateTimePicker3.Value = now;
+                }
+                else
+                {
+                    dateTimePicker3.MaxDate = now;
+                    dateTimePicker3.Value = dateTimePicker3.MinDate;
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Ошибка установки даты: " + ex.Message);
+            }
         }
         public class Person
         {
@@ -142,6 +171,11 @@ namespace Agent
         private void ExcelFile_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void ExcelFile_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

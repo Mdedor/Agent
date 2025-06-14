@@ -412,7 +412,7 @@ namespace Agent
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"{ex.Message}");
+                           
                             try
                             {
                                 path = Path.Combine(baseDir, $@"..\..","photo",$"{bdPhoto}");
@@ -436,7 +436,7 @@ namespace Agent
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"{ex.Message}");
+                            
                             path = Path.Combine(baseDir, $@"..\..","photo","default_user.png");
                             pictureBox1.Image = Image.FromFile(path);
 

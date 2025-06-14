@@ -152,50 +152,64 @@ namespace Agent
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
+            DialogResult result = MessageBox.Show(
+                "Создать резервную копию?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information
+            );
+            string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+            try
             {
-                conn.Open();
-
-                // Получаем список таблиц
-                List<string> tables = new List<string>();
-                using (MySqlCommand cmd = new MySqlCommand("SHOW TABLES", conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                if (result == DialogResult.Yes)
                 {
-                    while (reader.Read())
+                    using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
                     {
-                        tables.Add(reader.GetString(0));
-                    }
-                }
+                        conn.Open();
 
-                // Получаем путь к исполняемому файлу
-                string exePath = "";
+                        // Получаем список таблиц
+                        List<string> tables = new List<string>();
+                        using (MySqlCommand cmd = new MySqlCommand("SHOW TABLES", conn))
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                tables.Add(reader.GetString(0));
+                            }
+                        }
 
-                string baseDir = "";
+                        // Получаем путь к исполняемому файлу
+                        string exePath = "";
 
-                string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = "";
-                try
-                {
-                    exePath = Assembly.GetEntryAssembly().Location;
-                    baseDir = Path.GetDirectoryName(exePath);
+                        string baseDir = "";
 
-                     docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
-                }
-                catch
-                {
-                    exePath = Assembly.GetEntryAssembly().Location;
-                    baseDir = Path.GetDirectoryName(exePath);
-                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                    docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
-                }
+                        string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
+                        string docPath = "";
+                        StreamWriter writer;
+                        try
+                        {
+                            exePath = Assembly.GetEntryAssembly().Location;
+                            baseDir = Path.GetDirectoryName(exePath);
+
+                            docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                            writer = new StreamWriter(docPath);
+                        }
+                        catch
+                        {
+                            exePath = Assembly.GetEntryAssembly().Location;
+                            baseDir = Path.GetDirectoryName(exePath);
+                            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                            docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                            writer = new StreamWriter(docPath);
+                        }
 
 
-                // Создаем SQL-дамп
-                using (StreamWriter writer = new StreamWriter(docPath))
-                {
-                    writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `agent`;");
-                    writer.WriteLine($"USE `agent`;");
-                    writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+                        // Создаем SQL-дамп
+
+
+                        writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `{db}`;");
+                        writer.WriteLine($"USE `{db}`;");
+                        writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
                         /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
                         /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
                         /*!50503 SET NAMES utf8 */;
@@ -205,64 +219,76 @@ namespace Agent
                         /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
                         /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
                         /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
-                    foreach (string table in tables)
-                    {
-                       
-
-                        writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
-                        
-                        
-
-                        //Получаем структуру таблицы
-                        using (MySqlCommand cmd = new MySqlCommand($"SHOW CREATE TABLE `{table}`", conn))
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        foreach (string table in tables)
                         {
-                            if (reader.Read())
-                            {
-                                writer.WriteLine(reader.GetString(1) + ";");
-                            }
-                        }
 
-                        // Получаем данные таблицы
-                        writer.WriteLine($"\n-- Data for table `{table}`\n");
 
-                        using (MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{table}`", conn))
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
+
+
+
+                            //Получаем структуру таблицы
+                            using (MySqlCommand cmd = new MySqlCommand($"SHOW CREATE TABLE `{table}`", conn))
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
                             {
-                                StringBuilder insert = new StringBuilder($"INSERT INTO `{table}` VALUES (");
-                                for (int i = 0; i < reader.FieldCount; i++)
+                                if (reader.Read())
                                 {
-                                    if (i > 0) insert.Append(", ");
+                                    writer.WriteLine(reader.GetString(1) + ";");
+                                }
+                            }
 
-                                    if (reader.IsDBNull(i))
+                            // Получаем данные таблицы
+                            writer.WriteLine($"\n-- Data for table `{table}`\n");
+
+                            using (MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{table}`", conn))
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    StringBuilder insert = new StringBuilder($"INSERT INTO `{table}` VALUES (");
+                                    for (int i = 0; i < reader.FieldCount; i++)
                                     {
-                                        insert.Append("NULL");
-                                    }
-                                    else
-                                    {
-                                        Type fieldType = reader.GetFieldType(i);
-                                        if (fieldType == typeof(DateTime))
+                                        if (i > 0) insert.Append(", ");
+
+                                        if (reader.IsDBNull(i))
                                         {
-                                            DateTime dateValue = reader.GetDateTime(i);
-                                            insert.Append($"'{dateValue.ToString("yyyy-MM-dd")}'");
+                                            insert.Append("NULL");
                                         }
                                         else
                                         {
-                                            insert.Append($"'{MySqlHelper.EscapeString(reader.GetString(i))}'");
+                                            Type fieldType = reader.GetFieldType(i);
+                                            if (fieldType == typeof(DateTime))
+                                            {
+                                                DateTime dateValue = reader.GetDateTime(i);
+                                                insert.Append($"'{dateValue.ToString("yyyy-MM-dd")}'");
+                                            }
+                                            else
+                                            {
+                                                insert.Append($"'{MySqlHelper.EscapeString(reader.GetString(i))}'");
+                                            }
                                         }
                                     }
-                                }
 
-                                insert.Append(");");
-                                writer.WriteLine(insert.ToString());
+                                    insert.Append(");");
+                                    writer.WriteLine(insert.ToString());
+                                }
                             }
                         }
+                        MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     }
-                    MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведобление",MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
                 }
             }
+            catch
+            {
+                MessageBox.Show(
+                 "Создание резевной копии не удалось",
+                 "Ошибка",
+                 MessageBoxButtons.OK,
+                 MessageBoxIcon.Error);
+            }
+
+        
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -303,46 +329,104 @@ namespace Agent
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedFile = openFileDialog.FileName;
-                    MessageBox.Show($"Выбран файл: {selectedFile}");
-                    string readText = File.ReadAllText(selectedFile);
-                    MySqlConnection con = new MySqlConnection(Connection.connect());
-                    con.Open();
 
-                    MySqlCommand cmd = new MySqlCommand(readText, con);
-                    int resulst = cmd.ExecuteNonQuery();
-                    if(resulst > 0)
+                    // Проверка расширения файла
+                    if (Path.GetExtension(selectedFile).ToLower() != ".sql")
                     {
-                        MessageBox.Show("Данные успешно импортированы");
+                        MessageBox.Show("Пожалуйста, выберите файл с расширением .sql", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    con.Close();
+
+                    try
+                    {
+                        string readText = File.ReadAllText(selectedFile);
+
+                        using (MySqlConnection con = new MySqlConnection(Connection.connect()))
+                        {
+                            con.Open();
+
+                            using (MySqlCommand cmd = new MySqlCommand(readText, con))
+                            {
+                                 int results = cmd.ExecuteNonQuery();
+
+                                if (results > 0)
+                                {
+                                    MessageBox.Show("Данные успешно восстановлены", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Выполнение SQL прошло без изменений", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show($"Данные не востановлен", "Ошибка восстановления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Данные не востановлен", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                
+
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                "Востановить струтуру бд?",
+                "Востановить струтуру бд?. После выполнения будут удалены все данные!!!. Сделайте перед эти резервную копию.",
                 "Подтверждение",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Information
                 );
             if (result == DialogResult.Yes)
             {
-                string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                try
+                {
+                    string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    string filePath = Path.Combine(pathError, "copy", "Резервная_копия (1).sql");
 
-                filePath = "\\copy\\Резервная_копия (1).sql";
-                string cons = $"server={server}; uid={user}; pwd={pwd}";
-                string readText = File.ReadAllText(pathError+filePath);
-                MySqlConnection con = new MySqlConnection(cons);
-                con.Open();
+                    if (!File.Exists(filePath))
+                    {
+                        MessageBox.Show($"Файл не найден:\n{filePath}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                MySqlCommand cmd = new MySqlCommand(readText, con);
-                int resulst = cmd.ExecuteNonQuery();
+                    string cons = $"server={server}; uid={user}; pwd={pwd}";
 
-                con.Close();
-                load();
+                    string readText = File.ReadAllText(filePath);
+
+                    using (MySqlConnection con = new MySqlConnection(cons))
+                    {
+                        con.Open();
+
+                        using (MySqlCommand cmd = new MySqlCommand(readText, con))
+                        {
+                            int resulst = cmd.ExecuteNonQuery();
+
+                            if (resulst > 0)
+                            {
+                                MessageBox.Show("Структура успешно восстановлена", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Выполнение прошло без изменений", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+
+                    load();
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show($"Ошибка MySQL:\n{ex.Message}", "Ошибка восстановления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Произошла ошибка:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

@@ -26,22 +26,32 @@ namespace Agent
 
         void change()
         {
+
             int count = 0;
-            if (comboBoxTables.SelectedIndex == -1)
-                count++;
-            if (buttonChek != 0)
+            if (statuss == 0)
             {
-                count++;
+                if (comboBoxTables.SelectedIndex != -1)
+                    count++;
+                if (buttonChek != 0)
+                {
+                    count++;
+                }
+                if (count == 2)
+                    buttonAddS.Enabled = true;
             }
-            if (count == 2)
-                buttonAddS.Enabled = true;
+            else
+            {
+                if (comboBoxTables.SelectedIndex != -1)
+                    buttonAddS.Enabled = true;
+            }
+            
         }
 
         private void ExportToCsv()
         {
             if (comboBoxTables.SelectedItem == null)
             {
-                MessageBox.Show("Выберите таблицу для экспорта");
+                MessageBox.Show("Выберите таблицу для экспорта", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -113,11 +123,11 @@ namespace Agent
                         }
                     }
 
-                    MessageBox.Show($"Данные из таблицы {tableName} успешно экспортированы в файл: {saveFileDialog.FileName}");
+                    MessageBox.Show($"Данные из таблицы {tableName} успешно экспортированы в файл: {saveFileDialog.FileName}","Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при экспорте: {ex.Message}");
+                    MessageBox.Show($"Ошибка при экспорте: {ex.Message}","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
             }
         }
@@ -169,67 +179,75 @@ namespace Agent
         {
             if (statuss == 0)
             {
-                string[] readText = File.ReadAllLines(filePath);
-                string[] valField;
-                string[] titleField = readText[0].Split(';');
-                string tableName = comboBoxTables.SelectedItem.ToString();
-
-                // Создаем соединение
-                MySqlConnection con = new MySqlConnection(Connection.connect());
-                con.Open();
-
-                int totalInserted = 0;
-
-                foreach (string str in readText.Skip(1).ToArray())
+                try
                 {
-                    valField = str.Split(';');
+                    string[] readText = File.ReadAllLines(filePath);
+                    string[] valField;
+                    string[] titleField = readText[0].Split(';');
+                    string tableName = comboBoxTables.SelectedItem.ToString();
 
-                    // Создаем условие для проверки дубликатов (предполагаем, что все поля должны совпадать)
+                    // Создаем соединение
+                    MySqlConnection con = new MySqlConnection(Connection.connect());
+                    con.Open();
 
-                    string whereCondition = string.Join(" AND ", titleField.Select((field, index) => $"{field} = '{valField[index]}'"));
+                    int totalInserted = 0;
 
-                    string checkQuery = $"SELECT COUNT(*) FROM `{tableName}` WHERE {whereCondition}";
-                    MySqlCommand checkCmd = new MySqlCommand(checkQuery, con);
-                    long count = (long)checkCmd.ExecuteScalar();
-
-                    if (count == 0)
+                    foreach (string str in readText.Skip(1).ToArray())
                     {
-                        // Если дубликата нет, выполняем вставку
-                        string insertQuery = $"INSERT INTO `{tableName}`({string.Join(",", titleField)}) VALUES (";
-                        for (int i  = 0; i < valField.Length; i++)
+                        valField = str.Split(';');
+
+                        // Создаем условие для проверки дубликатов (предполагаем, что все поля должны совпадать)
+
+                        string whereCondition = string.Join(" AND ", titleField.Select((field, index) => $"{field} = '{valField[index]}'"));
+
+                        string checkQuery = $"SELECT COUNT(*) FROM `{tableName}` WHERE {whereCondition}";
+                        MySqlCommand checkCmd = new MySqlCommand(checkQuery, con);
+                        long count = (long)checkCmd.ExecuteScalar();
+
+                        if (count == 0)
                         {
-                           
-                            if (valField[i].ToString() == "NULL")
-                                insertQuery += $"{valField[i].ToString()}";
-                            else
+                            // Если дубликата нет, выполняем вставку
+                            string insertQuery = $"INSERT INTO `{tableName}`({string.Join(",", titleField)}) VALUES (";
+                            for (int i = 0; i < valField.Length; i++)
                             {
-                                Type fieldType = valField[i].GetType();
-                                if (fieldType == typeof(DateTime))
-                                {
-                                    DateTime dateValue = Convert.ToDateTime(valField[i]);
-                                    insertQuery += $"{dateValue.ToString("yyyy-MM-dd")}";
-                                }
+
+                                if (valField[i].ToString() == "NULL")
+                                    insertQuery += $"{valField[i].ToString()}";
                                 else
                                 {
-                                    insertQuery += $"'{valField[i].ToString()}'";
+                                    Type fieldType = valField[i].GetType();
+                                    if (fieldType == typeof(DateTime))
+                                    {
+                                        DateTime dateValue = Convert.ToDateTime(valField[i]);
+                                        insertQuery += $"{dateValue.ToString("yyyy-MM-dd")}";
+                                    }
+                                    else
+                                    {
+                                        insertQuery += $"'{valField[i].ToString()}'";
+                                    }
+                                }
+
+                                int q = i;
+                                if (valField.Length - (q + 1) != 0)
+                                {
+                                    insertQuery += ",";
                                 }
                             }
-                                
-                            int q = i;
-                            if (valField.Length - (q + 1) != 0)
-                            {
-                                insertQuery += ",";
-                            }
+                            insertQuery += ");";
+                            MySqlCommand insertCmd = new MySqlCommand(insertQuery, con);
+                            totalInserted += insertCmd.ExecuteNonQuery();
                         }
-                        insertQuery += ");";
-                        MySqlCommand insertCmd = new MySqlCommand(insertQuery, con);
-                        totalInserted += insertCmd.ExecuteNonQuery();
                     }
+
+                    con.Close();
+
+                    MessageBox.Show($"Импортировано {totalInserted} записей в {tableName}. Пропущено {readText.Length - 1 - totalInserted} дубликатов.", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                con.Close();
-
-                MessageBox.Show($"Импортировано {totalInserted} записей в {tableName}. Пропущено {readText.Length - 1 - totalInserted} дубликатов.");
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при импорте: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
             else
             {
@@ -246,6 +264,11 @@ namespace Agent
         private void dataImport_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
+        }
+
+        private void dataImport_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
 }

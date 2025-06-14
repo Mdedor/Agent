@@ -59,7 +59,7 @@
             this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker3.Location = new System.Drawing.Point(69, 58);
             this.dateTimePicker3.MaxDate = new System.DateTime(2094, 6, 17, 0, 0, 0, 0);
-            this.dateTimePicker3.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dateTimePicker3.MinDate = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker3.Name = "dateTimePicker3";
             this.dateTimePicker3.Size = new System.Drawing.Size(182, 34);
             this.dateTimePicker3.TabIndex = 30;
@@ -75,7 +75,7 @@
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePicker1.Location = new System.Drawing.Point(332, 59);
             this.dateTimePicker1.MaxDate = new System.DateTime(2101, 3, 4, 0, 0, 0, 0);
-            this.dateTimePicker1.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateTimePicker1.MinDate = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(182, 34);
             this.dateTimePicker1.TabIndex = 31;
@@ -166,6 +166,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExcelFile";
             this.Load += new System.EventHandler(this.ExcelFile_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ExcelFile_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ExcelFile_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

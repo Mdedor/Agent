@@ -523,6 +523,7 @@ namespace Agent
                 row.Height = procentHight * 10; // Установка высоты для каждой строки
                 row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
             }
+
             dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
@@ -669,6 +670,11 @@ namespace Agent
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void SeeVacancyNew_Paint(object sender, PaintEventArgs e)
+        {
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
     }
     
