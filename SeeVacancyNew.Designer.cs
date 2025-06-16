@@ -138,6 +138,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1021, 542);
             this.dataGridView1.TabIndex = 171;
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
+            this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
             // 
             // labelFIO
             // 

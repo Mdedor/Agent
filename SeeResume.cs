@@ -243,13 +243,13 @@ namespace Agent
 
             if (resolution.Width > 1024 || resolution.Height > 768)
             {
-                sizeFont = 10;
+                sizeFont = 12;
                 if (resolution.Width > 1600 || resolution.Height > 900)
                 {
-                    sizeFont = 12;
+                    sizeFont = 14;
                     if (resolution.Width > 1920 || resolution.Height > 1200)
                     {
-                        sizeFont = 14;
+                        sizeFont = 16;
                     }
                 }
             }
@@ -506,11 +506,20 @@ namespace Agent
             dataGridView1.ClearSelection();
             editColumnsResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            if (statusForm)
             {
-                row.Height = hightRow; // Установка высоты для каждой строки
-                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
             }
+
+            //    foreach (DataGridViewRow row in dataGridView1.Rows)
+            //{
+            //    row.Height = hightRow; // Установка высоты для каждой строки
+            //    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+            //}
         }
 
         private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -519,11 +528,14 @@ namespace Agent
             dataGridView1.ClearSelection();
             editColumnsResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            if (statusForm)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = hightRow; // Установка высоты для каждой строки
-                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
                 }
+            }
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -532,10 +544,13 @@ namespace Agent
             dataGridView1.ClearSelection();
             editColumnsResume();
             editPage(countRecordsResume, countRecordsBDResume, label11, label8, textBox2, allPageCountResume, pageResume, dataGridView1);
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            if (statusForm)
             {
-                row.Height = hightRow; // Установка высоты для каждой строки
-                row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, fontRow);
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
             }
         }
 
@@ -641,6 +656,11 @@ namespace Agent
             }
 
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

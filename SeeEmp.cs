@@ -120,6 +120,7 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
+            port.move = 1;
             AdminE adminE = new AdminE();
             adminE.Show();
             this.Close();
@@ -138,6 +139,11 @@ namespace Agent
         }
 
         private void SeeEmp_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
         }

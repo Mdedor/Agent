@@ -122,12 +122,8 @@ namespace Agent
             var wordApp = new WordApp.Application();
             try
             {
-               
                 string exePath = "";
-
                 string baseDir = "";
-
-
                 string docPath = "";
                 try
                 {
@@ -212,70 +208,59 @@ namespace Agent
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
                 }
             }
-            //}
-            //catch (COMException ex)
-            //{
-            //    Console.WriteLine($"COM Exception: {ex.Message}, ErrorCode: {ex.ErrorCode}");
-            //    // Более подробная обработка ошибки: проверка кода ошибки, логирование и т.д.
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"General Exception: {ex.Message}");
-            //}
-            //finally
-            //{
-            //    wordDoc.Visible = true;
-            //    // Обязательно освобождаем COM-объекты!
-            //    Marshal.ReleaseComObject(doc);
-            //    // ... Освобождение других объектов ...
-            //    GC.Collect(); // Для сборки мусора
-            //    GC.WaitForPendingFinalizers();
-            //}
+            
 
         }
         private void AddC_Load(object sender, EventArgs e)
         {
             flag = 1;
-
             Graphics g = CreateGraphics();
             Pen p1 = new Pen(Color.Pink);
             g.DrawLine(p1, 0, 0, this.Width - 10, 0);
             g.DrawLine(p1, 0, 0, 0, this.Height - 10);
             g.DrawLine(p1, this.Width - 10, 0, this.Width - 10, this.Height - 10);
             g.DrawLine(p1, 0, this.Height - 10, Width - 10, this.Height - 10);
-
             
-            if (componys != 0)
+            try
             {
-                buttonAddS.Text = "Изменить";
-                if (se!=1)
-                    label1.Text = "Редактирование компании";
-                MySqlConnection con = new MySqlConnection(Connection.connect());
-                con.Open();
-                string search = $"SELECT * FROM company WHERE id = {componys};";
-                MySqlCommand comm = new MySqlCommand(search, con);
-                MySqlDataReader readerr = comm.ExecuteReader();
-                while (readerr.Read())
+                if (componys != 0)
                 {
+                    buttonAddS.Text = "Изменить";
+                    if (se != 1)
+                        label1.Text = "Редактирование компании";
 
-                   
-
-                    name = readerr[1].ToString();
-                    description = readerr[2].ToString();
-                    phoneNumber = readerr[3].ToString();
-                    adress = readerr[4].ToString();
-                    link = readerr[5].ToString();
-                    cost = readerr[7].ToString();
-
+                    using (MySqlConnection con = new MySqlConnection(Connection.connect()))
+                    {
+                        con.Open();
+                        string search = $"SELECT * FROM company WHERE id = {componys};";
+                        using (MySqlCommand comm = new MySqlCommand(search, con))
+                        using (MySqlDataReader readerr = comm.ExecuteReader())
+                        {
+                            while (readerr.Read())
+                            {
+                                name = readerr[1].ToString();
+                                description = readerr[2].ToString();
+                                phoneNumber = readerr[3].ToString();
+                                adress = readerr[4].ToString();
+                                link = readerr[5].ToString();
+                                cost = readerr[7].ToString();
+                            }
+                        }
+                    }
                 }
-                
+
+                textBoxName.Text = name;
+                textBoxDesc.Text = description;
+                maskedTextBoxPhoneNumber.Text = phoneNumber;
+                textBoxAdress.Text = adress;
+                textBoxLink.Text = link;
+                textBox1.Text = cost;
             }
-            textBoxName.Text = name;
-            textBoxDesc.Text = description;
-            maskedTextBoxPhoneNumber.Text = phoneNumber;
-            textBoxAdress.Text = adress;
-            textBoxLink.Text = link;
-            textBox1.Text = cost;
+            catch (Exception ex)
+            {
+                flag =0;
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void exit_Click(object sender, EventArgs e)
         {
@@ -418,9 +403,6 @@ namespace Agent
                     this.Close();
                 }
             }
-            
-            
-            
         }
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
@@ -451,7 +433,6 @@ namespace Agent
 
         private void maskedTextBoxPhoneNumber_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
-            
         }
 
         private void textBoxAdress_TextChanged(object sender, EventArgs e)
@@ -529,12 +510,10 @@ namespace Agent
 
             }
         }
-
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             func.salary(e);
         }
-
         private void AddC_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;

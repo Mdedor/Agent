@@ -341,18 +341,18 @@ namespace Agent
             {
                 
             }
-            resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+            resolution =new Size(1920,1080);
              procentHight = resolution.Height / 100;
             procentWidth = resolution.Width / 100;
             if (resolution.Width > 1024 || resolution.Height > 768)
             {
-                sizeFont = 10;
+                sizeFont = 12;
                 if (resolution.Width > 1600 || resolution.Height > 900)
                 {
-                    sizeFont = 12;
+                    sizeFont = 14;
                     if (resolution.Width > 1920 || resolution.Height > 1200)
                     {
-                        sizeFont = 14;
+                        sizeFont = 16;
                     }
                 }
             }
@@ -675,6 +675,11 @@ namespace Agent
         private void SeeVacancyNew_Paint(object sender, PaintEventArgs e)
         {
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
     

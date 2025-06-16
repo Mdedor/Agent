@@ -36,9 +36,13 @@ namespace Agent
         Point locationLabel1;
         Point locationLabel;
         int hightRow;
+        Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
         float fontRow;
         int widthData;
         int heightData;
+        int procentHight;
+        int procentWidth;
+        int sizeFont = 0;
         bool statusForm = false;
         string stringSearch = $@"SELECT direction.id, CONCAT(applicant.applicant_surname, ' ',applicant.applicant_name, ' ', applicant.applicant_patronymic) as 'Соискатель',profession.name as 'Профессия' ,  CONCAT(employe.employe_surname, ' ', employe.employe_name, ' ', employe.employe_partronymic) as 'Работник', direction.direction_date as 'Дата направления', direction.direction_status as 'Статус', direction.direction_delete_status as 'Delete' 
                                        FROM direction
@@ -62,15 +66,14 @@ namespace Agent
         void loadDate()
         {
             labelFIO.Text = func.search($"SELECT CONCAT(employe_surname, ' ', employe_name, ' ', employe_partronymic) FROM employe WHERE id = '{port.empIds}'");
-            dataGridView1.Columns.Clear();
+
             func.load(dataGridView1, stringSearch);
             dataGridView1.Columns["id"].Visible = false;
-            //dataGridView1.Columns["Соискатель"].Width = 270;
-            //dataGridView1.Columns["Профессия"].Width = 250;
-            //dataGridView1.Columns["Работник"].Width = 270;
-            dataGridView1.Columns["Дата направления"].Width = 70;
-            dataGridView1.Columns["Статус"].Width = 70;
+            
 
+            //dataGridView1.Columns["Работник"].Width = 270;
+
+            
             dataGridView1.Columns["Delete"].Visible = false;
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -88,16 +91,41 @@ namespace Agent
                     if (status_delete == "1")
                         row.Visible = false;
                 }
-
+                if (statusForm)
+                {
+                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
+                }
             }
-        }
-        private void seeDirection_Load(object sender, EventArgs e)
-        {
-            loadDate();
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+            if (!statusForm)
+            {
+                dataGridView1.Columns["Соискатель"].Width = 250;
+                dataGridView1.Columns["Работник"].Width = 220;
+
+            }
+
+        }
+        private void seeDirection_Load(object sender, EventArgs e)
+        {
+            if (resolution.Width > 1024 || resolution.Height > 768)
+            {
+                sizeFont = 12;
+                if (resolution.Width > 1600 || resolution.Height > 900)
+                {
+                    sizeFont = 14;
+                    if (resolution.Width > 1920 || resolution.Height > 1200)
+                    {
+                        sizeFont = 16;
+                    }
+                }
+            }
+            loadDate();
+            procentHight = resolution.Height / 100;
+            procentWidth = resolution.Width / 100;
             locationStart = this.Location;
             sizeStart = this.Size;
             locationData = dataGridView1.Location;
@@ -120,6 +148,8 @@ namespace Agent
             locationLabel2 = label2.Location;
             hightRow = dataGridView1.RowTemplate.Height;
             fontRow = 10;
+
+
         }
         void menu(object sender, MouseEventArgs e)
         {
@@ -189,30 +219,17 @@ namespace Agent
         {
             port.move = 1;
         }
-
-        private void pictureBox4_Click(object sender, EventArgs e)
+        public void Sizeble()
         {
-            int sizeFont = 0;
+
             func.FormPaint(this, Color.White);
-            Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
-            if (resolution.Width > 1024 || resolution.Height > 768)
-            {
-                sizeFont = 10;
-                if (resolution.Width > 1600 || resolution.Height > 900)
-                {
-                    sizeFont = 12;
-                    if (resolution.Width > 1920 || resolution.Height > 1200)
-                    {
-                        sizeFont = 14;
-                    }
-                }
-            }
+
+            
             string exePath = Assembly.GetEntryAssembly().Location;
             // Переходим на несколько уровней вверх (например, из binDebug\netX.Y в корень проекта)
             string baseDir = Path.GetDirectoryName(exePath); // binDebug\netX.Y
+
             
-            int procentHight = resolution.Height / 100;
-            int procentWidth = resolution.Width / 100;
             if (!statusForm)
             {
 
@@ -244,13 +261,13 @@ namespace Agent
                 exit.Size = new Size(procentWidth * 9, procentHight * 5);
                 exit.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2, FontStyle.Bold);
 
-                button1.Location = new Point( procentWidth * 2 + buttonAddS.Size.Width, procentHight * 91 + dataGridView1.Location.Y);
-                button1.Size = new Size(procentWidth * 9, procentHight * 5);
-                button1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont , FontStyle.Bold);
+                button1.Location = new Point(procentWidth * 2 + buttonAddS.Size.Width, procentHight * 91 + dataGridView1.Location.Y);
+
+                
 
                 buttonAddS.Location = new Point(procentWidth, procentHight * 91 + dataGridView1.Location.Y);
-                buttonAddS.Size = new Size(procentWidth * 9, procentHight * 5);
-                buttonAddS.Font = new Font(ladelHeader.Font.FontFamily, sizeFont , FontStyle.Bold);
+
+                
 
                 statusForm = true;
                 pictureBox4.Location = new Point(resolution.Width - 27 - 10, 10);
@@ -261,10 +278,10 @@ namespace Agent
                 label1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
                 label2.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
 
-                pictureBox2.Location = new Point(button1.Width + button1.Location.X + procentWidth,button1.Location.Y+15);
-                pictureBox3.Location = new Point(button1.Width + button1.Location.X + procentWidth, button1.Location.Y+15+pictureBox2.Height+10);
-                label1.Location = new Point(pictureBox2.Location.X+procentWidth,pictureBox2.Location.Y);
-                label2.Location = new Point(pictureBox3.Location.X+procentWidth,pictureBox3.Location.Y);
+                pictureBox2.Location = new Point(button1.Width + button1.Location.X + procentWidth, button1.Location.Y + 15);
+                pictureBox3.Location = new Point(button1.Width + button1.Location.X + procentWidth, button1.Location.Y + 15 + pictureBox2.Height + 10);
+                label1.Location = new Point(pictureBox2.Location.X + procentWidth, pictureBox2.Location.Y);
+                label2.Location = new Point(pictureBox3.Location.X + procentWidth, pictureBox3.Location.Y);
             }
             else
             {
@@ -319,6 +336,16 @@ namespace Agent
             }
 
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        
+        }
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            Sizeble();
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

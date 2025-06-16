@@ -148,6 +148,7 @@ namespace Agent
             this.dataGridView1.TabIndex = 154;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown_2);
+            this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
             // 
             // pictureBox1
             // 
@@ -227,6 +228,7 @@ namespace Agent
             this.dataGridView2.TabIndex = 168;
             this.dataGridView2.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseDown);
             this.dataGridView2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView2_MouseDown);
+            this.dataGridView2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView2_MouseMove);
             // 
             // contextMenuStrip1
             // 
@@ -601,7 +603,6 @@ namespace Agent
             this.Name = "SeeVacancy";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SeeVacancy";
-           // this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SeeVacancy_FormClosing);
             this.Load += new System.EventHandler(this.SeeVacancy_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SeeVacancy_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SeeVacancy_MouseMove);

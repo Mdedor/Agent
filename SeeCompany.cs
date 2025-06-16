@@ -252,13 +252,13 @@ namespace Agent
             Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
             if (resolution.Width > 1024 || resolution.Height > 768)
             {
-                sizeFont = 10;
+                sizeFont = 12;
                 if (resolution.Width > 1600 || resolution.Height > 900)
                 {
-                    sizeFont = 12;
+                    sizeFont = 14;
                     if (resolution.Width > 1920 || resolution.Height > 1200)
                     {
-                        sizeFont = 14;
+                        sizeFont = 16;
                     }
                 }
             }
@@ -289,7 +289,7 @@ namespace Agent
                 dataGridView1.Height = procentHight * 90;
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 4; // Установка высоты для каждой строки
+                    row.Height = sizeFont * 4; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(ladelHeader.Font.FontFamily, sizeFont);
                 }
                 dataGridView1.Font = new Font(ladelHeader.Font.FontFamily, sizeFont + 2);
@@ -337,6 +337,11 @@ namespace Agent
             }
 
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

@@ -210,7 +210,7 @@ namespace Agent
             this.labelFIO.AutoSize = true;
             this.labelFIO.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.labelFIO.Font = new System.Drawing.Font("Comic Sans MS", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelFIO.Location = new System.Drawing.Point(233, 128);
+            this.labelFIO.Location = new System.Drawing.Point(223, 128);
             this.labelFIO.Name = "labelFIO";
             this.labelFIO.Size = new System.Drawing.Size(76, 38);
             this.labelFIO.TabIndex = 24;

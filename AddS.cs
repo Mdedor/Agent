@@ -347,15 +347,26 @@ namespace Agent
             string path;
             string baseDir = Path.GetDirectoryName(pathError);
 
-            dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
+            try
+            {
+                dateTimePicker1.MaxDate = DateTime.Now.AddYears(-14);
 
-            var valueToSet = DateTime.Now.AddYears(-14);
-            if (valueToSet < dateTimePicker1.MinDate)
-                valueToSet = dateTimePicker1.MinDate;
-            else if (valueToSet > dateTimePicker1.MaxDate)
-                valueToSet = dateTimePicker1.MaxDate;
+                var valueToSet = DateTime.Now.AddYears(-14);
+                if (valueToSet < dateTimePicker1.MinDate)
+                    valueToSet = dateTimePicker1.MinDate;
+                else if (valueToSet > dateTimePicker1.MaxDate)
+                    valueToSet = dateTimePicker1.MaxDate;
 
-            dateTimePicker1.Value = valueToSet;
+                dateTimePicker1.Value = valueToSet;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show($"Ошибка установки даты: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             flag = 1;
             if (aplicantIds == 0)
             {

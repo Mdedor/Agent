@@ -75,134 +75,54 @@ namespace Agent
             //}
             //textBoxLogin.Text = "1";
             //textBoxPwd.Text = "1";
-            //updateCaptcha.Click += buttonClicl;
-            
+            updateCaptcha.Click += buttonClicl;
+
         }
         void buckup()
         {
-            using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
+            try
             {
-                conn.Open();
-
-                // Получаем список таблиц
-                List<string> tables = new List<string>();
-                using (MySqlCommand cmd = new MySqlCommand("SHOW TABLES", conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
                 {
-                    while (reader.Read())
+                    string exePath = "";
+                    string baseDir = "";
+                    string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
+                    string docPath = "";
+
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
-                        tables.Add(reader.GetString(0));
-                    }
-                }
-
-
-                string exePath = "";
-
-                string baseDir = "";
-                                                                           
-                string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
-                string docPath = "";
-                StreamWriter writer;
-                try
-                {
-                    try
-                {
-                    exePath = Assembly.GetEntryAssembly().Location;
-                    baseDir = Path.GetDirectoryName(exePath);
-
-                    docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
-                    writer = new StreamWriter(docPath);
-                }
-                catch
-                {
-                    exePath = Assembly.GetEntryAssembly().Location;
-                    baseDir = Path.GetDirectoryName(exePath);
-                    baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                    docPath = Path.Combine(baseDir, "backup", "Автоматическое резервное копирование", "Backup_auto_" + fileName);
-                    writer = new StreamWriter(docPath);
-                }
-                string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
-                // Создаем SQL-дамп
-                
-                    writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `{db}`;");
-                    writer.WriteLine($"USE `{db}`;");
-                    writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-                        /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-                        /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-                        /*!50503 SET NAMES utf8 */;
-                        /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-                        /*!40103 SET TIME_ZONE='+00:00' */;
-                        /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-                        /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-                        /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-                        /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
-                    foreach (string table in tables)
-                    {
-
-
-                        writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
-
-
-
-                        //Получаем структуру таблицы
-                        using (MySqlCommand cmd = new MySqlCommand($"SHOW CREATE TABLE `{table}`", conn))
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
                         {
-                            if (reader.Read())
+                            cmd.Connection = conn;
+                            conn.Open();
+
+                            try
                             {
-                                writer.WriteLine(reader.GetString(1) + ";");
+                                exePath = Assembly.GetEntryAssembly().Location;
+                                baseDir = Path.GetDirectoryName(exePath);
+
+                                docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                                mb.ExportToFile(docPath);
                             }
-                        }
-
-                        // Получаем данные таблицы
-                        writer.WriteLine($"\n-- Data for table `{table}`\n");
-
-                        using (MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{table}`", conn))
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            catch
                             {
-                                StringBuilder insert = new StringBuilder($"INSERT INTO `{table}` VALUES (");
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    if (i > 0) insert.Append(", ");
-
-                                    if (reader.IsDBNull(i))
-                                    {
-                                        insert.Append("NULL");
-                                    }
-                                    else
-                                    {
-                                        Type fieldType = reader.GetFieldType(i);
-                                        if (fieldType == typeof(DateTime))
-                                        {
-                                            DateTime dateValue = reader.GetDateTime(i);
-                                            insert.Append($"'{dateValue.ToString("yyyy-MM-dd")}'");
-                                        }
-                                        else
-                                        {
-                                            insert.Append($"'{MySqlHelper.EscapeString(reader.GetString(i))}'");
-                                        }
-                                    }
-                                }
-
-                                insert.Append(");");
-                                writer.WriteLine(insert.ToString());
+                                exePath = Assembly.GetEntryAssembly().Location;
+                                baseDir = Path.GetDirectoryName(exePath);
+                                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                                docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                                mb.ExportToFile(docPath);
                             }
+
+                            conn.Close();
                         }
                     }
+
+                    //MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch 
-                {
-                    MessageBox.Show(
-                 "Авторматическое создание резевной копии не удалось",
-                 "Ошибка",
-                 MessageBoxButtons.OK,
-                 MessageBoxIcon.Error);
-                }
-                    
-                   // MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведобление", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при резервном копировании:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         void deleteBuckup()
@@ -712,7 +632,7 @@ namespace Agent
                 catch (Exception ex)
                 {
 
-                    MessageBox.Show("Соединение c базой данных не уставнолено. Вызовите локального администратора для настройки подключения к бд.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Соединение c базой данных не уставнолено или отсутсвует база данных. Вызовите локального администратора для настройки подключения к бд.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     status = 0;
                     return;
                 }

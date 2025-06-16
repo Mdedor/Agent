@@ -271,13 +271,13 @@ namespace Agent
             Size resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
             if (resolution.Width >1024 || resolution.Height > 768)
             {
-                sizeFont = 10;
+                sizeFont = 12;
                 if (resolution.Width > 1600 || resolution.Height > 900)
                 {
-                    sizeFont = 12;
+                    sizeFont = 14;
                     if (resolution.Width > 1920 || resolution.Height > 1200)
                     {
-                        sizeFont = 14;
+                        sizeFont = 16;
                     }
                 }
             }
@@ -353,6 +353,11 @@ namespace Agent
             }
 
             func.FormPaint(this, Color.FromArgb(213, 213, 213));
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

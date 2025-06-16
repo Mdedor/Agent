@@ -115,20 +115,9 @@ namespace Agent
 
         private void exit_Click(object sender, EventArgs e)
         {
-            if (roleEmp == "3")
-            {
-                
-                SeeVacancy seeVacancy = new SeeVacancy(idVacancy);
-                seeVacancy.Show();
+            
                 this.Close();
-                
-            }
-            else
-            {
-                AdminS adminS = new AdminS();
-                adminS.Show();
-                this.Close();
-            }
+            
             
             
             

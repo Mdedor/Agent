@@ -46,18 +46,19 @@ namespace Agent
             {
                 MySqlConnection connection = new MySqlConnection(Connection.connect());
                 connection.Open();
-
-                string find = $"USE {db};SHOW tables;";
+                string find = "USE agent;SHOW tables;";
                 MySqlCommand com = new MySqlCommand(find, connection);
-                MySqlDataReader reader = com.ExecuteReader();
+                 com.ExecuteReader();
                 connection.Close();
                 button4.Enabled = true;
                 button5.Enabled = true;
+                button2.Enabled = true;
             }
             catch
             {
                 button4.Enabled = false;
                 button5.Enabled = false;
+                button2.Enabled = false;
             }
             
         }
@@ -159,134 +160,49 @@ namespace Agent
                 MessageBoxIcon.Information
             );
             string db = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
-            try
-            {
+            
                 if (result == DialogResult.Yes)
                 {
                     using (MySqlConnection conn = new MySqlConnection(Connection.connect()))
                     {
-                        conn.Open();
-
-                        // Получаем список таблиц
-                        List<string> tables = new List<string>();
-                        using (MySqlCommand cmd = new MySqlCommand("SHOW TABLES", conn))
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                tables.Add(reader.GetString(0));
-                            }
-                        }
-
-                        // Получаем путь к исполняемому файлу
                         string exePath = "";
-
                         string baseDir = "";
-
                         string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".sql";
                         string docPath = "";
-                        StreamWriter writer;
-                        try
+                        
+                        using (MySqlCommand cmd = new MySqlCommand())
                         {
-                            exePath = Assembly.GetEntryAssembly().Location;
-                            baseDir = Path.GetDirectoryName(exePath);
-
-                            docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
-                            writer = new StreamWriter(docPath);
-                        }
-                        catch
-                        {
-                            exePath = Assembly.GetEntryAssembly().Location;
-                            baseDir = Path.GetDirectoryName(exePath);
-                            baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
-                            docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
-                            writer = new StreamWriter(docPath);
-                        }
-
-
-                        // Создаем SQL-дамп
-
-
-                        writer.WriteLine($"CREATE DATABASE  IF NOT EXISTS `{db}`;");
-                        writer.WriteLine($"USE `{db}`;");
-                        writer.WriteLine(@"/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-                        /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-                        /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-                        /*!50503 SET NAMES utf8 */;
-                        /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-                        /*!40103 SET TIME_ZONE='+00:00' */;
-                        /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-                        /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-                        /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-                        /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;");
-                        foreach (string table in tables)
-                        {
-
-
-                            writer.WriteLine($"DROP TABLE IF EXISTS `{table}`;");
-
-
-
-                            //Получаем структуру таблицы
-                            using (MySqlCommand cmd = new MySqlCommand($"SHOW CREATE TABLE `{table}`", conn))
-                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            using (MySqlBackup mb = new MySqlBackup(cmd))
                             {
-                                if (reader.Read())
-                                {
-                                    writer.WriteLine(reader.GetString(1) + ";");
-                                }
+                            cmd.Connection = conn;
+                            conn.Open();
+                            try
+                            {
+                                exePath = Assembly.GetEntryAssembly().Location;
+                                baseDir = Path.GetDirectoryName(exePath);
+
+                                docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                                mb.ExportToFile(docPath);
                             }
-
-                            // Получаем данные таблицы
-                            writer.WriteLine($"\n-- Data for table `{table}`\n");
-
-                            using (MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{table}`", conn))
-                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            catch
                             {
-                                while (reader.Read())
-                                {
-                                    StringBuilder insert = new StringBuilder($"INSERT INTO `{table}` VALUES (");
-                                    for (int i = 0; i < reader.FieldCount; i++)
-                                    {
-                                        if (i > 0) insert.Append(", ");
-
-                                        if (reader.IsDBNull(i))
-                                        {
-                                            insert.Append("NULL");
-                                        }
-                                        else
-                                        {
-                                            Type fieldType = reader.GetFieldType(i);
-                                            if (fieldType == typeof(DateTime))
-                                            {
-                                                DateTime dateValue = reader.GetDateTime(i);
-                                                insert.Append($"'{dateValue.ToString("yyyy-MM-dd")}'");
-                                            }
-                                            else
-                                            {
-                                                insert.Append($"'{MySqlHelper.EscapeString(reader.GetString(i))}'");
-                                            }
-                                        }
-                                    }
-
-                                    insert.Append(");");
-                                    writer.WriteLine(insert.ToString());
-                                }
+                                exePath = Assembly.GetEntryAssembly().Location;
+                                baseDir = Path.GetDirectoryName(exePath);
+                                baseDir = Path.GetFullPath(Path.Combine(baseDir, @"..\.."));
+                                docPath = Path.Combine(baseDir, "backup", "Ручное резервное копирование", "Backup_" + fileName);
+                                mb.ExportToFile(docPath);
+                            }
+                                
+                                conn.Close();
                             }
                         }
+
+                    
                         MessageBox.Show($"Файл сохранен по пути {docPath}", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     }
                 }
-            }
-            catch
-            {
-                MessageBox.Show(
-                 "Создание резевной копии не удалось",
-                 "Ошибка",
-                 MessageBoxButtons.OK,
-                 MessageBoxIcon.Error);
-            }
+            
 
         
         }
@@ -377,7 +293,7 @@ namespace Agent
         {
             DialogResult result = MessageBox.Show(
                 "Востановить струтуру бд?. После выполнения будут удалены все данные!!!. Сделайте перед эти резервную копию.",
-                "Подтверждение",
+                "Предупреждение",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Information
                 );
@@ -386,7 +302,7 @@ namespace Agent
                 try
                 {
                     string pathError = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    string filePath = Path.Combine(pathError, "copy", "Резервная_копия (1).sql");
+                    string filePath = Path.Combine(pathError, "copy", "structure.sql");
 
                     if (!File.Exists(filePath))
                     {

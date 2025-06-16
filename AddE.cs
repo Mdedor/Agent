@@ -127,49 +127,57 @@ namespace Agent
             flag = 1;
             if (empoyIds != 0)
             {
-                buttonAddS.Text = "Изменить";
-                label1.Text = "Редактирование резюме";
-                MySqlConnection connection = new MySqlConnection(Connection.connect());
-                connection.Open();
-                string find = $"SELECT * FROM employe WHERE id = {empoyIds};";
-                MySqlCommand com = new MySqlCommand(find, connection);
-                MySqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                   
+                    buttonAddS.Text = "Изменить";
+                    label1.Text = "Редактирование резюме";
 
-                    surname = reader[1].ToString();
-                    name = reader[2].ToString();
-                    patronomic = reader[3].ToString();
-                    phone = reader[4].ToString();
-                    adress = reader[5].ToString();
-                    login = reader[6].ToString();
-                    pwd = reader[7].ToString();
-
-                    post = Convert.ToInt32(reader[8].ToString())-1;
-
-                    if (post == 1)
+                    using (MySqlConnection connection = new MySqlConnection(Connection.connect()))
                     {
-                        comboBoxPost.SelectedIndex = 0;
+                        connection.Open();
+                        string find = $"SELECT * FROM employe WHERE id = {empoyIds};";
+                        using (MySqlCommand com = new MySqlCommand(find, connection))
+                        using (MySqlDataReader reader = com.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                surname = reader[1].ToString();
+                                name = reader[2].ToString();
+                                patronomic = reader[3].ToString();
+                                phone = reader[4].ToString();
+                                adress = reader[5].ToString();
+                                login = reader[6].ToString();
+                                pwd = reader[7].ToString();
+
+                                post = Convert.ToInt32(reader[8].ToString()) - 1;
+
+                                if (post == 1)
+                                {
+                                    comboBoxPost.SelectedIndex = 0;
+                                }
+                                else
+                                {
+                                    comboBoxPost.SelectedIndex = 1;
+                                }
+                            }
+                        }
                     }
-                    else
-                    {
-                        comboBoxPost.SelectedIndex = 1;
-                    }
+
+                    textBoxSurname.Text = surname;
+                    textBoxName.Text = name;
+                    textBoxPatronomic.Text = patronomic;
+                    maskedTextBoxPhoneNumber.Text = phone;
+                    textBoxAdress.Text = adress;
+                    textBoxLogin.Text = login;
+                    comboBoxPost.SelectedIndex = post;
+
+                    flag = 1;
                 }
-
-
-                
-
-                textBoxSurname.Text = surname;
-                textBoxName.Text = name;
-                textBoxPatronomic.Text = patronomic;
-                maskedTextBoxPhoneNumber.Text = phone;
-                textBoxAdress.Text = adress;
-                textBoxLogin.Text = login;
-                comboBoxPost.SelectedIndex = post;
-                connection.Close();
-                flag = 1;
+                catch (Exception ex)
+                {
+                    flag = 0;
+                    MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

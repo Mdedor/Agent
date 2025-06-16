@@ -161,8 +161,16 @@ namespace Agent
                 string zn = dataGridViewRow.Cells["Знание языков"].Value.ToString();
                 string ka = dataGridViewRow.Cells["Личностные качества"].Value.ToString();
                 dataGridViewRow.Cells["Соискатели"].Value = $"{so.ToUpper()}\n{pro}\n{zn}\n{ka}";
-                dataGridView2.Columns["Зарплат"].Width = 100;
+
                 dataGridViewRow.Cells["Зарплат"].Value = $"{dataGridViewRow.Cells["Зарплата"].Value.ToString()} руб";
+            }
+            if (statusForm)
+            {
+                dataGridView2.Columns["Зарплат"].Width = 200;
+            }
+            else
+            {
+                dataGridView2.Columns["Зарплат"].Width = 100;
             }
         }
         void loadComboBoxPRofession()
@@ -418,18 +426,18 @@ namespace Agent
                     textBox1.MaxLength = 3;
                 else
                     textBox1.MaxLength = 4;
-                 resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+                resolution = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
                 procentHight = resolution.Height / 100;
                  procentWidth = resolution.Width / 100;
                 if (resolution.Width > 1024 || resolution.Height > 768)
                 {
-                    sizeFont = 10;
+                    sizeFont = 12;
                     if (resolution.Width > 1600 || resolution.Height > 900)
                     {
-                        sizeFont = 12;
+                        sizeFont = 14;
                         if (resolution.Width > 1920 || resolution.Height > 1200)
                         {
-                            sizeFont = 14;
+                            sizeFont = 16;
                         }
                     }
                 }
@@ -1020,12 +1028,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1048,12 +1056,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1088,12 +1096,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1118,12 +1126,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1156,12 +1164,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1187,12 +1195,12 @@ namespace Agent
                 {
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        row.Height = procentHight * 10; // Установка высоты для каждой строки
+                        row.Height = sizeFont * 10; // Установка высоты для каждой строки
                         row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                     }
                     dataGridView1.Font = new Font(label13.Font.FontFamily, sizeFont + 2);
@@ -1331,12 +1339,12 @@ namespace Agent
             {
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.Height = sizeFont * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.Height = sizeFont * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
 
@@ -1418,12 +1426,12 @@ namespace Agent
 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.Height = sizeFont * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
-                    row.Height = procentHight * 10; // Установка высоты для каждой строки
+                    row.Height = sizeFont * 10; // Установка высоты для каждой строки
                     row.DefaultCellStyle.Font = new Font(label13.Font.FontFamily, sizeFont);
                 }
 
@@ -1500,6 +1508,16 @@ namespace Agent
         private void SeeVacancy_FormClosing(object sender, FormClosingEventArgs e)
         {
            
+        }
+
+        private void dataGridView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
+        }
+
+        private void dataGridView2_MouseMove(object sender, MouseEventArgs e)
+        {
+            port.move = 1;
         }
     }
 }

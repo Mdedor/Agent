@@ -105,7 +105,7 @@ namespace Agent
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             finally
             {

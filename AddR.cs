@@ -92,52 +92,72 @@ namespace Agent
         private void AddR_Load(object sender, EventArgs e)
         {
             flag = 1;
-            MySqlConnection connection = new MySqlConnection(Connection.connect());
-            connection.Open();
-            string find = $"SELECT name FROM profession;";
-            MySqlCommand com = new MySqlCommand(find, connection);
-            MySqlDataReader reader = com.ExecuteReader();
-            while (reader.Read())
+            try
             {
-
-                if (!comboBoxProfessioin.Items.Contains(reader[0].ToString()))
-                    comboBoxProfessioin.Items.Add(reader[0].ToString());
-            }
-            connection.Close();
-            comboBoxProfessioin.MaxDropDownItems = 5;
-            comboBoxProfessioin.DropDownWidth = 400;
-            if (resumeId != 0)
-            {
-                buttonAddS.Text = "Изменить";
-                label1.Text = "Редактирование резюме";
-                MySqlConnection con = new MySqlConnection(Connection.connect());
-                con.Open();
-                string search = $"SELECT * FROM resume WHERE id = {resumeId};";
-                MySqlCommand comm = new MySqlCommand(search, con);
-                MySqlDataReader readerr = comm.ExecuteReader();
-                while (readerr.Read())
+                using (MySqlConnection connection = new MySqlConnection(Connection.connect()))
                 {
-                    aplicantID = Convert.ToInt32(readerr[1].ToString());
-                    prof = Convert.ToInt32(readerr[2].ToString()) - 1;
-                    salary = readerr[3].ToString();
-                    educ = readerr[4].ToString();
-                    exp = readerr[5].ToString();
-                    lang = readerr[6].ToString();
-                    pers = readerr[7].ToString();
-
-                   
+                    connection.Open();
+                    string find = "SELECT name FROM profession;";
+                    using (MySqlCommand com = new MySqlCommand(find, connection))
+                    using (MySqlDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string professionName = reader[0].ToString();
+                            if (!comboBoxProfessioin.Items.Contains(professionName))
+                                comboBoxProfessioin.Items.Add(professionName);
+                        }
+                    }
                 }
-                
 
+                comboBoxProfessioin.MaxDropDownItems = 5;
+                comboBoxProfessioin.DropDownWidth = 400;
 
-                comboBoxProfessioin.SelectedIndex = prof;
-                textBoxSalary.Text = salary;
-                textBoxEducation.Text = educ;
-                textBoxExp.Text = exp;
-                textBoxLang.Text = lang;
-                textBoxPers.Text = pers;
-                buttonAddS.Text = "Изменить";
+                if (resumeId != 0)
+                {
+                    try
+                    {
+                        buttonAddS.Text = "Изменить";
+                        label1.Text = "Редактирование резюме";
 
+                        using (MySqlConnection con = new MySqlConnection(Connection.connect()))
+                        {
+                            con.Open();
+                            string search = $"SELECT * FROM resume WHERE id = {resumeId};";
+                            using (MySqlCommand comm = new MySqlCommand(search, con))
+                            using (MySqlDataReader readerr = comm.ExecuteReader())
+                            {
+                                while (readerr.Read())
+                                {
+                                    aplicantID = Convert.ToInt32(readerr[1].ToString());
+                                    prof = Convert.ToInt32(readerr[2].ToString()) - 1;
+                                    salary = readerr[3].ToString();
+                                    educ = readerr[4].ToString();
+                                    exp = readerr[5].ToString();
+                                    lang = readerr[6].ToString();
+                                    pers = readerr[7].ToString();
+                                }
+                            }
+                        }
+
+                        comboBoxProfessioin.SelectedIndex = prof;
+                        textBoxSalary.Text = salary;
+                        textBoxEducation.Text = educ;
+                        textBoxExp.Text = exp;
+                        textBoxLang.Text = lang;
+                        textBoxPers.Text = pers;
+                    }
+                    catch (Exception ex)
+                    {
+                        flag = 0;
+                        MessageBox.Show($"Ошибка при загрузке резюме: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                flag = 0;
+                MessageBox.Show($"Ошибка при загрузке профессий: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

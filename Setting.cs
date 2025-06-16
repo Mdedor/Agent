@@ -71,8 +71,7 @@ namespace Agent
                 string cons = $"server={server};user={user};pwd={password};database={db};";
                 MySqlConnection connection = new MySqlConnection(cons);
                 connection.Open();
-                MySqlCommand mySqlCommand = new MySqlCommand("SHOW TABLES", connection);
-                mySqlCommand.ExecuteNonQuery();
+               
                 connection.Close();
                 MessageBox.Show("Настройка подключения прошла успешано. Соединение установлено.","Уведомление",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 status = 0;

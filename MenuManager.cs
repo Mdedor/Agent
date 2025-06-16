@@ -17,37 +17,24 @@ namespace Agent
             InitializeComponent();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+       
+
+        private void MenuManager_Load(object sender, EventArgs e)
         {
-            seeDirection seeDirection = new seeDirection();
-            seeDirection.Show();
-            this.Close();
+            
         }
 
-        private void buttonAplicant_Click(object sender, EventArgs e)
-        {
-            port.move = 1;
-            AdminS adminS = new AdminS();
-            adminS.Show();
-            this.Close();
-        }
-
-        private void buttonCompany_Click(object sender, EventArgs e)
+        private void MenuManager_MouseMove(object sender, MouseEventArgs e)
         {
             port.move = 1;
-            AdminC adminC = new AdminC();
-            adminC.Show();
-            this.Close();
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
+        private void MenuManager_Paint(object sender, PaintEventArgs e)
         {
-            seeDirection seeDirection = new seeDirection();
-            seeDirection.Show();
-            this.Close();
+            func.FormPaint(this, Color.FromArgb(213, 213, 213));
         }
 
-        private void exit_Click(object sender, EventArgs e)
+        private void exit_Click_1(object sender, EventArgs e)
         {
             port.empIds = 0;
             Auntification auntification = new Auntification();
@@ -74,19 +61,27 @@ namespace Agent
             }
         }
 
-        private void MenuManager_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void MenuManager_MouseMove(object sender, MouseEventArgs e)
+        private void buttonAplicant_Click_1(object sender, EventArgs e)
         {
             port.move = 1;
+            AdminS adminS = new AdminS();
+            adminS.Show();
+            this.Close();
         }
 
-        private void MenuManager_Paint(object sender, PaintEventArgs e)
+        private void buttonCompany_Click_1(object sender, EventArgs e)
         {
-            func.FormPaint(this, Color.FromArgb(213, 213, 213));
+            port.move = 1;
+            AdminC adminC = new AdminC();
+            adminC.Show();
+            this.Close();
+        }
+
+        private void button3_Click_2(object sender, EventArgs e)
+        {
+            seeDirection seeDirection = new seeDirection();
+            seeDirection.Show();
+            this.Close();
         }
     }
 }
